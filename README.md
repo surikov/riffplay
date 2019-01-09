@@ -51,11 +51,11 @@ Parameters:
 - tempo - BPM
 - drums - array of drum notes
   - drum - id of drum (see below)
-  - beat - step in 32th's
+  - beat - step in 16th's
 - notes - array of instrument notes
   - track - id of instrument (see below)
-  - beat - step in 32th's
-  - length - duration in 32th's
+  - beat - step in 16th's
+  - length - duration in 16th's
   - shift - pitch slide in halftones
   - pitch - note pitch
   
