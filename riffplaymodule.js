@@ -1,0 +1,68 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+function encodeRiffURL(tempo, storeDrums, storeTracks) {
+	var pad0 = function (value, size) {
+		for (var i = value.length; i < size; i++) {
+			value = '0' + value;
+		}
+		return value;
+	};
+	var txt = '';
+	txt = tempo.toString(16);
+	var tracks = '';
+	for (var i = 0; i < 8; i++) {
+		tracks = tracks + Math.round(7).toString(16);
+	}
+	txt = txt + '-' + tracks;
+	var drums = '';
+	for (var i = 0; i < 8; i++) {
+		drums = drums + Math.round(6).toString(16);
+	}
+	txt = txt + '-' + drums;
+	var equalizer = '';
+	for (var i = 0; i < 10; i++) {
+		equalizer = equalizer + pad0(Math.round(10).toString(16), 2);
+	}
+	txt = txt + '-' + equalizer;
+	var drumData = "";
+	for (var di = 0; di < 8; di++) {
+		for (var bi = 0; bi < 32; bi++) {
+			var part = [];
+			for (var i = 0; i < storeDrums.length; i++) {
+				var drum = storeDrums[i].drum;
+				var beat = storeDrums[i].beat;
+				if (drum == di && beat >= bi * 8 && beat < (bi + 1) * 8) {
+					part.push(beat - bi * 8);
+				}
+			}
+			if (part.length > 0) {
+				var key = di << 5 | bi;
+				var data = 0;
+				for (var t = 0; t < part.length; t++) {
+					data = data | (1 << part[t]);
+				}
+				drumData = drumData + pad0(key.toString(16), 2) + pad0(data.toString(16), 2);
+			}
+		}
+	}
+	txt = txt + '-' + drumData;
+	var pitchData = '';
+	for (var bi = 0; bi < 256; bi++) {
+		var data = '';
+		for (var i = 0; i < storeTracks.length; i++) {
+			var beat = storeTracks[i].beat;
+			var length = storeTracks[i].length;
+			var pitch = storeTracks[i].pitch;
+			var shift = 64 + storeTracks[i].shift;
+			var track = storeTracks[i].track;
+			if (beat == bi) {
+				var nd = pad0(beat.toString(16), 2) + track.toString(16) + pad0(length.toString(16), 2) + pad0(pitch.toString(16), 2) + pad0(shift.toString(16), 2);
+				pitchData = pitchData + nd;
+			}
+		}
+	}
+	txt = txt + '-' + pitchData;
+	var playerURL = 'https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=';
+	return playerURL + txt;
+}
+
+},{}]},{},[1]);

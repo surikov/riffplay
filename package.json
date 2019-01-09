@@ -1,0 +1,34 @@
+{
+  "name": "riffplay",
+  "version": "1.0.0",
+  "description": "Create link to riff",
+  "main": "riffexchange.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+	,"dist": "browserify riffexchange.js > riffplaymodule.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/surikov/riffplay.git"
+  },
+  "keywords": [
+    "music",
+    "melody",
+    "guitar",
+    "midi",
+    "sequencer",
+    "daw",
+    "notation",
+    "piano",
+    "roll"
+  ],
+  "author": "Sergey Surikov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/surikov/riffplay/issues"
+  },
+  "homepage": "https://github.com/surikov/riffplay#readme",
+  "dependencies": {
+    "browserify": "^16.2.3"
+  }
+}
