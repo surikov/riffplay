@@ -36,13 +36,40 @@ Example page
 
 ## Live example
 
-See live example https://surikov.github.io/riffplay/test.html
+See live example [https://surikov.github.io/riffplay/test.html](https://surikov.github.io/riffplay/test.html)
+
+## How to use
+
+Main function
+
+```
+var songlink = encodeRiffURL(tempo,drums,notes);
+```
+
+Parameters:
+
+- tempo - BPM
+- drums - array of drum notes
+  - drum - id of drum (see below)
+  - beat - step in 32th's
+- notes - array of instrument notes
+  - track - id of instrument (see below)
+  - beat - step in 32th's
+  - length - duration in 32th's
+  - shift - pitch slide in halftones
+  - pitch - note pitch
+  
+Return
+
+URL with encoded playable melody. Use this URL as a link.
+
+Example - https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=120-77777777-66666666-0a0a0a0a0a0a0a0a0a0a-0001010140104110a011a111-0050209400450204400850209400c5020440
 
 ### Tempo
 
 tempo is 80-240
 
-### Drums
+### Drum IDs
 
 			0.Bass drum
 			1.Low Tom
@@ -53,7 +80,7 @@ tempo is 80-240
 			6.Ride Cymbal
 			7.Splash Cymbal
 
-### Track
+### Instrument IDs
 
 			0.Distortion guitar
 			1.Acoustic guitar
