@@ -90,3 +90,53 @@ tempo is 80-240
 			5.Bass guitar
 			6.String Ensemble
 			7.Synth Bass
+
+## Human readable names
+
+Use this code
+
+```
+			var C=0,Cs=1,D=2,Ds=3,E=4,F=5,Fs=6,G=7,Gs=8,A=9,As=10,B=11;
+			var O=12;
+			//
+			var BassDrum=0;
+			var LowTom=1;
+			var SnareDrum=2;
+			var MidTom=3;
+			var ClosedHiHat=4;
+			var OpenHiHat=5;
+			var RideCymbal=6;
+			var SplashCymbal=7;
+			//
+			var DistortionGuitar=0;
+			var AcousticGuitar=1;
+			var PercussiveOrgan=2;
+			var PalmMuteGuitar=3
+			var AcousticPiano=4;
+			var BassGuitar=5
+			var StringEnsemble=6;
+			var SynthBass=7;
+```
+
+Example of melody definition
+
+```
+			var tempo = '120';
+            var drums = [{"drum":BassDrum,"beat":0},{"drum":OpenHiHat,"beat":0}
+                        ,{"drum":SnareDrum,"beat":4},{"drum":ClosedHiHat,"beat":4}
+                        ,{"drum":MidTom,"beat":7},{"drum":ClosedHiHat,"beat":7}
+						,{"drum":BassDrum,"beat":8},{"drum":OpenHiHat,"beat":8}
+                        ,{"drum":SnareDrum,"beat":12},{"drum":ClosedHiHat,"beat":12}
+                        ,{"drum":LowTom,"beat":15},{"drum":ClosedHiHat,"beat":15}
+						];
+			var notes = [{"track":BassGuitar,"beat":0 ,"length":8,"shift":0,"pitch":E+O*0},{"track":PercussiveOrgan,"beat":0 ,"length":4,"shift":0,"pitch":B+O*1},{"track":PercussiveOrgan,"beat":0 ,"length":4,"shift":0,"pitch":E+O*2}
+						,{"track":PercussiveOrgan,"beat":7 ,"length":1,"shift":0,"pitch":E+O*2},{"track":PercussiveOrgan,"beat":7 ,"length":1,"shift":0,"pitch":G+O*2}
+						,{"track":BassGuitar,"beat":8 ,"length":8,"shift":0,"pitch":G+O*0},{"track":PercussiveOrgan,"beat":8 ,"length":4,"shift":0,"pitch":E+O*2},{"track":PercussiveOrgan,"beat":8 ,"length":4,"shift":0,"pitch":G+O*2}
+						,{"track":PercussiveOrgan,"beat":15 ,"length":1,"shift":0,"pitch":As+O*1},{"track":PercussiveOrgan,"beat":15 ,"length":1,"shift":0,"pitch":Ds+O*2}
+						];
+			var songlink = encodeRiffURL(tempo,drums,notes);
+```
+
+## Live example
+
+See live example [https://surikov.github.io/riffplay/test2.html](https://surikov.github.io/riffplay/test2.html)
