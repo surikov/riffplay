@@ -144,8 +144,14 @@ See live example [https://surikov.github.io/riffplay/test2.html](https://surikov
 ## NPM
 
 ```
-var func = require('riffplay');
-var songlink = func(tempo, drums, notes);
+  "dependencies": {
+    "riffplay": "^1.0.3"
+  }
 ```
 
-See example [https://surikov.github.io/riffplay/test/test.js](https://surikov.github.io/riffplay/test/test.js)
+```
+var m = require('riffplay');
+var songlink = encodeRiffURL(tempo, drums, notes);
+```
+
+
