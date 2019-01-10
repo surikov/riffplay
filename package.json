@@ -1,11 +1,11 @@
 {
   "name": "riffplay",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create link to riff",
-  "main": "riffexchange.js",
+  "main": "riffplay_module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0"
-	,"dist": "browserify riffexchange.js > riffplaymodule.js"
+	,"dist": "browserify riffexchange.js > riffplay_module.js"
   },
   "repository": {
     "type": "git",

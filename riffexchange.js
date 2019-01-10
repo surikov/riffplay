@@ -1,3 +1,4 @@
+console.log('1.0.1');
 function encodeRiffURL(tempo, storeDrums, storeTracks) {
 	var pad0 = function (value, size) {
 		for (var i = value.length; i < size; i++) {
@@ -62,4 +63,10 @@ function encodeRiffURL(tempo, storeDrums, storeTracks) {
 	txt = txt + '-' + pitchData;
 	var playerURL = 'https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=';
 	return playerURL + txt;
+}
+if (typeof module === 'object' && module.exports) {
+	module.exports = encodeRiffURL;
+}
+if (typeof window !== 'undefined') {
+	window.encodeRiffURL = encodeRiffURL;
 }

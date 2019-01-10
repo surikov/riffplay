@@ -7,7 +7,7 @@ Example page
 ```
 <html>
  <head>
-  <script src="https://surikov.github.io/riffplay/riffexchange.js"></script>
+  <script src="https://surikov.github.io/riffplay/riffplay_module.js"></script>
  </head>
  <body>
   <h1>test</h1>
@@ -140,3 +140,12 @@ Example of melody definition
 ## Live example
 
 See live example [https://surikov.github.io/riffplay/test2.html](https://surikov.github.io/riffplay/test2.html)
+
+## NPM
+
+```
+var func = require('riffplay');
+var songlink = func(tempo, drums, notes);
+```
+
+See example [https://surikov.github.io/riffplay/test/test.js](https://surikov.github.io/riffplay/test/test.js)
