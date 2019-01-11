@@ -154,4 +154,7 @@ var m = require('riffplay');
 var songlink = encodeRiffURL(tempo, drums, notes);
 ```
 
+### Embedded code
+
+[https://jsbin.com/dulupib/edit?html,output](https://jsbin.com/dulupib/edit?html,output)
 
