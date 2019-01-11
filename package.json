@@ -1,6 +1,6 @@
 {
   "name": "riffplay",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Create link to riff",
   "main": "riffplay_module.js",
   "scripts": {
