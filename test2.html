@@ -40,7 +40,10 @@
 						,{"track":BassGuitar,"beat":8 ,"length":8,"shift":0,"pitch":G+O*0},{"track":PercussiveOrgan,"beat":8 ,"length":4,"shift":0,"pitch":E+O*2},{"track":PercussiveOrgan,"beat":8 ,"length":4,"shift":0,"pitch":G+O*2}
 						,{"track":PercussiveOrgan,"beat":15 ,"length":1,"shift":0,"pitch":As+O*1},{"track":PercussiveOrgan,"beat":15 ,"length":1,"shift":0,"pitch":Ds+O*2}
 						];
-			var songlink = encodeRiffURL(tempo,drums,notes);
+			var insVolumes=[10,9,8,7,6,5,4,3];//dist,accguit,percorg,palm,piano,bass,string,synth
+			var drumVolumes=[10,9,8,7,6,5,4,3];//bass,low,snare,mid,closed,open,ride,splash
+			var eqVolumes=[7,8,8,8,8,8,8,8];
+			var songlink = encodeRiffURL(tempo,drums,notes);//,drumVolumes,insVolumes,eqVolumes);
 			document.getElementById('linktest').onclick=function(){
 				console.log(songlink);
 				window.open(songlink);

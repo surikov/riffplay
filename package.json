@@ -4,8 +4,8 @@
   "description": "Create link to riff",
   "main": "riffplay_module.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
-	,"buildmodule": "browserify riffexchange.js > riffplay_module.js"
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "buildmodule": "browserify riffexchange.js > riffplay_module.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/surikov/riffplay#readme",
   "dependencies": {
-    "browserify": "^16.2.3"
+    "browserify": "^16.5.0"
   }
 }

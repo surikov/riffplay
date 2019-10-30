@@ -1,5 +1,6 @@
-console.log('1.0.1');
-function encodeRiffURL(tempo, storeDrums, storeTracks) {
+console.log('1.0.2');
+
+function encodeRiffURL(tempo, storeDrums, storeTracks, drumVolumes, insVolumes, eqVolume) {
 	var pad0 = function (value, size) {
 		for (var i = value.length; i < size; i++) {
 			value = '0' + value;
@@ -9,18 +10,30 @@ function encodeRiffURL(tempo, storeDrums, storeTracks) {
 	var txt = '';
 	txt = tempo.toString(16);
 	var tracks = '';
+	if(!(insVolumes)){
+		insVolumes=[7,7,7,7,7,7,7,7];
+	}
 	for (var i = 0; i < 8; i++) {
-		tracks = tracks + Math.round(7).toString(16);
+		//tracks = tracks + Math.round(7).toString(16);
+		tracks = tracks + Math.round(insVolumes[i]).toString(16);
 	}
 	txt = txt + '-' + tracks;
 	var drums = '';
+	if(!(drumVolumes)){
+		drumVolumes=[6,6,6,6,6,6,6,6];
+	}
 	for (var i = 0; i < 8; i++) {
-		drums = drums + Math.round(6).toString(16);
+		//drums = drums + Math.round(6).toString(16);
+		drums = drums + Math.round(drumVolumes[i]).toString(16);
 	}
 	txt = txt + '-' + drums;
+	if(!(eqVolume)){
+		eqVolume=[10,10,10,10,10,10,10,10,10,10];
+	}
 	var equalizer = '';
 	for (var i = 0; i < 10; i++) {
-		equalizer = equalizer + pad0(Math.round(10).toString(16), 2);
+		//equalizer = equalizer + pad0(Math.round(10).toString(16), 2);
+		equalizer = equalizer + pad0(Math.round(eqVolume[i]).toString(16), 2);
 	}
 	txt = txt + '-' + equalizer;
 	var drumData = "";
@@ -62,6 +75,7 @@ function encodeRiffURL(tempo, storeDrums, storeTracks) {
 	}
 	txt = txt + '-' + pitchData;
 	var playerURL = 'https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=';
+	console.log(playerURL + txt);
 	return playerURL + txt;
 }
 if (typeof module === 'object' && module.exports) {
