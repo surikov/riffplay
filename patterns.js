@@ -1018,8 +1018,19 @@ pianoPatterns.push({
         ]},
     decay: {duration: 0,beats: []}
 });
+
 stringPatterns.push({
     attack: {duration: 0,beats: []}
 	,suspend: {duration: 64,beats: [{keys: [],alter: 24,length: 0,step: 0}]}
 	,decay: {duration: 0,beats: []}
 });
+/*
+stringPatterns.push({
+    attack: {duration: 0,beats: []}
+	,suspend: {duration: 64,beats: [
+		{keys: [1],alter: 24,length: 2,step: 0}
+		,{keys: [2],alter: 24,length: 1,step: 1}
+		,{keys: [],alter: 24,length: 0,step: 2}
+		]}
+	,decay: {duration: 0,beats: []}
+});*/

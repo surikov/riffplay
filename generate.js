@@ -11,7 +11,7 @@ function composeLink() {
     var tempo = '120';
     var nn = Math.round(Math.random() * (progressionChords.length - 1));
 	 var kindSeed = Math.random();
-	 
+	 var stringKindSeed = Math.random();
 	  var stringSeed = Math.round(Math.random() * (stringPatterns.length - 1));
     var drumSeed = Math.round(Math.random() * (drumPatterns.length - 1));
     //drumSeed=8;
@@ -22,6 +22,7 @@ function composeLink() {
 	var pianoSeed = Math.round(Math.random() * (pianoPatterns.length - 1));
 	//var pianoSeed=7;
     var chordSeed = Math.random();
+	var guitPianoSeed = Math.random();
     //nn=progressionChords.length-1;
     //nn=25;
     //nn=16;
@@ -87,16 +88,24 @@ function composeLink() {
     });
     var insData = [];
 	if(kindSeed>1/2){
-		addInstrumRiff(insData, duration, chordOrder, progressionPiano, pianoPatterns[pianoSeed], AcousticPiano);
+		if(guitPianoSeed>1/2){
+			addInstrumRiff(insData, duration, chordOrder, progressionPiano, pianoPatterns[pianoSeed], AcousticPiano);
+		}else{
+			addInstrumRiff(insData, duration, chordOrder, progressionPiano, pianoPatterns[pianoSeed], PercussiveOrgan);
+		}
 	}else{
 		addInstrumBeats(insData, duration, chordOrder, progressionGuitar, cleanGuitarPatterns[cleanGuitarSeed], AcousticGuitar);
-		addInstrumBeats(insData, duration, chordOrder, progressionPiano, stringPatterns[stringSeed], StringEnsemble);
+		if(stringKindSeed>1/2){
+			addInstrumBeats(insData, duration, chordOrder, progressionPiano, stringPatterns[stringSeed], StringEnsemble);
+		}else{
+			addInstrumBeats(insData, duration, chordOrder, progressionPiano, stringPatterns[stringSeed], PercussiveOrgan);
+		}
 	}
 	addInstrumRiff(insData, duration, chordOrder, progressionGuitar, bassPatterns[bassSeed], BassGuitar);
     fillGaps(duration, insData);
 
     //addLink(tempo, drumData, insData);
-	var insVolumes=[7,5,7,7,4,7,3,7];//dist,accguit,percorg,palm,piano,bass,string,synth
+	var insVolumes=[7,5,4,7,4,7,3,7];//dist,accguit,percorg,palm,piano,bass,string,synth
 	var drumVolumes=[7,4,6,4,6,6,6,6];//bass,low,snare,mid,closed,open,ride,splash
 	var eqVolumes=[13,12,12,10,8,9,13,14,9,12];
     return encodeRiffURL(tempo, drumData, insData,drumVolumes,insVolumes,eqVolumes);
