@@ -11,6 +11,7 @@ function composeLink() {
     var tempo = '120';
     var nn = Math.round(Math.random() * (progressionChords.length - 1));
 	 var kindSeed = Math.random();
+	 
 	  var stringSeed = Math.round(Math.random() * (stringPatterns.length - 1));
     var drumSeed = Math.round(Math.random() * (drumPatterns.length - 1));
     //drumSeed=8;
@@ -24,6 +25,8 @@ function composeLink() {
     //nn=progressionChords.length-1;
     //nn=25;
     //nn=16;
+	//pianoSeed=0;
+	//kindSeed=1;
     var pp = progressionChords[nn];
     var chordOrder = [16, 16, 16, 16];
     if (pp.length == 3) {

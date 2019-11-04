@@ -892,6 +892,22 @@ pianoPatterns.push({
     attack: {duration: 0,beats: []},
     suspend: {duration: 32,beats: [
 		{keys: [],alter: 24,length: 2,step: 0}
+		,{keys: [],alter: 24,length: 2,step: 4}
+		,{keys: [],alter: 24,length: 3,step: 8}
+		,{keys: [],alter: 24,length: 3,step: 11}
+		,{keys: [],alter: 24,length: 2,step: 14}
+		,{keys: [],alter: 24,length: 2,step: 18}
+		,{keys: [],alter: 24,length: 2,step: 21}
+		,{keys: [],alter: 24,length: 2,step: 24}
+		,{keys: [],alter: 24,length: 2,step: 27}
+		,{keys: [],alter: 24,length: 2,step: 30}
+        ]},
+    decay: {duration: 0,beats: []}
+});
+pianoPatterns.push({
+    attack: {duration: 0,beats: []},
+    suspend: {duration: 32,beats: [
+		{keys: [],alter: 24,length: 2,step: 0}
 		,{keys: [],alter: 24,length: 2,step: 2}
 		,{keys: [],alter: 24,length: 2,step: 4}
 		,{keys: [],alter: 24,length: 2,step: 8}
