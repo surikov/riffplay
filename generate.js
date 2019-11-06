@@ -26,7 +26,7 @@ function composeLink() {
     //nn=progressionChords.length-1;
     //nn=25;
     //nn=16;
-	nn=0;
+	//nn=0;
 	//pianoSeed=0;
 	//kindSeed=1;
     var pp = progressionChords[nn];
