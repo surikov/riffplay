@@ -26,6 +26,7 @@ function composeLink() {
     //nn=progressionChords.length-1;
     //nn=25;
     //nn=16;
+	nn=0;
 	//pianoSeed=0;
 	//kindSeed=1;
     var pp = progressionChords[nn];
@@ -53,7 +54,12 @@ function composeLink() {
         }
     }
     if (pp.length == 5) {
-        chordOrder = [32, 32, 32, 16, 16];
+        
+		if (chordSeed < 1 / 2) {
+            chordOrder = [32, 32, 32, 16, 16];
+        } else {
+            chordOrder = [32, 16, 32, 16, 32];
+        }
     }
     if (pp.length == 6) {
         if (chordSeed < 1 / 2) {
@@ -74,6 +80,7 @@ function composeLink() {
     }
     console.log('seed ' + nn + '-' + Math.floor(chordSeed * 100) + '-' + drumSeed + '-' + bassSeed + '-' + pianoSeed);
     var drumData = [];
+	//console.log(pp,chordProgression);
     var progressionGuitar = {
         steps: chordProgression(pp)
     };
