@@ -577,13 +577,13 @@ drumPatterns.push({
                 drum: ClosedHiHat
             }, {
                 step: 7,
-                drum: BassDrum
+                drum: SnareDrum
             }, {
                 step: 8,
                 drum: OpenHiHat
             }, {
                 step: 8,
-                drum: SnareDrum
+                drum: BassDrum
             }, {
                 step: 10,
                 drum: ClosedHiHat
@@ -599,9 +599,6 @@ drumPatterns.push({
             }, {
                 step: 12,
                 drum: SnareDrum
-            }, {
-                step: 13,
-                drum: BassDrum
             }, {
                 step: 14,
                 drum: ClosedHiHat
@@ -1122,40 +1119,11 @@ drumPatterns.push({
     },
     body: {
         duration: 16,
-        beats: [{
-                drum: BassDrum,
-                step: 0
-            }, {
-                drum: OpenHiHat,
-                step: 3
-            }, {
-                drum: SnareDrum,
-                step: 3
-            }, {
-                drum: BassDrum,
-                step: 4
-            }, {
-                drum: SnareDrum,
-                step: 6
-            }, {
-                drum: BassDrum,
-                step: 8
-            }, {
-                drum: RideCymbal,
-                step: 9
-            }, {
-                drum: ClosedHiHat,
-                step: 10
-            }, {
-                drum: SnareDrum,
-                step: 11
-            }, {
-                drum: BassDrum,
-                step: 12
-            }, {
-                drum: SnareDrum,
-                step: 14
-            }
+        beats: [
+		{drum: BassDrum,step: 0},{drum: BassDrum,step: 3},{drum: BassDrum,step: 5},{drum: BassDrum,step: 8},{drum: BassDrum,step: 9},{drum: BassDrum,step: 11}
+		,{drum: SnareDrum,step: 4},{drum: SnareDrum,step: 12}
+		,{drum: OpenHiHat,step: 0},{drum: OpenHiHat,step: 4},{drum: OpenHiHat,step: 8},{drum: OpenHiHat,step: 12}
+		
         ]
     },
     end: {
@@ -1830,7 +1798,7 @@ bassPatterns.push({
         ]
     },
     suspend: {
-        duration: 4,
+        duration: 16,
         beats: [{
                 keys: [1],
                 alter: +12,
@@ -1841,6 +1809,46 @@ bassPatterns.push({
                 alter: 0,
                 length: 2,
                 step: 2
+            },{
+                keys: [1],
+                alter: +12,
+                length: 1,
+                step: 4
+            }, {
+                keys: [1],
+                alter: 0,
+                length: 2,
+                step: 6
+            },{
+                keys: [1],
+                alter: +12,
+                length: 1,
+                step: 8
+            }, {
+                keys: [1],
+                alter: 0,
+                length: 2,
+                step: 10
+            },{
+                keys: [1],
+                alter: +12,
+                length: 1,
+                step: 12
+            }, {
+                keys: [1],
+                alter: 0,
+                length: 1,
+                step: 13
+            },{
+                keys: [1],
+                alter: +12,
+                length: 1,
+                step: 14
+            }, {
+                keys: [1],
+                alter: 0,
+                length: 1,
+                step: 15
             }
         ]
     },
@@ -1908,6 +1916,51 @@ bassPatterns.push({
                 length: 1,
                 step: 15
             }
+        ]
+    },
+    decay: {
+        duration: 0,
+        beats: []
+    }
+});
+bassPatterns.push({
+    attack: {
+        duration: 0,
+        beats: [
+        ]
+    },
+    suspend: {
+        duration: 16,
+        beats: [
+		{keys: [1],alter: +12,length: 2,step: 0}
+		,{keys: [1],alter: +12,length: 3,step: 2}
+		,{keys: [2],alter: 0,length: 2,step: 5}
+		,{keys: [3],alter: 0,length: 2,step: 7}
+		,{keys: [3],alter: 0,length: 2,step: 9}
+		,{keys: [1],alter: 0,length: 3,step: 11}
+		,{keys: [2],alter: 0,length: 2,step: 14}
+        ]
+    },
+    decay: {
+        duration: 0,
+        beats: []
+    }
+});
+bassPatterns.push({
+    attack: {
+        duration: 0,
+        beats: [
+        ]
+    },
+    suspend: {
+        duration: 16,
+        beats: [
+		{keys: [1],alter: 0,length: 3,step: 0}
+		,{keys: [1],alter: 0,length: 1,step: 3}
+		,{keys: [1],alter: 0,length: 5,step: 4}
+		,{keys: [2],alter: 0,length: 3,step: 9}
+		,{keys: [3],alter: 0,length: 2,step: 12}
+		,{keys: [1],alter: 0,length: 2,step: 14}
         ]
     },
     decay: {
@@ -2152,11 +2205,6 @@ pianoPatterns.push({
                 keys: [],
                 alter: 24,
                 length: 2,
-                step: 20
-            }, {
-                keys: [],
-                alter: 24,
-                length: 2,
                 step: 22
             }, {
                 keys: [],
@@ -2167,7 +2215,7 @@ pianoPatterns.push({
                 keys: [],
                 alter: 24,
                 length: 2,
-                step: 26
+                step: 28
             }
         ]
     },
@@ -2246,8 +2294,13 @@ pianoPatterns.push({
             }, {
                 keys: [],
                 alter: 24,
-                length: 4,
+                length: 1,
                 step: 24
+            }, {
+                keys: [],
+                alter: 24,
+                length: 3,
+                step: 25
             }, {
                 keys: [],
                 alter: 24,
@@ -2337,13 +2390,13 @@ pianoPatterns.push({
             }, {
                 keys: [],
                 alter: 24,
-                length: 2,
+                length: 1,
                 step: 8
             }, {
                 keys: [],
                 alter: 24,
-                length: 2,
-                step: 10
+                length: 3,
+                step: 9
             }, {
                 keys: [],
                 alter: 24,
@@ -2385,10 +2438,15 @@ pianoPatterns.push({
                 length: 2,
                 step: 10
             }, {
+                keys: [],
+                alter: 24,
+                length: 2,
+                step: 12
+             }, {
                 keys: [-3],
                 alter: 24,
-                length: 4,
-                step: 12
+                length: 2,
+                step: 14
             }
         ]
     },

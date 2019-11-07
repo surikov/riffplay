@@ -14,13 +14,13 @@ function composeLink() {
 	 var stringKindSeed = Math.random();
 	  var stringSeed = Math.round(Math.random() * (stringPatterns.length - 1));
     var drumSeed = Math.round(Math.random() * (drumPatterns.length - 1));
-    //drumSeed=8;
+    drumSeed=8;
     var bassSeed = Math.round(Math.random() * (bassPatterns.length - 1));
-    //bassSeed = 11;
+    bassSeed = 1;
 	 var cleanGuitarSeed = Math.round(Math.random() * (cleanGuitarPatterns.length - 1));
 	 //cleanGuitarSeed=0;
 	var pianoSeed = Math.round(Math.random() * (pianoPatterns.length - 1));
-	//var pianoSeed=7;
+	var pianoSeed=9;
     var chordSeed = Math.random();
 	var guitPianoSeed = Math.random();
     //nn=progressionChords.length-1;
@@ -94,7 +94,8 @@ function composeLink() {
         });
     });
     var insData = [];
-	if(kindSeed>1/2){
+	addInstrumRiff(insData, duration, chordOrder, progressionPiano, pianoPatterns[pianoSeed], AcousticPiano);
+	/*if(kindSeed>1/2){
 		if(guitPianoSeed>1/2){
 			addInstrumRiff(insData, duration, chordOrder, progressionPiano, pianoPatterns[pianoSeed], AcousticPiano);
 		}else{
@@ -107,7 +108,7 @@ function composeLink() {
 		}else{
 			addInstrumBeats(insData, duration, chordOrder, progressionPiano, stringPatterns[stringSeed], PercussiveOrgan);
 		}
-	}
+	}*/
 	addInstrumRiff(insData, duration, chordOrder, progressionGuitar, bassPatterns[bassSeed], BassGuitar);
     fillGaps(duration, insData);
 
