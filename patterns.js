@@ -1969,6 +1969,74 @@ bassPatterns.push({
     }
 });
 cleanGuitarPatterns.push({
+    attack: {duration: 0,beats: []},
+    suspend: {duration: 32
+	,beats: [
+		{keys: [1],alter: 0,length:16,step: 0}
+		,{keys: [2],alter: 0,length:2,step: 2}
+		,{keys: [3],alter: 0,length:12,step: 4}
+		,{keys: [4],alter: 0,length:2,step: 6}
+		,{keys: [5],alter: 0,length:6,step: 10}
+		,{keys: [4],alter: 0,length:2,step: 14}
+		
+		,{keys: [1],alter: 0,length:16,step: 16}
+		,{keys: [2],alter: 0,length:2,step: 18}
+		,{keys: [3],alter: 0,length:12,step: 20}
+		,{keys: [5],alter: 0,length:2,step: 22}
+		,{keys: [4],alter: 0,length:2,step: 26}
+		,{keys: [3],alter: 0,length:2,step: 30}
+
+    ]},
+    decay: {duration: 0,beats: []}
+});
+cleanGuitarPatterns.push({
+    attack: {duration: 0,beats: []},
+    suspend: {duration: 16
+	,beats: [
+		{keys: [1],alter: 0,length:16,step: 0}
+		,{keys: [2],alter: 0,length:14,step: 2}
+		,{keys: [4],alter: 0,length:12,step: 4}
+		,{keys: [3],alter: 0,length:10,step: 6}
+		,{keys: [6],alter: 0,length:8,step: 8}
+		,{keys: [5],alter: 0,length:2,step: 14}
+
+    ]},
+    decay: {duration: 0,beats: []}
+});
+cleanGuitarPatterns.push({
+    attack: {
+        duration: 0,
+        beats: []
+    },
+    suspend: {
+        duration: 32,
+        beats: [
+		{keys: [1],alter: 0,length:16,step: 0}
+		,{keys: [2],alter: 0,length: 14,step: 2}
+		,{keys: [3],alter: 0,length: 12,step: 4}
+		,{keys: [4],alter: 0,length: 10,step: 6}
+		
+		,{keys: [-1],alter: 0,length: 4,step: 10}
+		,{keys: [-1],alter: 0,length: 2,step: 14}
+		
+		,{keys: [1],alter: 0,length:16,step: 16}
+		,{keys: [2],alter: 0,length: 14,step: 18}
+		,{keys: [3],alter: 0,length: 12,step: 20}
+		,{keys: [4],alter: 0,length: 10,step: 22}
+		
+		,{keys: [-1],alter: 0,length: 2,step: 16}
+		,{keys: [-2],alter: 0,length: 2,step: 18}
+		,{keys: [-1],alter: 0,length: 6,step: 20}
+		,{keys: [-1],alter: 0,length: 4,step: 26}
+		,{keys: [-1],alter: 0,length: 2,step: 30}
+        ]
+    },
+    decay: {
+        duration: 0,
+        beats: []
+    }
+});
+cleanGuitarPatterns.push({
     attack: {
         duration: 0,
         beats: []
@@ -2150,8 +2218,14 @@ pianoPatterns.push({
         ]
     },
     decay: {
-        duration: 0,
-        beats: []
+        duration: 8,
+        beats: [
+			{keys: [],alter: 24,length: 1,step: 0}
+			,{keys: [],alter: 24,length: 3,step: 1}
+			,{keys: [],alter: 24,length: 1,step: 4}
+			,{keys: [],alter: 24,length: 3,step: 5}
+
+		]
     }
 });
 pianoPatterns.push({
@@ -2220,8 +2294,12 @@ pianoPatterns.push({
         ]
     },
     decay: {
-        duration: 0,
-        beats: []
+        duration: 8,
+        beats: [
+			{keys: [],alter: 24,length: 2,step: 0}
+			,{keys: [],alter: 24,length: 1,step: 4}
+			,{keys: [],alter: 24,length: 3,step: 5}
+		]
     }
 });
 pianoPatterns.push({

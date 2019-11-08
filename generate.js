@@ -11,7 +11,7 @@ function composeLink() {
     var tempo = '120';
     var nn = Math.round(Math.random() * (progressionChords.length - 1));
 	 var kindSeed = Math.random();
-	 var stringKindSeed = Math.random();
+	 //var stringKindSeed = Math.random();
 	  var stringSeed = Math.round(Math.random() * (stringPatterns.length - 1));
     var drumSeed = Math.round(Math.random() * (drumPatterns.length - 1));
     //drumSeed=8;
@@ -22,13 +22,24 @@ function composeLink() {
 	var pianoSeed = Math.round(Math.random() * (pianoPatterns.length - 1));
 	//var pianoSeed=8;
     var chordSeed = Math.random();
-	var guitPianoSeed = Math.random();
+	var subSeed = Math.random();
     //nn=progressionChords.length-1;
     //nn=25;
     //nn=16;
 	//nn=0;
 	//pianoSeed=0;
 	//kindSeed=1;
+	
+	////////////////////////////
+	drumSeed=8;
+	bassSeed = 1;
+	pianoSeed=2;
+	kindSeed=0;
+	subSeed=1;
+	cleanGuitarSeed=0;
+	////////////////////////////
+	
+	
     var pp = progressionChords[nn];
     var chordOrder = [16, 16, 16, 16];
     if (pp.length == 3) {
@@ -96,17 +107,18 @@ function composeLink() {
     var insData = [];
 	//addInstrumRiff(insData, duration, chordOrder, progressionPiano, pianoPatterns[pianoSeed], AcousticPiano);
 	if(kindSeed>1/2){
-		if(guitPianoSeed>1/2){
+		if(subSeed>1/2){
 			addInstrumRiff(insData, duration, chordOrder, progressionPiano, pianoPatterns[pianoSeed], AcousticPiano);
 		}else{
 			addInstrumRiff(insData, duration, chordOrder, progressionPiano, pianoPatterns[pianoSeed], PercussiveOrgan);
 		}
 	}else{
-		addInstrumBeats(insData, duration, chordOrder, progressionGuitar, cleanGuitarPatterns[cleanGuitarSeed], AcousticGuitar);
-		if(stringKindSeed>1/2){
-			addInstrumBeats(insData, duration, chordOrder, progressionPiano, stringPatterns[stringSeed], StringEnsemble);
+		//addInstrumBeats(insData, duration, chordOrder, progressionGuitar, cleanGuitarPatterns[cleanGuitarSeed], AcousticGuitar);
+		addInstrumRiff(insData, duration, chordOrder, progressionGuitar, cleanGuitarPatterns[cleanGuitarSeed], AcousticGuitar);
+		if(subSeed>1/2){
+			//addInstrumBeats(insData, duration, chordOrder, progressionPiano, stringPatterns[stringSeed], StringEnsemble);
 		}else{
-			addInstrumBeats(insData, duration, chordOrder, progressionPiano, stringPatterns[stringSeed], PercussiveOrgan);
+			//addInstrumBeats(insData, duration, chordOrder, progressionPiano, stringPatterns[stringSeed], PercussiveOrgan);
 		}
 	}
 	addInstrumRiff(insData, duration, chordOrder, progressionGuitar, bassPatterns[bassSeed], BassGuitar);
