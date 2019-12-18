@@ -37,24 +37,36 @@ var chordPitches = [
     { name: '7#9', pitches: [4, 7, 10, 15] },
     { name: '7b9', pitches: [4, 7, 10, 13] },
     { name: '9', pitches: [4, 7, 10, 14] },
+    { name: '9#11', pitches: [2, 4, 6, 7, 10] },
     { name: '9b5', pitches: [4, 6, 10, 14] },
     { name: '11', pitches: [4, 7, 10, 14, 17] },
     { name: '13', pitches: [10, 14, 17, 21] },
     { name: 'add9', pitches: [4, 7, 14] },
+    { name: 'alt', pitches: [4, 6] },
     { name: 'aug', pitches: [4, 8] },
+    { name: 'aug7', pitches: [4, 8, 10] },
+    { name: 'aug9', pitches: [2, 4, 8, 10] },
     { name: 'dim', pitches: [3, 6] },
     { name: 'dim7', pitches: [3, 6, 9] },
     { name: 'm', pitches: [3, 7] },
     { name: 'm6', pitches: [3, 7, 9] },
+    { name: 'm69', pitches: [3, 7, 9, 14] },
     { name: 'm7', pitches: [3, 7, 10] },
     { name: 'm7b5', pitches: [3, 6, 10] },
     { name: 'm9', pitches: [3, 7, 10, 14] },
     { name: 'm9b5', pitches: [3, 6, 10, 14] },
     { name: 'm11', pitches: [3, 7, 10, 14, 17] },
+    { name: 'madd9', pitches: [3, 7, 14] },
     { name: 'maj7', pitches: [4, 7, 11] },
+    { name: 'maj7#5', pitches: [4, 8, 11] },
+    { name: 'maj7b5', pitches: [4, 6, 11] },
     { name: 'maj9', pitches: [4, 7, 11, 14] },
+    { name: 'maj11', pitches: [2, 4, 5, 7, 11] },
+    { name: 'maj13', pitches: [2, 4, 7, 9, 11] },
     { name: 'mmaj7', pitches: [3, 7, 11] },
+    { name: 'mmaj7b5', pitches: [3, 6, 11] },
     { name: 'mmaj9', pitches: [3, 7, 11, 14] },
+    { name: 'mmaj11', pitches: [3, 5, 7, 11] },
     { name: 'sus2', pitches: [2, 7] },
     { name: 'sus4', pitches: [5, 7] }
 ];
@@ -2638,14 +2650,53 @@ function noteFromFret(stringNum, fretNum) {
     }
     return d;
 }
+function progressionLen(progression) {
+    var c = 0;
+    for (var i = 0; i < progression.length; i++) {
+        c = c + progression[i].duration;
+    }
+    return c;
+}
+function fillDrums(startPattern, mainPattern, endPattern, nn) {
+    //let nn = progressionLen(progression);
+    var r = [];
+    for (var i = 0; i < nn; i++) {
+        var k = i % mainPattern.duration;
+        var p = mainPattern;
+        if (i < startPattern.duration) {
+            p = startPattern;
+            k = i;
+        }
+        else {
+            if (i > nn - endPattern.duration) {
+                p = endPattern;
+                k = i - (nn - endPattern.duration);
+            }
+        }
+        for (var t = 0; t < p.beats.length; t++) {
+            if (p.beats[t].beat == k) {
+                r.push({
+                    beat: i,
+                    drum: p.beats[t].drum
+                });
+            }
+        }
+    }
+    return r;
+}
 //
+var beat1body = { duration: 16, beats: [{ "beat": 0, "drum": 0 }, { "beat": 8, "drum": 0 }, { "beat": 10, "drum": 0 }, { "beat": 0, "drum": 4 }, { "beat": 2, "drum": 4 }, { "beat": 4, "drum": 4 }, { "beat": 6, "drum": 4 }, { "beat": 8, "drum": 4 }, { "beat": 10, "drum": 4 }, { "beat": 12, "drum": 4 }, { "beat": 14, "drum": 4 }, { "beat": 12, "drum": 2 }, { "beat": 4, "drum": 2 }] };
+var beat1end = { duration: 16, beats: [{ "beat": 0, "drum": 0 }, { "beat": 8, "drum": 0 }, { "beat": 10, "drum": 0 }, { "beat": 4, "drum": 2 }, { "beat": 0, "drum": 4 }, { "beat": 2, "drum": 4 }, { "beat": 4, "drum": 4 }, { "beat": 6, "drum": 4 }, { "beat": 8, "drum": 4 }, { "beat": 10, "drum": 4 }, { "beat": 14, "drum": 2 }, { "beat": 15, "drum": 1 }, { "beat": 13, "drum": 1 }, { "beat": 12, "drum": 3 }] };
+var beat1start = { duration: 2, beats: [{ "beat": 0, "drum": 0 }, { "beat": 0, "drum": 7 }] };
+var beatEmpty = { duration: 0, beats: [] };
+var strum = { duration: 8, beats: [{ "beat": 0, "pitch": 12, "track": 1, "shift": 0, "length": 2 }, { "beat": 2, "pitch": 12, "track": 1, "shift": 0, "length": 2 }, { "beat": 0, "pitch": 19, "track": 1, "length": 2, "shift": 0 }, { "beat": 2, "pitch": 19, "track": 1, "length": 2, "shift": 0 }, { "beat": 4, "pitch": 12, "track": 1, "length": 60, "shift": 0 }, { "beat": 4, "pitch": 19, "track": 1, "length": 60, "shift": 0 }] };
 function test4() {
     console.log('test4');
     var tempo = 140;
-    var drumData = [{
-            drum: SnareDrum,
-            beat: 1
-        }];
+    /*let drumData: DrumBeat[] = [{
+        drum: SnareDrum,
+        beat: 1
+    }];*/
     var insData = [{
             track: StringEnsemble,
             beat: 2,
@@ -2653,6 +2704,8 @@ function test4() {
             shift: 0,
             pitch: S5
         }];
+    var progression = [{ chord: 'Am', duration: 16 }, { chord: 'Em', duration: 16 }, { chord: 'Am', duration: 32 }];
+    var drumData = fillDrums(beat1start, beat1body, beat1end, progressionLen(progression));
     var insVolumes = [7, 5, 4, 7, 4, 7, 3, 7]; //dist,accguit,percorg,palm,piano,bass,string,synth
     var drumVolumes = [7, 4, 6, 4, 6, 6, 6, 6]; //bass,low,snare,mid,closed,open,ride,splash
     var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
@@ -2660,14 +2713,20 @@ function test4() {
     window.open(url);
 }
 document.getElementById('test4').onclick = test4;
+/*
 for (var i = 0; i < chordfrets.length; i++) {
-    var nn = pianoKeysByName(chordfrets[i].name);
-    if (nn.length < 2) {
-        var tt = '';
-        for (var k = 0; k < chordfrets[i].frets[0].length; k++) {
-            //console.log(noteFromFret(k,chordfrets[i].frets[0][k]));
-            tt = tt + '/' + noteFromFret(k, chordfrets[i].frets[0][k]);
+    var nn=pianoKeysByName(chordfrets[i].name);
+    //if(nn.length<2){
+        var ff='';
+        for(var f=0;f<chordfrets[i].frets.length;f++){
+            var tt='';
+            for(var k=0;k<chordfrets[i].frets[f].length;k++){
+                //console.log(noteFromFret(k,chordfrets[i].frets[0][k]));
+                tt=tt+'/'+noteFromFret(k,chordfrets[i].frets[f][k]);
+            }
+            ff=ff+' '+f+':'+tt;
         }
-        console.log(chordfrets[i], chordfrets[i].frets[0], tt);
-    }
+        console.log(chordfrets[i],chordfrets[i].frets[0],ff);
+    //}
 }
+*/
