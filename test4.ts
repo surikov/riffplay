@@ -85,6 +85,22 @@ let chordPitches:ChordPitches[]=[
 ,{name:'sus2',pitches:[2,7]}
 ,{name:'sus4',pitches:[5,7]}
 ];
+function chrodKeysByName(chordName): number[] {
+    for (var i = 0; i < chordfrets.length; i++) {
+        if (chordfrets[i].name == chordName) {
+            //return chordfrets[i].frets;
+			var r:number[]=[];
+			var k=chordfrets[i].frets[0];
+			for(var t=0;t<k.length;t++){
+				if(k[t]>-1){
+					r.push(Strings6[t]+k[t]);
+				}
+			}
+			return r;
+        }
+    }
+    return [];
+}
 function pianoKeysByName(chordName: string): number[] {
     let r: number[] = [];
     let a = chordName.substr(0, 1);
@@ -127,8 +143,8 @@ function pianoKeysByName(chordName: string): number[] {
 		if(chordPitches[i].name==chordKind){
 			for(var p=0;p<chordPitches[i].pitches.length;p++){
 				r.push(root + chordPitches[i].pitches[p]);
-				break;
 			}
+			break;
 		}
 	}
     return r;
@@ -2671,7 +2687,26 @@ type InsPattern={
 	beats: InsBeat[],
     duration: number
 };
-
+type NumReplacement={
+	original: number,
+    to: number
+};
+function renum(n:number,r:NumReplacement[]):number{
+	for(let i=0;i<r.length;i++){
+		if(r[i].original==n){
+			return r[i].to;
+		}
+	}
+	return n;
+}
+function repitch(n:number,r:NumReplacement[]):number{
+	for(let i=0;i<r.length;i++){
+		if(r[i].original==n){
+			return r[i].to;
+		}
+	}
+	return n;
+}
 function progressionLen(progression:ChordSegment[]):number{
 	let c=0;
 	for(let i=0;i<progression.length;i++){
@@ -2705,23 +2740,44 @@ function fillDrums(startPattern: DrumPattern, mainPattern: DrumPattern, endPatte
 	}
 	return r;
 }
-function fillIns(startPattern: InsPattern, mainPattern: InsPattern, endPattern: InsPattern, first: number, last: number,progression:ChordSegment[]): InsBeat[]{
+function findChord(step:number,progression:ChordSegment[]){
+	let cu=0;
+	for(var i=0;i<progression.length;i++){
+		cu=cu+progression[i].duration;
+		if(step<cu){return progression[i].chord;}
+	}
+	return '';
+}
+function findPitch(pitch:number,step:number,progression:ChordSegment[],pitchReplacement:NumReplacement[]):number{
+	let chordName=findChord(step,progression);
+	let pianoKeys=pianoKeysByName(chordName);
+	let chordKeys=chrodKeysByName(chordName);
+	//console.log(step,pitch,chordName,pianoKeys,chordKeys);
+	var p=renum(pitch,pitchReplacement);
+	return p;
+}
+function fillIns(startPattern: InsPattern, mainPattern: InsPattern, endPattern: InsPattern, first: number, last: number,progression:ChordSegment[],trackReplacement:NumReplacement[],pitchReplacement:NumReplacement[]): InsBeat[]{
 	let r: InsBeat[] = [];
 	let notEnd:boolean=true;
 	var nn=last-first+1;
-	for (let i = 0; i <=nn; i++) {
+	for (let i = 0; i <nn; i++) {
 		let k = i % mainPattern.duration;
 		let p: InsPattern = mainPattern;
 		if (i < startPattern.duration) {
 			p = startPattern;
 			k = i;
+			//console.log(k,r,'start');
 		} else {
 			if (i >= nn - endPattern.duration) {
 				p = endPattern;
 				k = i - (nn - endPattern.duration);
 				notEnd=false;
+				//console.log(k,r,'end');
+			}else{
+				//console.log(k,r,'main');
 			}
 		}
+		
 		for (let t = 0; t < p.beats.length; t++) {
 			if (p.beats[t].beat == k) {
 				var len=p.beats[t].length;
@@ -2729,11 +2785,11 @@ function fillIns(startPattern: InsPattern, mainPattern: InsPattern, endPattern: 
 				if(notEnd){if(i+len>=nn - endPattern.duration){len=nn - endPattern.duration-i}}
 				if(len<1)len=1;
 				r.push({
-					track: p.beats[t].track
+					track: renum(p.beats[t].track,trackReplacement)
 					,beat: i+first
 					,length: len
 					,shift: p.beats[t].shift
-					,pitch: p.beats[t].pitch
+					,pitch: findPitch(p.beats[t].pitch,i+first,progression,pitchReplacement)
 				});
 			}
 		}
@@ -2747,11 +2803,63 @@ let beat1start:DrumPattern ={duration:2,beats:[{"beat":0,"drum":0},{"beat":0,"dr
 let beatEmpty:DrumPattern={duration:0,beats:[]};
 let insEmpty:InsPattern={duration:0,beats:[]};
 let strumStart:InsPattern={duration:2,beats:[{"beat":0,"pitch":11,"track":2,"shift":0,"length":2},{"beat":0,"pitch":18,"track":2,"length":2,"shift":0}]};
-let strumBody:InsPattern={duration:16,beats:[{"beat":0,"pitch":12,"track":1,"shift":0,"length":2},{"beat":0,"pitch":19,"track":1,"length":2,"shift":0},{"beat":2,"pitch":12,"track":1,"length":999,"shift":0},{"beat":2,"pitch":19,"track":1,"length":999,"shift":0}]};
+let strumBody:InsPattern={duration:64,beats:[{"beat":0,"pitch":12,"track":1,"shift":0,"length":2},{"beat":0,"pitch":19,"track":1,"length":2,"shift":0},{"beat":2,"pitch":12,"track":1,"length":999,"shift":0},{"beat":2,"pitch":19,"track":1,"length":999,"shift":0}]};
 let strumEnd:InsPattern={duration:4,beats:[{"beat":0,"pitch":13,"track":3,"shift":0,"length":2},{"beat":2,"pitch":13,"track":3,"shift":0,"length":2}
 										,{"beat":0,"pitch":20,"track":3,"length":2,"shift":0},{"beat":2,"pitch":20,"track":3,"length":2,"shift":0}]};
 let riff={
-	beats:[{"beat":0,"pitch":21,"track":0,"shift":0,"length":4},{"beat":0,"pitch":16,"track":0,"shift":0,"length":4},{"beat":0,"pitch":9,"track":0,"shift":0,"length":4},{"beat":4,"pitch":21,"track":0,"shift":0,"length":2},{"beat":4,"pitch":16,"track":0,"shift":0,"length":2},{"beat":4,"pitch":9,"track":0,"shift":0,"length":2},{"beat":6,"pitch":21,"track":0,"shift":0,"length":4},{"beat":6,"pitch":16,"track":0,"shift":0,"length":4},{"beat":6,"pitch":9,"track":0,"shift":0,"length":4},{"beat":10,"pitch":21,"track":0,"shift":0,"length":2},{"beat":10,"pitch":16,"track":0,"shift":0,"length":2},{"beat":10,"pitch":9,"track":0,"shift":0,"length":2},{"beat":12,"pitch":21,"track":0,"shift":0,"length":2},{"beat":12,"pitch":16,"track":0,"shift":0,"length":2},{"beat":12,"pitch":9,"track":0,"shift":0,"length":2},{"beat":14,"pitch":14,"track":0,"shift":0,"length":2},{"beat":14,"pitch":9,"track":0,"shift":0,"length":2},{"beat":16,"pitch":26,"track":0,"shift":0,"length":2},{"beat":16,"pitch":21,"track":0,"shift":0,"length":2},{"beat":16,"pitch":14,"track":0,"shift":0,"length":2},{"beat":18,"pitch":26,"track":0,"shift":0,"length":2},{"beat":18,"pitch":21,"track":0,"shift":0,"length":2},{"beat":18,"pitch":14,"track":0,"shift":0,"length":2},{"beat":20,"pitch":19,"track":0,"shift":0,"length":2},{"beat":20,"pitch":14,"track":0,"shift":0,"length":2},{"beat":22,"pitch":21,"track":0,"shift":0,"length":4},{"beat":22,"pitch":13,"track":0,"shift":0,"length":4},{"beat":26,"pitch":26,"track":0,"shift":0,"length":4},{"beat":26,"pitch":21,"track":0,"shift":0,"length":4},{"beat":26,"pitch":14,"track":0,"shift":0,"length":4},{"beat":30,"pitch":21,"track":0,"shift":0,"length":1},{"beat":30,"pitch":16,"track":0,"shift":0,"length":1},{"beat":30,"pitch":9,"track":0,"shift":0,"length":1},{"beat":31,"pitch":21,"track":0,"shift":0,"length":1},{"beat":31,"pitch":16,"track":0,"shift":0,"length":1},{"beat":31,"pitch":9,"track":0,"shift":0,"length":1},{"beat":32,"pitch":21,"track":0,"shift":0,"length":4},{"beat":32,"pitch":16,"track":0,"shift":0,"length":4},{"beat":32,"pitch":9,"track":0,"shift":0,"length":4},{"beat":36,"pitch":21,"track":0,"shift":0,"length":2},{"beat":36,"pitch":16,"track":0,"shift":0,"length":2},{"beat":36,"pitch":9,"track":0,"shift":0,"length":2},{"beat":38,"pitch":21,"track":0,"shift":0,"length":4},{"beat":38,"pitch":16,"track":0,"shift":0,"length":4},{"beat":38,"pitch":9,"track":0,"shift":0,"length":4},{"beat":42,"pitch":21,"track":0,"shift":0,"length":2},{"beat":42,"pitch":16,"track":0,"shift":0,"length":2},{"beat":42,"pitch":9,"track":0,"shift":0,"length":2},{"beat":44,"pitch":21,"track":0,"shift":0,"length":2},{"beat":44,"pitch":16,"track":0,"shift":0,"length":2},{"beat":44,"pitch":9,"track":0,"shift":0,"length":2},{"beat":46,"pitch":14,"track":0,"shift":0,"length":2},{"beat":46,"pitch":9,"track":0,"shift":0,"length":2},{"beat":48,"pitch":26,"track":0,"shift":0,"length":2},{"beat":48,"pitch":21,"track":0,"shift":0,"length":2},{"beat":48,"pitch":14,"track":0,"shift":0,"length":2},{"beat":50,"pitch":26,"track":0,"shift":0,"length":2},{"beat":50,"pitch":21,"track":0,"shift":0,"length":2},{"beat":50,"pitch":14,"track":0,"shift":0,"length":2},{"beat":52,"pitch":19,"track":0,"shift":0,"length":2},{"beat":52,"pitch":14,"track":0,"shift":0,"length":2},{"beat":54,"pitch":21,"track":0,"shift":0,"length":4},{"beat":54,"pitch":13,"track":0,"shift":0,"length":4},{"beat":58,"pitch":26,"track":0,"shift":0,"length":4},{"beat":58,"pitch":21,"track":0,"shift":0,"length":4},{"beat":58,"pitch":14,"track":0,"shift":0,"length":4},{"beat":62,"pitch":21,"track":0,"shift":0,"length":1},{"beat":62,"pitch":16,"track":0,"shift":0,"length":1},{"beat":62,"pitch":9,"track":0,"shift":0,"length":1},{"beat":63,"pitch":21,"track":0,"shift":0,"length":1},{"beat":63,"pitch":16,"track":0,"shift":0,"length":1},{"beat":63,"pitch":9,"track":0,"shift":0,"length":1},{"beat":64,"pitch":21,"track":0,"shift":0,"length":4},{"beat":64,"pitch":16,"track":0,"shift":0,"length":4},{"beat":64,"pitch":9,"track":0,"shift":0,"length":4},{"beat":68,"pitch":21,"track":0,"shift":0,"length":2},{"beat":68,"pitch":16,"track":0,"shift":0,"length":2},{"beat":68,"pitch":9,"track":0,"shift":0,"length":2},{"beat":70,"pitch":21,"track":0,"shift":0,"length":4},{"beat":70,"pitch":16,"track":0,"shift":0,"length":4},{"beat":70,"pitch":9,"track":0,"shift":0,"length":4},{"beat":74,"pitch":21,"track":0,"shift":0,"length":2},{"beat":74,"pitch":16,"track":0,"shift":0,"length":2},{"beat":74,"pitch":9,"track":0,"shift":0,"length":2},{"beat":76,"pitch":21,"track":0,"shift":0,"length":2},{"beat":76,"pitch":16,"track":0,"shift":0,"length":2},{"beat":76,"pitch":9,"track":0,"shift":0,"length":2},{"beat":78,"pitch":14,"track":0,"shift":0,"length":2},{"beat":78,"pitch":9,"track":0,"shift":0,"length":2},{"beat":80,"pitch":26,"track":0,"shift":0,"length":2},{"beat":80,"pitch":21,"track":0,"shift":0,"length":2},{"beat":80,"pitch":14,"track":0,"shift":0,"length":2},{"beat":82,"pitch":26,"track":0,"shift":0,"length":2},{"beat":82,"pitch":21,"track":0,"shift":0,"length":2},{"beat":82,"pitch":14,"track":0,"shift":0,"length":2},{"beat":84,"pitch":19,"track":0,"shift":0,"length":2},{"beat":84,"pitch":14,"track":0,"shift":0,"length":2},{"beat":86,"pitch":21,"track":0,"shift":0,"length":4},{"beat":86,"pitch":13,"track":0,"shift":0,"length":4},{"beat":90,"pitch":26,"track":0,"shift":0,"length":4},{"beat":90,"pitch":21,"track":0,"shift":0,"length":4},{"beat":90,"pitch":14,"track":0,"shift":0,"length":4},{"beat":94,"pitch":21,"track":0,"shift":0,"length":1},{"beat":94,"pitch":16,"track":0,"shift":0,"length":1},{"beat":94,"pitch":9,"track":0,"shift":0,"length":1},{"beat":95,"pitch":21,"track":0,"shift":0,"length":1},{"beat":95,"pitch":16,"track":0,"shift":0,"length":1},{"beat":95,"pitch":9,"track":0,"shift":0,"length":1},{"beat":96,"pitch":20,"track":0,"shift":0,"length":2},{"beat":96,"pitch":15,"track":0,"shift":0,"length":2},{"beat":96,"pitch":8,"track":0,"shift":0,"length":2},{"beat":98,"pitch":21,"track":0,"shift":0,"length":2},{"beat":98,"pitch":16,"track":0,"shift":0,"length":2},{"beat":98,"pitch":9,"track":0,"shift":0,"length":2},{"beat":100,"pitch":21,"track":0,"shift":0,"length":2},{"beat":100,"pitch":16,"track":0,"shift":0,"length":2},{"beat":100,"pitch":9,"track":0,"shift":0,"length":2},{"beat":102,"pitch":21,"track":0,"shift":0,"length":4},{"beat":102,"pitch":16,"track":0,"shift":0,"length":4},{"beat":102,"pitch":9,"track":0,"shift":0,"length":4},{"beat":106,"pitch":21,"track":0,"shift":0,"length":2},{"beat":106,"pitch":16,"track":0,"shift":0,"length":2},{"beat":106,"pitch":9,"track":0,"shift":0,"length":2},{"beat":108,"pitch":21,"track":0,"shift":0,"length":2},{"beat":108,"pitch":16,"track":0,"shift":0,"length":2},{"beat":108,"pitch":9,"track":0,"shift":0,"length":2},{"beat":110,"pitch":21,"track":0,"shift":0,"length":2},{"beat":110,"pitch":16,"track":0,"shift":0,"length":2},{"beat":110,"pitch":9,"track":0,"shift":0,"length":2},{"beat":112,"pitch":20,"track":0,"shift":0,"length":2},{"beat":112,"pitch":15,"track":0,"shift":0,"length":2},{"beat":112,"pitch":8,"track":0,"shift":0,"length":2},{"beat":114,"pitch":21,"track":0,"shift":0,"length":2},{"beat":114,"pitch":16,"track":0,"shift":0,"length":2},{"beat":114,"pitch":9,"track":0,"shift":0,"length":2},{"beat":116,"pitch":21,"track":0,"shift":0,"length":2},{"beat":116,"pitch":16,"track":0,"shift":0,"length":2},{"beat":116,"pitch":9,"track":0,"shift":0,"length":2},{"beat":118,"pitch":21,"track":0,"shift":0,"length":4},{"beat":118,"pitch":16,"track":0,"shift":0,"length":4},{"beat":118,"pitch":9,"track":0,"shift":0,"length":4},{"beat":122,"pitch":9,"track":0,"shift":0,"length":2},{"beat":122,"pitch":4,"track":0,"shift":0,"length":2},{"beat":124,"pitch":14,"track":0,"shift":0,"length":4},{"beat":124,"pitch":9,"track":0,"shift":0,"length":4},{"beat":124,"pitch":4,"track":0,"shift":0,"length":4}]
+	duration:16
+	,beats:[{"beat":0,"pitch":21,"track":0,"shift":0,"length":4},{"beat":0,"pitch":16,"track":0,"shift":0,"length":4},{"beat":0,"pitch":9,"track":0,"shift":0,"length":4}
+			,{"beat":4,"pitch":21,"track":0,"shift":0,"length":2},{"beat":4,"pitch":16,"track":0,"shift":0,"length":2},{"beat":4,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":6,"pitch":21,"track":0,"shift":0,"length":4},{"beat":6,"pitch":16,"track":0,"shift":0,"length":4},{"beat":6,"pitch":9,"track":0,"shift":0,"length":4}
+			,{"beat":10,"pitch":21,"track":0,"shift":0,"length":2},{"beat":10,"pitch":16,"track":0,"shift":0,"length":2},{"beat":10,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":12,"pitch":21,"track":0,"shift":0,"length":2},{"beat":12,"pitch":16,"track":0,"shift":0,"length":2},{"beat":12,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":14,"pitch":14,"track":0,"shift":0,"length":2},{"beat":14,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":16,"pitch":26,"track":0,"shift":0,"length":2},{"beat":16,"pitch":21,"track":0,"shift":0,"length":2},{"beat":16,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":18,"pitch":26,"track":0,"shift":0,"length":2},{"beat":18,"pitch":21,"track":0,"shift":0,"length":2},{"beat":18,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":20,"pitch":19,"track":0,"shift":0,"length":2},{"beat":20,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":22,"pitch":21,"track":0,"shift":0,"length":4},{"beat":22,"pitch":13,"track":0,"shift":0,"length":4}
+			,{"beat":26,"pitch":26,"track":0,"shift":0,"length":4},{"beat":26,"pitch":21,"track":0,"shift":0,"length":4},{"beat":26,"pitch":14,"track":0,"shift":0,"length":4}
+			,{"beat":30,"pitch":21,"track":0,"shift":0,"length":1},{"beat":30,"pitch":16,"track":0,"shift":0,"length":1},{"beat":30,"pitch":9,"track":0,"shift":0,"length":1}
+			,{"beat":31,"pitch":21,"track":0,"shift":0,"length":1},{"beat":31,"pitch":16,"track":0,"shift":0,"length":1},{"beat":31,"pitch":9,"track":0,"shift":0,"length":1}
+			,{"beat":32,"pitch":21,"track":0,"shift":0,"length":4},{"beat":32,"pitch":16,"track":0,"shift":0,"length":4},{"beat":32,"pitch":9,"track":0,"shift":0,"length":4}
+			,{"beat":36,"pitch":21,"track":0,"shift":0,"length":2},{"beat":36,"pitch":16,"track":0,"shift":0,"length":2},{"beat":36,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":38,"pitch":21,"track":0,"shift":0,"length":4},{"beat":38,"pitch":16,"track":0,"shift":0,"length":4},{"beat":38,"pitch":9,"track":0,"shift":0,"length":4}
+			,{"beat":42,"pitch":21,"track":0,"shift":0,"length":2},{"beat":42,"pitch":16,"track":0,"shift":0,"length":2},{"beat":42,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":44,"pitch":21,"track":0,"shift":0,"length":2},{"beat":44,"pitch":16,"track":0,"shift":0,"length":2},{"beat":44,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":46,"pitch":14,"track":0,"shift":0,"length":2},{"beat":46,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":48,"pitch":26,"track":0,"shift":0,"length":2},{"beat":48,"pitch":21,"track":0,"shift":0,"length":2},{"beat":48,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":50,"pitch":26,"track":0,"shift":0,"length":2},{"beat":50,"pitch":21,"track":0,"shift":0,"length":2},{"beat":50,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":52,"pitch":19,"track":0,"shift":0,"length":2},{"beat":52,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":54,"pitch":21,"track":0,"shift":0,"length":4},{"beat":54,"pitch":13,"track":0,"shift":0,"length":4}
+			,{"beat":58,"pitch":26,"track":0,"shift":0,"length":4},{"beat":58,"pitch":21,"track":0,"shift":0,"length":4},{"beat":58,"pitch":14,"track":0,"shift":0,"length":4}
+			,{"beat":62,"pitch":21,"track":0,"shift":0,"length":1},{"beat":62,"pitch":16,"track":0,"shift":0,"length":1},{"beat":62,"pitch":9,"track":0,"shift":0,"length":1}
+			,{"beat":63,"pitch":21,"track":0,"shift":0,"length":1},{"beat":63,"pitch":16,"track":0,"shift":0,"length":1},{"beat":63,"pitch":9,"track":0,"shift":0,"length":1}
+			,{"beat":64,"pitch":21,"track":0,"shift":0,"length":4},{"beat":64,"pitch":16,"track":0,"shift":0,"length":4},{"beat":64,"pitch":9,"track":0,"shift":0,"length":4}
+			,{"beat":68,"pitch":21,"track":0,"shift":0,"length":2},{"beat":68,"pitch":16,"track":0,"shift":0,"length":2},{"beat":68,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":70,"pitch":21,"track":0,"shift":0,"length":4},{"beat":70,"pitch":16,"track":0,"shift":0,"length":4},{"beat":70,"pitch":9,"track":0,"shift":0,"length":4}
+			,{"beat":74,"pitch":21,"track":0,"shift":0,"length":2},{"beat":74,"pitch":16,"track":0,"shift":0,"length":2},{"beat":74,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":76,"pitch":21,"track":0,"shift":0,"length":2},{"beat":76,"pitch":16,"track":0,"shift":0,"length":2},{"beat":76,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":78,"pitch":14,"track":0,"shift":0,"length":2},{"beat":78,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":80,"pitch":26,"track":0,"shift":0,"length":2},{"beat":80,"pitch":21,"track":0,"shift":0,"length":2},{"beat":80,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":82,"pitch":26,"track":0,"shift":0,"length":2},{"beat":82,"pitch":21,"track":0,"shift":0,"length":2},{"beat":82,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":84,"pitch":19,"track":0,"shift":0,"length":2},{"beat":84,"pitch":14,"track":0,"shift":0,"length":2}
+			,{"beat":86,"pitch":21,"track":0,"shift":0,"length":4},{"beat":86,"pitch":13,"track":0,"shift":0,"length":4}
+			,{"beat":90,"pitch":26,"track":0,"shift":0,"length":4},{"beat":90,"pitch":21,"track":0,"shift":0,"length":4},{"beat":90,"pitch":14,"track":0,"shift":0,"length":4}
+			,{"beat":94,"pitch":21,"track":0,"shift":0,"length":1},{"beat":94,"pitch":16,"track":0,"shift":0,"length":1},{"beat":94,"pitch":9,"track":0,"shift":0,"length":1}
+			,{"beat":95,"pitch":21,"track":0,"shift":0,"length":1},{"beat":95,"pitch":16,"track":0,"shift":0,"length":1},{"beat":95,"pitch":9,"track":0,"shift":0,"length":1}
+			,{"beat":96,"pitch":20,"track":0,"shift":0,"length":2},{"beat":96,"pitch":15,"track":0,"shift":0,"length":2},{"beat":96,"pitch":8,"track":0,"shift":0,"length":2}
+			,{"beat":98,"pitch":21,"track":0,"shift":0,"length":2},{"beat":98,"pitch":16,"track":0,"shift":0,"length":2},{"beat":98,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":100,"pitch":21,"track":0,"shift":0,"length":2},{"beat":100,"pitch":16,"track":0,"shift":0,"length":2},{"beat":100,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":102,"pitch":21,"track":0,"shift":0,"length":4},{"beat":102,"pitch":16,"track":0,"shift":0,"length":4},{"beat":102,"pitch":9,"track":0,"shift":0,"length":4}
+			,{"beat":106,"pitch":21,"track":0,"shift":0,"length":2},{"beat":106,"pitch":16,"track":0,"shift":0,"length":2},{"beat":106,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":108,"pitch":21,"track":0,"shift":0,"length":2},{"beat":108,"pitch":16,"track":0,"shift":0,"length":2},{"beat":108,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":110,"pitch":21,"track":0,"shift":0,"length":2},{"beat":110,"pitch":16,"track":0,"shift":0,"length":2},{"beat":110,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":112,"pitch":20,"track":0,"shift":0,"length":2},{"beat":112,"pitch":15,"track":0,"shift":0,"length":2},{"beat":112,"pitch":8,"track":0,"shift":0,"length":2}
+			,{"beat":114,"pitch":21,"track":0,"shift":0,"length":2},{"beat":114,"pitch":16,"track":0,"shift":0,"length":2},{"beat":114,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":116,"pitch":21,"track":0,"shift":0,"length":2},{"beat":116,"pitch":16,"track":0,"shift":0,"length":2},{"beat":116,"pitch":9,"track":0,"shift":0,"length":2}
+			,{"beat":118,"pitch":21,"track":0,"shift":0,"length":4},{"beat":118,"pitch":16,"track":0,"shift":0,"length":4},{"beat":118,"pitch":9,"track":0,"shift":0,"length":4}
+			,{"beat":122,"pitch":9,"track":0,"shift":0,"length":2},{"beat":122,"pitch":4,"track":0,"shift":0,"length":2}
+			,{"beat":124,"pitch":14,"track":0,"shift":0,"length":4},{"beat":124,"pitch":9,"track":0,"shift":0,"length":4},{"beat":124,"pitch":4,"track":0,"shift":0,"length":4}]
 	};
 function test4() {
     console.log('test4');
@@ -2767,13 +2875,16 @@ function test4() {
         shift: 0,
         pitch: S5
     }];*/
-	let progression:ChordSegment[]=[{chord: 'Am',duration: 16},{chord: 'Em',duration: 16},{chord: 'Am',duration: 32}];
+	let progression:ChordSegment[]=[{chord: 'Am',duration: 16},{chord: 'E7',duration: 16},{chord: 'Am',duration: 32+64}];
 	let drumData: DrumBeat[]=fillDrums(beat1start,beat1body,beat1end,progressionLen(progression));
-	let p1: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,0,16-1,progression);
-	let p2: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,16,32-1,progression);
-	let p3: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,32,64-1,progression);
-	let insData: InsBeat[]=[];//fillIns(strumStart,strumBody,strumEnd,16,48-1);
-	for(var i=0;i<p1.length;i++){insData.push(p1[i]);}for(var i=0;i<p2.length;i++){insData.push(p2[i]);}for(var i=0;i<p3.length;i++){insData.push(p3[i]);}
+	let trackRep:NumReplacement[]=[{original: 1,to: 5},{original: 2,to: 6},{original: 3,to: 7}];
+	let pitchReplacement:NumReplacement[]=[{original: 14,to: 14+12}];
+	let insData: InsBeat[]=fillIns(insEmpty,riff,insEmpty,0,128-1,progression,[{original: 0,to: 1}],pitchReplacement);
+	//let p1: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,0,16-1,progression,trackRep);
+	//let p2: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,16,32-1,progression,trackRep);
+	//let p3: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,32,64-1,progression,trackRep);
+	//let insData: InsBeat[]=[];//fillIns(strumStart,strumBody,strumEnd,16,48-1);
+	//for(var i=0;i<p1.length;i++){insData.push(p1[i]);}for(var i=0;i<p2.length;i++){insData.push(p2[i]);}for(var i=0;i<p3.length;i++){insData.push(p3[i]);}
     var insVolumes = [7, 5, 4, 7, 4, 7, 3, 7];//dist,accguit,percorg,palm,piano,bass,string,synth
     var drumVolumes = [7, 4, 6, 4, 6, 6, 6, 6];//bass,low,snare,mid,closed,open,ride,splash
     var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
