@@ -85,70 +85,7 @@ let chordPitches:ChordPitches[]=[
 ,{name:'sus2',pitches:[2,7]}
 ,{name:'sus4',pitches:[5,7]}
 ];
-function chrodKeysByName(chordName): number[] {
-    for (var i = 0; i < chordfrets.length; i++) {
-        if (chordfrets[i].name == chordName) {
-            //return chordfrets[i].frets;
-			var r:number[]=[];
-			var k=chordfrets[i].frets[0];
-			for(var t=0;t<k.length;t++){
-				if(k[t]>-1){
-					r.push(Strings6[t]+k[t]);
-				}
-			}
-			return r;
-        }
-    }
-    return [];
-}
-function pianoKeysByName(chordName: string): number[] {
-    let r: number[] = [];
-    let a = chordName.substr(0, 1);
-    let start = 1;
-    let root = -1;
-    if (a == 'C') {
-        root = 0;
-    }
-    if (a == 'D') {
-        root = 2;
-    }
-    if (a == 'E') {
-        root = 4;
-    }
-    if (a == 'F') {
-        root = 5;
-    }
-    if (a == 'G') {
-        root = 7;
-    }
-    if (a == 'A') {
-        root = 9;
-    }
-    if (a == 'B') {
-        root = 11;
-    }
-    if (chordName.substr(1, 1) == '#') {
-        root++;
-        start++;
-    }
-    if (chordName.substr(1, 1) == 'b') {
-        root--;
-        if (root < 0)
-            root = root - 12;
-        start++;
-    }
-    r.push(root);
-    let chordKind = chordName.substr(start);
-	for(var i=0;i<chordPitches.length;i++){
-		if(chordPitches[i].name==chordKind){
-			for(var p=0;p<chordPitches[i].pitches.length;p++){
-				r.push(root + chordPitches[i].pitches[p]);
-			}
-			break;
-		}
-	}
-    return r;
-}
+
 //
 type FretKeys = {
     pitch: number;
@@ -2644,7 +2581,74 @@ let progressionChords: string[][] = [
     ['G', 'D', 'Em', 'C'],
     ['G7', 'C', 'C9', 'Dm7', 'C'],
 ];
-
+function chrodKeysByName(chordName): number[] {
+    for (var i = 0; i < chordfrets.length; i++) {
+        if (chordfrets[i].name == chordName) {
+            //console.log(i,chordName,chordfrets[i]);
+			var r:number[]=[];
+			var k=chordfrets[i].frets[0];
+			for(var t=0;t<k.length;t++){
+				if(k[t]>-1){
+					r.push(Strings6[t]+k[t]-12);
+					//console.log(Strings6[t],k[t]);
+				}else{
+					r.push(-1);
+				}
+			}
+			//console.log(i,chordName,r,k);
+			return r;
+        }
+    }
+    return [];
+}
+function pianoKeysByName(chordName: string): number[] {
+    let r: number[] = [];
+    let a = chordName.substr(0, 1);
+    let start = 1;
+    let root = -1;
+    if (a == 'C') {
+        root = 0;
+    }
+    if (a == 'D') {
+        root = 2;
+    }
+    if (a == 'E') {
+        root = 4;
+    }
+    if (a == 'F') {
+        root = 5;
+    }
+    if (a == 'G') {
+        root = 7;
+    }
+    if (a == 'A') {
+        root = 9;
+    }
+    if (a == 'B') {
+        root = 11;
+    }
+    if (chordName.substr(1, 1) == '#') {
+        root++;
+        start++;
+    }
+    if (chordName.substr(1, 1) == 'b') {
+        root--;
+        if (root < 0)
+            root = root - 12;
+        start++;
+    }
+    r.push(root);
+    let chordKind = chordName.substr(start);
+	for(var i=0;i<chordPitches.length;i++){
+		if(chordPitches[i].name==chordKind){
+			for(var p=0;p<chordPitches[i].pitches.length;p++){
+				r.push(root + chordPitches[i].pitches[p]);
+			}
+			break;
+		}
+	}
+    return r;
+}
 function noteFromFret(stringNum,fretNum){
 	var d='X';
 	if(fretNum>-1){
@@ -2686,12 +2690,14 @@ type DrumPattern={
 type InsPattern={
 	beats: InsBeat[],
     duration: number
+	,chordName:string
 };
 type NumReplacement={
 	original: number,
     to: number
 };
 function renum(n:number,r:NumReplacement[]):number{
+	//console.log('renum',n,r);
 	for(let i=0;i<r.length;i++){
 		if(r[i].original==n){
 			return r[i].to;
@@ -2748,18 +2754,63 @@ function findChord(step:number,progression:ChordSegment[]){
 	}
 	return '';
 }
-function findPitch(pitch:number,step:number,progression:ChordSegment[],pitchReplacement:NumReplacement[]):number{
-	let chordName=findChord(step,progression);
-	let pianoKeys=pianoKeysByName(chordName);
-	let chordKeys=chrodKeysByName(chordName);
-	//console.log(step,pitch,chordName,pianoKeys,chordKeys);
-	var p=renum(pitch,pitchReplacement);
-	return p;
+function findChordPitches(chordName:String, frets:FretKeys[]):number[]{
+	
+	for(var i=0;i<frets.length;i++){
+		if(frets[i].name==chordName){
+			var s:number[]=frets[i].frets[0];
+			let pitches:number[]=[];
+			for(var k=0;k<Strings6.length;k++){
+				if(s[k]<0){
+					pitches.push(-1);
+				}else{
+					pitches.push(Strings6[k]+s[k]-12);
+				}
+			}
+			return pitches;
+		}
+	}
+	return [-1,-1,-1,-1,-1,-1]
 }
-function fillIns(startPattern: InsPattern, mainPattern: InsPattern, endPattern: InsPattern, first: number, last: number,progression:ChordSegment[],trackReplacement:NumReplacement[],pitchReplacement:NumReplacement[]): InsBeat[]{
+
+//function findPitch(pitch:number,step:number,progression:ChordSegment[],pitchReplacement:NumReplacement[]):number{
+function findPitch(chordName:string,pitch:number,step:number,progression:ChordSegment[]):number{
+	let progChordName=findChord(step,progression);
+	//let pianoKeys=pianoKeysByName(chordName);
+	let progChordKeys=chrodKeysByName(progChordName);
+	let chordKeys=chrodKeysByName(chordName);
+	let string=-1;
+	for(var i=0;i<chordKeys.length;i++){
+		if(chordKeys[i]==pitch){
+			string=i;
+			break;
+		}
+	}
+	var progPitch=-1;
+	if(string>=0){
+		progPitch=progChordKeys[string];
+	}
+	
+	//console.log(step,progChordName,pitch,chordName,chordKeys,string,progPitch);
+
+	//let string=
+	//console.log(step,pitch,progChordName,progChordKeys,chordName,chordKeys);
+	//var p=renum(pitch,pitchReplacement);
+	//var p=pitch;
+	return progPitch;
+}
+function fillGuitar(startPattern: InsPattern
+				, mainPattern: InsPattern
+				, endPattern: InsPattern
+				, first: number
+				, last: number
+				,progression:ChordSegment[]
+				,trackNum
+				): InsBeat[]{
 	let r: InsBeat[] = [];
 	let notEnd:boolean=true;
 	var nn=last-first+1;
+	//console.log(mainPattern.chordName,findChordPitches(mainPattern.chordName,chordfrets));
 	for (let i = 0; i <nn; i++) {
 		let k = i % mainPattern.duration;
 		let p: InsPattern = mainPattern;
@@ -2784,27 +2835,96 @@ function fillIns(startPattern: InsPattern, mainPattern: InsPattern, endPattern: 
 				if(len+k>=p.duration)len=p.duration-k;
 				if(notEnd){if(i+len>=nn - endPattern.duration){len=nn - endPattern.duration-i}}
 				if(len<1)len=1;
-				r.push({
-					track: renum(p.beats[t].track,trackReplacement)
-					,beat: i+first
-					,length: len
-					,shift: p.beats[t].shift
-					,pitch: findPitch(p.beats[t].pitch,i+first,progression,pitchReplacement)
-				});
+				//console.log(p.beats[t]);
+				var pitch=findPitch(p.chordName,p.beats[t].pitch,i+first,progression);
+				
+				if(pitch>=0){
+					r.push({
+						track: trackNum
+						,beat: i+first
+						,length: len
+						,shift: p.beats[t].shift
+						,pitch: pitch//findPitch(p.chordName,p.beats[t].pitch,i+first,progression)
+					});
+				}
+				
 			}
 		}
 	}
 	return r;
 }
 //
-let beat1body:DrumPattern={duration:16,beats:[{"beat":0,"drum":0},{"beat":8,"drum":0},{"beat":10,"drum":0},{"beat":0,"drum":4},{"beat":2,"drum":4},{"beat":4,"drum":4},{"beat":6,"drum":4},{"beat":8,"drum":4},{"beat":10,"drum":4},{"beat":12,"drum":4},{"beat":14,"drum":4},{"beat":12,"drum":2},{"beat":4,"drum":2}]};
-let beat1end:DrumPattern ={duration:16,beats:[{"beat":0,"drum":0},{"beat":8,"drum":0},{"beat":10,"drum":0},{"beat":4,"drum":2},{"beat":0,"drum":4},{"beat":2,"drum":4},{"beat":4,"drum":4},{"beat":6,"drum":4},{"beat":8,"drum":4},{"beat":10,"drum":4},{"beat":14,"drum":2},{"beat":15,"drum":1},{"beat":13,"drum":1},{"beat":12,"drum":3}]};
 let beat1start:DrumPattern ={duration:2,beats:[{"beat":0,"drum":0},{"beat":0,"drum":7}]};
+let beat1body:DrumPattern ={duration:16,beats:[{"beat":0,"drum":0},{"beat":0,"drum":5},{"beat":12,"drum":5},{"beat":4,"drum":2},{"beat":4,"drum":5},{"beat":8,"drum":0},{"beat":10,"drum":0},{"beat":12,"drum":2},{"beat":8,"drum":5}]};
+let beat1end:DrumPattern={duration:8,beats:[{"beat":1,"drum":1},{"beat":2,"drum":1},{"beat":3,"drum":1},{"beat":0,"drum":0},{"beat":4,"drum":2},{"beat":6,"drum":3},{"beat":5,"drum":3},{"beat":7,"drum":3},{"beat":4,"drum":0},{"beat":0,"drum":5},{"beat":4,"drum":5},{"beat":6,"drum":5}]};
+
+let bass={duration:32,chordName:'Am',beats:[{"beat":0,"pitch":9,"track":5,"shift":0,"length":4},{"beat":6,"pitch":9,"track":5,"shift":0,"length":4},{"beat":16,"pitch":9,"track":5,"shift":0,"length":4},{"beat":22,"pitch":9,"track":5,"shift":0,"length":4},{"beat":10,"pitch":12,"track":5,"shift":0,"length":2},{"beat":12,"pitch":14,"track":5,"shift":0,"length":2},{"beat":26,"pitch":16,"track":5,"shift":0,"length":2},{"beat":28,"pitch":14,"track":5,"shift":0,"length":2},{"beat":30,"pitch":12,"track":5,"shift":0,"length":2},{"beat":14,"pitch":12,"track":5,"shift":0,"length":2}]};
+
 let beatEmpty:DrumPattern={duration:0,beats:[]};
-let insEmpty:InsPattern={duration:0,beats:[]};
-let strumStart:InsPattern={duration:2,beats:[{"beat":0,"pitch":11,"track":2,"shift":0,"length":2},{"beat":0,"pitch":18,"track":2,"length":2,"shift":0}]};
-let strumBody:InsPattern={duration:64,beats:[{"beat":0,"pitch":12,"track":1,"shift":0,"length":2},{"beat":0,"pitch":19,"track":1,"length":2,"shift":0},{"beat":2,"pitch":12,"track":1,"length":999,"shift":0},{"beat":2,"pitch":19,"track":1,"length":999,"shift":0}]};
-let strumEnd:InsPattern={duration:4,beats:[{"beat":0,"pitch":13,"track":3,"shift":0,"length":2},{"beat":2,"pitch":13,"track":3,"shift":0,"length":2}
+let insEmpty:InsPattern={duration:0,chordName:'',beats:[]};
+
+let strumStart:InsPattern={duration:0,chordName:'',beats:[{"beat":0,"pitch":11,"track":2,"shift":0,"length":2},{"beat":0,"pitch":18,"track":2,"length":2,"shift":0}]};
+//let strumBody:InsPattern={duration:16,chordName:'Em',beats:[
+	/*beat":0,"pitch":4,"track":1,"shift":0,"length":4}
+	,{"beat":6,"pitch":4,"track":1,"shift":0,"length":4}
+	,{"beat":12,"pitch":4,"track":1,"shift":0,"length":2}
+	,{"beat":0,"pitch":11,"track":1,"shift":0,"length":4}
+	,{"beat":6,"pitch":11,"track":1,"shift":0,"length":4}
+	,{"beat":12,"pitch":11,"track":1,"shift":0,"length":2}
+	,{"beat":0,"pitch":16,"track":1,"shift":0,"length":4}
+	,{"beat":4,"pitch":16,"track":1,"shift":0,"length":2}
+	,{"beat":6,"pitch":16,"track":1,"shift":0,"length":4}
+	,{"beat":10,"pitch":16,"track":1,"shift":0,"length":2}
+	,{"beat":12,"pitch":16,"track":1,"shift":0,"length":2}
+	,{"beat":14,"pitch":16,"track":1,"shift":0,"length":2}
+	,{"beat":0,"pitch":19,"track":1,"shift":0,"length":4}
+	,{"beat":4,"pitch":19,"track":1,"shift":0,"length":2}
+	,{"beat":6,"pitch":19,"track":1,"shift":0,"length":4}
+	,{"beat":10,"pitch":19,"track":1,"shift":0,"length":2}
+	,{"beat":12,"pitch":19,"track":1,"shift":0,"length":2}
+	,{"beat":14,"pitch":19,"track":1,"shift":0,"length":2}
+	,{"beat":0,"pitch":23,"track":1,"shift":0,"length":4}
+	,{"beat":4,"pitch":23,"track":1,"shift":0,"length":2}
+	,{"beat":10,"pitch":23,"track":1,"shift":0,"length":2}
+	,{"beat":12,"pitch":23,"track":1,"shift":0,"length":2},{"beat":14,"pitch":23,"track":1,"shift":0,"length":2},{"beat":6,"pitch":23,"track":1,"shift":0,"length":4},{"beat":4,"pitch":28,"track":1,"shift":0,"length":2},{"beat":10,"pitch":28,"track":1,"shift":0,"length":2},{"beat":14,"pitch":28,"track":1,"shift":0,"length":2},{"beat":0,"pitch":28,"track":1,"length":4,"shift":0},{"beat":6,"pitch":28,"track":1,"length":4,"shift":0},{"beat":12,"pitch":28,"track":1,"length":2,"shift":0},{"beat":14,"pitch":11,"track":1,"length":2,"shift":0},{"beat":10,"pitch":11,"track":1,"length":2,"shift":0},{"beat":4,"pitch":11,"track":1,"length":2,"shift":0}]};
+	*/
+let strumBody:InsPattern={duration:16,chordName:'Em',beats:[
+	{"beat":0,"pitch":4,"track":1,"shift":0,"length":4}
+	,{"beat":6,"pitch":4,"track":1,"shift":0,"length":4}
+	,{"beat":12,"pitch":4,"track":1,"shift":0,"length":2}
+	
+	,{"beat":0,"pitch":11,"track":1,"shift":0,"length":4}
+	,{"beat":6,"pitch":11,"track":1,"shift":0,"length":4}
+	,{"beat":12,"pitch":11,"track":1,"shift":0,"length":2}
+	
+	,{"beat":0,"pitch":16,"track":1,"shift":0,"length":4}
+	,{"beat":4,"pitch":16,"track":1,"shift":0,"length":2}
+	,{"beat":6,"pitch":16,"track":1,"shift":0,"length":4}
+	,{"beat":10,"pitch":16,"track":1,"shift":0,"length":2}
+	,{"beat":12,"pitch":16,"track":1,"shift":0,"length":2}
+	,{"beat":14,"pitch":16,"track":1,"shift":0,"length":2}
+	
+	,{"beat":0,"pitch":19,"track":1,"shift":0,"length":4}
+	,{"beat":4,"pitch":19,"track":1,"shift":0,"length":2}
+	,{"beat":6,"pitch":19,"track":1,"shift":0,"length":4}
+	,{"beat":10,"pitch":19,"track":1,"shift":0,"length":2}
+	,{"beat":12,"pitch":19,"track":1,"shift":0,"length":2}
+	,{"beat":14,"pitch":19,"track":1,"shift":0,"length":2}
+	
+	,{"beat":0,"pitch":23,"track":1,"shift":0,"length":4}
+	,{"beat":4,"pitch":23,"track":1,"shift":0,"length":2}
+	,{"beat":6,"pitch":23,"track":1,"shift":0,"length":4}
+	,{"beat":10,"pitch":23,"track":1,"shift":0,"length":2}
+	,{"beat":12,"pitch":23,"track":1,"shift":0,"length":2}
+	,{"beat":14,"pitch":23,"track":1,"shift":0,"length":2}
+	
+	,{"beat":0,"pitch":28,"track":1,"shift":0,"length":4}
+	,{"beat":4,"pitch":28,"track":1,"shift":0,"length":2}
+	,{"beat":6,"pitch":28,"track":1,"shift":0,"length":4}
+	,{"beat":10,"pitch":28,"track":1,"shift":0,"length":2}
+	,{"beat":12,"pitch":28,"track":1,"shift":0,"length":2}
+	,{"beat":14,"pitch":28,"track":1,"shift":0,"length":2}]};
+let strumEnd:InsPattern={duration:0,chordName:'',beats:[{"beat":0,"pitch":13,"track":3,"shift":0,"length":2},{"beat":2,"pitch":13,"track":3,"shift":0,"length":2}
 										,{"beat":0,"pitch":20,"track":3,"length":2,"shift":0},{"beat":2,"pitch":20,"track":3,"length":2,"shift":0}]};
 let riff={
 	duration:16
@@ -2875,24 +2995,29 @@ function test4() {
         shift: 0,
         pitch: S5
     }];*/
-	let progression:ChordSegment[]=[{chord: 'Am',duration: 16},{chord: 'E7',duration: 16},{chord: 'Am',duration: 32+64}];
+	let progression:ChordSegment[]=[{chord: 'Am',duration: 16},{chord: 'Em',duration: 16},{chord: 'Am',duration: 32}
+									,{chord: 'C',duration: 16},{chord: 'G',duration: 16},{chord: 'C',duration: 32}
+									,{chord: 'Dm',duration: 32},{chord: 'Am',duration: 32},{chord: 'Em',duration: 32},{chord: 'Am',duration: 16},{chord: 'Am7',duration: 16}
+									];
 	let drumData: DrumBeat[]=fillDrums(beat1start,beat1body,beat1end,progressionLen(progression));
-	let trackRep:NumReplacement[]=[{original: 1,to: 5},{original: 2,to: 6},{original: 3,to: 7}];
-	let pitchReplacement:NumReplacement[]=[{original: 14,to: 14+12}];
-	let insData: InsBeat[]=fillIns(insEmpty,riff,insEmpty,0,128-1,progression,[{original: 0,to: 1}],pitchReplacement);
+	//let trackRep:NumReplacement[]=[{original: 1,to: 5},{original: 2,to: 6},{original: 3,to: 7}];
+	let pitchReplacement:NumReplacement[]=[];//[{original: 14,to: 14+12}];
+	let insData: InsBeat[]=fillGuitar(insEmpty,strumBody,insEmpty,0,256-1,progression,1);
 	//let p1: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,0,16-1,progression,trackRep);
 	//let p2: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,16,32-1,progression,trackRep);
 	//let p3: InsBeat[]=fillIns(strumStart,strumBody,strumEnd,32,64-1,progression,trackRep);
 	//let insData: InsBeat[]=[];//fillIns(strumStart,strumBody,strumEnd,16,48-1);
 	//for(var i=0;i<p1.length;i++){insData.push(p1[i]);}for(var i=0;i<p2.length;i++){insData.push(p2[i]);}for(var i=0;i<p3.length;i++){insData.push(p3[i]);}
     var insVolumes = [7, 5, 4, 7, 4, 7, 3, 7];//dist,accguit,percorg,palm,piano,bass,string,synth
-    var drumVolumes = [7, 4, 6, 4, 6, 6, 6, 6];//bass,low,snare,mid,closed,open,ride,splash
+    var drumVolumes = [4, 4, 6, 4, 6, 6, 6, 6];//bass,low,snare,mid,closed,open,ride,splash
     var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
     let url = (window as any).encodeRiffURL(tempo, drumData, insData, drumVolumes, insVolumes, eqVolumes);
     window.open(url);
 }
 document.getElementById('test4').onclick = test4;
-
+//console.log(chrodKeysByName('Em'));
+//console.log(chrodKeysByName('E7'));
+//console.log(Strings6);
 
 /*
 for (var i = 0; i < chordfrets.length; i++) {
