@@ -1,3 +1,18 @@
+function pitch2string(pitch:number,chordName: string, chordfrets: FretKeys[]): number{
+	for (var i = 0; i < chordfrets.length; i++) {
+		if (chordfrets[i].name == chordName) {
+			var selfrets = chordfrets[i].frets[0];
+			for (var t = 0; t < selfrets.length; t++) {
+				if (selfrets[t] > -1) {
+					if(pitch==Strings6[t] + selfrets[t] - 12){
+						return t;
+					}
+				}
+			}
+		}
+	}
+	return -1;
+}
 function chordKeysByName(chordName: string, chordfrets: FretKeys[]): number[]{
 	for (var i = 0; i < chordfrets.length; i++) {
 		if (chordfrets[i].name == chordName) {

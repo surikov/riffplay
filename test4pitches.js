@@ -1,3 +1,10 @@
+var scaleModeIonian = 'Ionian';
+var scaleModeDorian = 'Dorian';
+var scaleModePhrygian = 'Phrygian';
+var scaleModeLydian = 'Lydian';
+var scaleModeMixolydian = 'Mixolydian';
+var scaleModeAeolian = 'Aeolian';
+var scaleModeLocrian = 'Locrian';
 var chordPitches = [
     { name: '', pitches: [4, 7] },
     { name: '5', pitches: [7, 12] },
@@ -43,3 +50,51 @@ var chordPitches = [
     { name: 'sus2', pitches: [2, 7] },
     { name: 'sus4', pitches: [5, 7] }
 ];
+var scaleModes = [
+    { name: scaleModeIonian, pitches: [2, 2, 1, 2, 2, 2, 1] },
+    { name: scaleModeDorian, pitches: [2, 1, 2, 2, 2, 1, 2] },
+    { name: scaleModePhrygian, pitches: [1, 2, 2, 2, 1, 2, 2] },
+    { name: scaleModeLydian, pitches: [2, 2, 2, 1, 2, 2, 1] },
+    { name: scaleModeMixolydian, pitches: [2, 2, 1, 2, 2, 1, 2] },
+    { name: scaleModeAeolian, pitches: [2, 1, 2, 2, 1, 2, 2] },
+    { name: scaleModeLocrian, pitches: [1, 2, 2, 1, 2, 2, 2] }
+];
+function findScaleMode(name) {
+    if (name == scaleModeIonian)
+        return scaleModes[0].pitches;
+    if (name == scaleModeDorian)
+        return scaleModes[1].pitches;
+    if (name == scaleModePhrygian)
+        return scaleModes[2].pitches;
+    if (name == scaleModeLydian)
+        return scaleModes[3].pitches;
+    if (name == scaleModeMixolydian)
+        return scaleModes[4].pitches;
+    if (name == scaleModeAeolian)
+        return scaleModes[5].pitches;
+    if (name == scaleModeLocrian)
+        return scaleModes[6].pitches;
+    return [];
+}
+function pitch2scaleStep(scaleName, root, pitch) {
+    var pitches = findScaleMode(scaleName);
+    var baseRoot = root % 12;
+    var basePitch = (pitch - root) % 12;
+    var curPitch = 0;
+    for (var i = 0; i < pitches.length; i++) {
+        if (basePitch <= curPitch) {
+            return i;
+        }
+        curPitch = curPitch + pitches[i];
+    }
+    return -1;
+}
+function convertPitchByChord(fromChordName, pitch, toChordName) {
+    var string = pitch2string(pitch, fromChordName, chordfrets);
+    if (string > -1) {
+        //let progChordName=findProgChordInStep(step,progression);
+        var progChordKeys = chordKeysByName(toChordName, chordfrets);
+        return progChordKeys[string];
+    }
+    return -1;
+}

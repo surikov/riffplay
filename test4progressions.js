@@ -5,7 +5,7 @@ function progressionLen(progression) {
     }
     return c;
 }
-function findChord(step, progression) {
+function findProgChordInStep(step, progression) {
     var cu = 0;
     for (var i = 0; i < progression.length; i++) {
         cu = cu + progression[i].duration;
@@ -14,6 +14,30 @@ function findChord(step, progression) {
         }
     }
     return '';
+}
+function _________________________________findProgPitchByChord(chordName, pitch, step, progression) {
+    var string = pitch2string(pitch, chordName, chordfrets);
+    if (string > -1) {
+        var progChordName = findProgChordInStep(step, progression);
+        var progChordKeys = chordKeysByName(progChordName, chordfrets);
+        return progChordKeys[string];
+    }
+    return -1;
+    /*let progChordName=findProgChordInStep(step,progression);
+    let progChordKeys=chordKeysByName(progChordName,chordfrets);
+    let chordKeys=chordKeysByName(chordName,chordfrets);
+    let string=-1;
+    for(var i=0;i<chordKeys.length;i++){
+        if(chordKeys[i]==pitch){
+            string=i;
+            break;
+        }
+    }
+    var progPitch=-1;
+    if(string>=0){
+        progPitch=progChordKeys[string];
+    }
+    return progPitch;*/
 }
 var progressionChords = [
     ['Am', 'B', 'Gm'],

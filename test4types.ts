@@ -48,22 +48,22 @@ type FretKeys = {
 	frets: number[][];
 }
 type ChordSegment = {
-    chord: string,
-    duration: number
+	chord: string,
+	duration: number
 };
 
-type DrumPattern={
+type DrumPattern = {
 	beats: DrumBeat[],
-    duration: number
+	duration: number
 };
-type InsPattern={
+type InsPattern = {
 	beats: InsBeat[],
-    duration: number
-	,chordName:string
+	duration: number,
+	chordName: string
 };
-type NumReplacement={
+type NumReplacement = {
 	original: number,
-    to: number
+	to: number
 };
 function pianoKeysByName(chordName: string): number[]{
 	let r: number[] = [];
