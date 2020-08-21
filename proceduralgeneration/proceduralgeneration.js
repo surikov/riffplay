@@ -104,8 +104,11 @@ function pianoKeysByName(chordName, chordPitches) {
 }
 //
 var beatsdefs = [
-    { category: '', name: '', len16: 16 * 2, encoded: '00010105020f03054010411042104310a011a111a211a311' },
-    { category: '', name: '', len16: 16, encoded: '0001010540104110a011a111' }
+    {
+        category: '', name: '',
+        start: { len16: 8 * 2, encoded: '0001010540104110a011a111' },
+        end: { len16: 8 * 2, encoded: '0089010440104175a011a111' }
+    }
 ];
 var chordPitches = [];
 var chordfrets = [];
@@ -120,52 +123,87 @@ function parseDrumStep(data: number) {
     if ((data | parseInt('01000000', 2)) == data) return 6;
     return 7;
 }*/
-function beat16(measureCount) {
-    var encoded = beatsdefs[0].encoded;
-    var len16 = beatsdefs[0].len16;
-    var cnt = encoded.length / 4;
-    var beatdrum = [];
-    for (var i = 0; i < cnt; i++) {
-        var key = parseInt(encoded.substring(i * 4, i * 4 + 2), 16);
-        var data = parseInt(encoded.substring(i * 4 + 2, i * 4 + 4), 16);
+function beatFill(chords, beatDefinition) {
+    //let encodedstart = beatDefinition.start.encoded
+    //let len16 = beatDefinition.start.len16;
+    //var cnt = encodedstart.length / 4;
+    var b = [];
+    for (var i = 0; i < beatDefinition.start.encoded.length / 4; i++) {
+        var key = parseInt(beatDefinition.start.encoded.substring(i * 4, i * 4 + 2), 16);
+        var data = parseInt(beatDefinition.start.encoded.substring(i * 4 + 2, i * 4 + 4), 16);
         var drum = key >> 5;
         var i32 = key & parseInt('11111', 2);
-        //var nn = i32 * 8 + parseDrumStep(data);
-        //console.log(i, drum, nn);
-        //beatdrum.push({ drum: drum, beat: nn });
         if ((data | parseInt('00000001', 2)) == data)
-            beatdrum.push({ drum: drum, beat: i32 * 8 + 0 });
+            b.push({ drum: drum, beat: i32 * 8 + 0 });
         if ((data | parseInt('00000010', 2)) == data)
-            beatdrum.push({ drum: drum, beat: i32 * 8 + 1 });
+            b.push({ drum: drum, beat: i32 * 8 + 1 });
         if ((data | parseInt('00000100', 2)) == data)
-            beatdrum.push({ drum: drum, beat: i32 * 8 + 2 });
+            b.push({ drum: drum, beat: i32 * 8 + 2 });
         if ((data | parseInt('00001000', 2)) == data)
-            beatdrum.push({ drum: drum, beat: i32 * 8 + 3 });
+            b.push({ drum: drum, beat: i32 * 8 + 3 });
         if ((data | parseInt('00010000', 2)) == data)
-            beatdrum.push({ drum: drum, beat: i32 * 8 + 4 });
+            b.push({ drum: drum, beat: i32 * 8 + 4 });
         if ((data | parseInt('00100000', 2)) == data)
-            beatdrum.push({ drum: drum, beat: i32 * 8 + 5 });
+            b.push({ drum: drum, beat: i32 * 8 + 5 });
         if ((data | parseInt('01000000', 2)) == data)
-            beatdrum.push({ drum: drum, beat: i32 * 8 + 6 });
+            b.push({ drum: drum, beat: i32 * 8 + 6 });
         if ((data | parseInt('10000000', 2)) == data)
-            beatdrum.push({ drum: drum, beat: i32 * 8 + 7 });
+            b.push({ drum: drum, beat: i32 * 8 + 7 });
     }
-    console.log(len16, beatdrum);
-    var n = 0;
+    var startbeatdrum = b;
+    b = [];
+    for (var i = 0; i < beatDefinition.end.encoded.length / 4; i++) {
+        var key = parseInt(beatDefinition.end.encoded.substring(i * 4, i * 4 + 2), 16);
+        var data = parseInt(beatDefinition.end.encoded.substring(i * 4 + 2, i * 4 + 4), 16);
+        var drum = key >> 5;
+        var i32 = key & parseInt('11111', 2);
+        if ((data | parseInt('00000001', 2)) == data)
+            b.push({ drum: drum, beat: i32 * 8 + 0 });
+        if ((data | parseInt('00000010', 2)) == data)
+            b.push({ drum: drum, beat: i32 * 8 + 1 });
+        if ((data | parseInt('00000100', 2)) == data)
+            b.push({ drum: drum, beat: i32 * 8 + 2 });
+        if ((data | parseInt('00001000', 2)) == data)
+            b.push({ drum: drum, beat: i32 * 8 + 3 });
+        if ((data | parseInt('00010000', 2)) == data)
+            b.push({ drum: drum, beat: i32 * 8 + 4 });
+        if ((data | parseInt('00100000', 2)) == data)
+            b.push({ drum: drum, beat: i32 * 8 + 5 });
+        if ((data | parseInt('01000000', 2)) == data)
+            b.push({ drum: drum, beat: i32 * 8 + 6 });
+        if ((data | parseInt('10000000', 2)) == data)
+            b.push({ drum: drum, beat: i32 * 8 + 7 });
+    }
+    var endbeatdrum = b;
+    var step = 0;
     var beats = [];
-    for (var i_1 = 0; i_1 < measureCount * 16; i_1++) {
-        /*beats.push({ drum: 0, beat: i * 16 + 0 });
-        beats.push({ drum: 2, beat: i * 16 + 4 });
-        beats.push({ drum: 0, beat: i * 16 + 8 });
-        beats.push({ drum: 2, beat: i * 16 + 12 });*/
-        for (var k = 0; k < beatdrum.length; k++) {
-            if (beatdrum[k].beat == n) {
-                beats.push({ drum: beatdrum[k].drum, beat: i_1 });
+    var chordCurrent = '';
+    for (var i_1 = 0; i_1 < chords.length * 8; i_1++) {
+        if (i_1 < chords.length * 8 - beatDefinition.end.len16) {
+            var chordName = chords[Math.floor(i_1 / 8)];
+            if (chordCurrent != chordName) {
+                step = 0;
+                chordCurrent = chordName;
+            }
+            //console.log(i, step, chords[Math.floor(i / 8)]);
+            for (var k = 0; k < startbeatdrum.length; k++) {
+                if (startbeatdrum[k].beat == step) {
+                    beats.push({ drum: startbeatdrum[k].drum, beat: i_1 });
+                }
+            }
+            step++;
+            if (step >= beatDefinition.start.len16) {
+                step = 0;
             }
         }
-        n++;
-        if (n >= len16)
-            n = 0;
+        else {
+            var r = i_1 - (chords.length * 8 - beatDefinition.end.len16);
+            for (var k = 0; k < endbeatdrum.length; k++) {
+                if (endbeatdrum[k].beat == r) {
+                    beats.push({ drum: endbeatdrum[k].drum, beat: i_1 });
+                }
+            }
+        }
     }
     return beats;
 }
@@ -180,12 +218,12 @@ function composeViola(chords, chordPitches) {
             beats.push({
                 track: 6,
                 beat: nn,
-                length: 16,
+                length: 8,
                 shift: 0,
                 pitch: pitches[k]
             });
         }
-        nn = nn + 16;
+        nn = nn + 8;
     }
     return beats;
 }
@@ -201,13 +239,13 @@ function composeGuitar(chords) {
                 beats.push({
                     track: 1,
                     beat: nn,
-                    length: 16,
+                    length: 8,
                     shift: 0,
                     pitch: pitches[k]
                 });
             }
         }
-        nn = nn + 16;
+        nn = nn + 8;
     }
     return beats;
 }
@@ -215,7 +253,7 @@ var prgrsn = [];
 function composeURL() {
     var progression = prgrsn[0];
     var tempo = 120;
-    var drumData = beat16(progression.chords.length);
+    var drumData = beatFill(progression.chords, beatsdefs[0]);
     var gitData = composeGuitar(progression.chords);
     var viData = composeViola(progression.chords, chordPitches);
     var drumVolumes = [4, 4, 6, 4, 6, 6, 6, 6];
