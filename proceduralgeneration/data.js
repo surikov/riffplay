@@ -334,6 +334,7 @@ var chordfretsData = [
 	{ name: "Dmmaj7b5", pitch: 2, frets: [-1, -1, 0, 1, 2, 1] },
 	{ name: "Dmmaj9", pitch: 2, frets: [-1, 5, 3, 6, 5, 0] },
 	{ name: "Dsus2", pitch: 2, frets: [-1, -1, 0, 2, 3, 0] },
+	{ name: "Dsus6", pitch: 2, frets: [-1, -1, 0, 0, 0, 3] },
 	{ name: "E13", pitch: 4, frets: [0, 2, 0, 1, 2, 0] },
 	{ name: "E6", pitch: 4, frets: [0, 2, 2, 1, 2, 0] },
 	{ name: "E11", pitch: 4, frets: [0, 0, 0, 1, 0, 0] },
@@ -535,13 +536,259 @@ var chordfretsData = [
 	{ name: "Gmmaj9", pitch: 7, frets: [3, 0, 0, 3, 3, 2] },
 	{ name: "Gsus4", pitch: 7, frets: [3, 3, 0, 0, 1, 3] }
 ];
+let prlist=[
+	{ category: 'jazz', name: '', chords: 'C-D7-F-C' }
+	,{ category: 'jazz', name: '', chords: 'C-F-G-G7' }
+	,{ category: 'jazz', name: '', chords: 'C-Am-E-G' }
+	,{ category: 'jazz', name: '', chords: 'C-Gm-Dm' }
+	,{ category: 'jazz', name: '', chords: 'Am-G-D' }
+	,{ category: 'blues', name: '', chords: 'Am-G-D-F' }
+	,{ category: 'sad', name: '', chords: 'C-Am-F-G' }
+	,{ category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' }
+	,{ category: 'epic', name: '', chords: 'C-G-Am-F' }
+	,{ category: 'nice', name: '', chords: 'Am-Dm-F-G' }
+	,{ category: 'nice', name: '', chords: 'Am-G-Em-F' }
+	,{ category: 'nice', name: '', chords: 'F-Am-G' }
+	,{ category: 'nice', name: '', chords: 'Am-G-Dm7' }
+	,{ category: 'nice', name: '', chords: 'Dm-Am-C-G' }
+	,{ category: 'nice', name: '', chords: 'Am-Em-G-Dm' }
+	,{ category: 'nice', name: '', chords: 'C-F-G-Am' }
+	,{ category: 'nice', name: '', chords: 'Am7-Em7-Dsus4-Dm7' }
+	,{ category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' }
+	,{ category: 'sad', name: '', chords: 'Am-B-Gm' }
+	,{ category: 'sad', name: '', chords: 'F-Em7-Am-G' }
+	,{ category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' }
+	,{ category: 'sad', name: '', chords: 'Am-F7-G-Em-F-G' }
+	,{ category: 'sad', name: '', chords: 'Dm-F-Am-G' }
+	,{ category: 'sad', name: '', chords: 'Am-G-C-F-E-E7' }
+	,{ category: 'sad', name: '', chords: 'Am-Dsus6-Dm-F-G-Dm7' }
+	,{ category: 'sad', name: '', chords: 'Am7-F7-G-Em7' }
+	,{ category: 'major', name: '', chords: 'C-Dm-Am7-F-G-C' }
+	,{ category: 'major', name: '', chords: 'C-Am-F' }
+	,{ category: 'major', name: '', chords: 'D-A-C-G' }
+	,{ category: 'major', name: '', chords: 'Am-F-C-G' }
+	,{ category: 'major', name: '', chords: 'C-Dm-F-G' }
+	,{ category: 'major', name: '', chords: 'F-Am-G-D' }
+	,{ category: 'major', name: '', chords: 'C-G-F-G-C' }
+	,{ category: 'major', name: '', chords: 'C-Am-Em-F' }
+];
+let prgrsnData = [];
+for(var i=0;i<prlist.length;i++){
+	var p=prlist[i];
+	var arr=p.chords.split('-');
+	//console.log(arr);
+	var chordsProg=[];
+	if(arr.length==3){
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[2]);
+		chordsProg.push(arr[2]);
+	}
+	if(arr.length==4){
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[2]);
+		chordsProg.push(arr[2]);
+		chordsProg.push(arr[3]);
+		chordsProg.push(arr[3]);
+	}
+	if(arr.length==5){
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[2]);
+		chordsProg.push(arr[2]);
+		chordsProg.push(arr[3]);
+		chordsProg.push(arr[4]);
+	}
+	if(arr.length==6){
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[2]);
+		chordsProg.push(arr[3]);
+		chordsProg.push(arr[3]);
+		chordsProg.push(arr[4]);
+		chordsProg.push(arr[5]);
+	}
+	if(arr.length==7){
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[2]);
+		chordsProg.push(arr[3]);
+		chordsProg.push(arr[4]);
+		chordsProg.push(arr[5]);
+		chordsProg.push(arr[6]);
+		chordsProg.push(arr[6]);
+	}
+	if(arr.length==8){
+		chordsProg.push(arr[0]);
+		chordsProg.push(arr[1]);
+		chordsProg.push(arr[2]);
+		chordsProg.push(arr[3]);
+		chordsProg.push(arr[4]);
+		chordsProg.push(arr[5]);
+		chordsProg.push(arr[6]);
+		chordsProg.push(arr[7]);
+	}
+	prgrsnData.push({ category: p.category, name: p.name, chords: chordsProg });
+}
+/*
 let prgrsnData = [
-	{ category: 'nice', name: '?', chords: ['Am', 'E7', 'Am', 'Am', 'C', 'G', 'C', 'C', 'Dm', 'Dm', 'Am', 'Am', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7'] }
+	{ category: 'nice', name: '2', chords: ['C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'F', 'F', 'F', 'F', 'F', 'F', 'G', 'Am'] }
+	, { category: 'nice', name: '?', chords: ['Am', 'E7', 'Am', 'Am', 'C', 'G', 'C', 'C', 'Dm', 'Dm', 'Am', 'Am', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7'] }
 	, { category: 'nice', name: '?', chords: ['Am', 'E7', 'Am', 'Am', 'C', 'G', 'C', 'C', 'Dm', 'Dm', 'Am', 'Am', 'E7', 'E7', 'Am', 'Am'] }
 	, { category: 'nice', name: '1', chords: ['Am7', 'Em7', 'Dsus4', 'Dm7'] }
 	, { category: 'nice', name: '2', chords: ['C', 'F', 'G', 'Am'] }
 	, { category: 'nice', name: '3', chords: ['Dm7', 'G7', 'Cmaj7', 'Cmaj7'] }
+];*/
+
+let bassDefData = [
+	{
+		category: '', name: ''
+		, chord: 'C'
+		, start: {
+			len16: 8 * 2
+			, encoded: '005020c40025021840045020c40065021840085020c400a50218400c5020c400e5021840'
+		}
+		, end: {
+			len16: 0
+			, encoded: ''
+		}
+	}
+	,
+	{
+		category: '', name: ''
+		, chord: 'C'
+		, start: {
+			len16: 8 * 2
+			, encoded: '005040c400450210400650213400a5020c400c5021040'
+		}
+		, end: {
+			len16: 0
+			, encoded: ''
+		}
+	}
+	,{
+		category: '', name: ''
+		, chord: 'Am'
+		, start: {
+			len16: 8 * 2
+			, encoded: '005020940025020940045020940065020c400850209400a50209400c50209400e5020740'
+		}
+		, end: {
+			len16: 0
+			, encoded: ''
+		}
+	}
 ];
-chordPitches = chordPitchesDatat;
-chordfrets = chordfretsData;
-prgrsn = prgrsnData;
+let melodydefsData = [
+	{
+		category: '', name: ''
+		, chord: 'E'
+		, start: {
+			len16:0
+			, encoded: ''
+		}
+		, end: {
+			len16: 0
+			, encoded: ''
+		}
+	}
+	,{
+		category: '', name: ''
+		, chord: 'E'
+		, start: {
+			len16: 8 * 4
+
+			, encoded: '0000210400230210400430210400630210400800214400a30210400c30210400e30210401000214401200210401400217401600210401800214401a30210401c30210401e3021040'
+		}
+		, end: {
+			len16: 8 * 2
+			//, chord: 'C'
+			, encoded: '0000210400230210400400214400630210400800217400a30210400c00214400e0021740'
+		}
+	}
+];
+let strumDefsData = [
+	{
+		category: '', name: ''
+		, start: 'V---A-V---A-V-A-'
+		, end: ''
+	}
+	////////////////////////////////
+	,{
+		category: '', name: ''
+		, start: 'V---A-V---A-V-A-'
+		, end: 'X...X...'
+	}, {
+		category: '', name: ''
+		, start: 'VV------------------------------'
+		, end: 'A-'
+	}
+];
+let rhythmDefsData = [
+	{
+		category: '', name: ''
+		, start: ''
+		, end: ''
+	}
+	,{
+		category: '', name: ''
+		, start: 'O---..O---..O-O-'
+		, end: '.OOOOOOO'
+	}
+];
+let beatsDefsData = [
+	{
+		category: '', name: ''
+		, start: { len16: 8 * 2, encoded: '0001014140104110a011a111' }
+		, end: { len16: 0, encoded: '' }
+	}
+	//
+	,{
+		category: '', name: ''
+		, start: { len16: 8 * 2, encoded: '0001014140104110a011a111' }
+		, end: { len16: 0, encoded: '' }
+	},{
+		category: '', name: ''
+		, start: { len16: 8 * 2, encoded: '0011011180448144' }
+		, end: { len16: 0, encoded: '' }
+	}
+	,{
+		category: '', name: ''
+		, start: { len16: 8 * 2, encoded: '008101454010411080558155' }
+		, end: { len16: 0, encoded: '' }
+	}
+	,{
+		category: '', name: ''
+		, start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }
+		, end: { len16: 0, encoded: '' }
+	}
+	,{
+		category: '', name: ''
+		, start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }
+		, end: { len16: 0, encoded: '' }
+	}
+	,{
+		category: '', name: ''
+		, start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }
+		, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' }
+	}
+];
+bassDefs=bassDefData;
+beatsDefs = beatsDefsData;
+rhythmDefs = rhythmDefsData;
+strumDefs = strumDefsData;
+melodyDefs = melodydefsData;
+chordPitchesList = chordPitchesDatat;
+fretPitchesList = chordfretsData;
+progressionsList = prgrsnData;
+//https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=78-76444757-44646666-0d0c0c0a08090d0e090c--000020c40023020c40040021040063020c400800213400a3020c400c00210400e0021340-000000000000000000000000-000000000000000000000000

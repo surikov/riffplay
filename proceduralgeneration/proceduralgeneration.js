@@ -35,6 +35,15 @@ var scaleModeAeolian = 'Aeolian'; //minorA
 //
 var scaleModeLocrian = 'Locrian'; //minorHII-V-;
 //
+var chordPitchesList = [];
+var fretPitchesList = [];
+var progressionsList = [];
+var melodyDefs = [];
+var bassDefs = [];
+var strumDefs = [];
+var rhythmDefs = [];
+var beatsDefs = [];
+//
 var scaleModes = [
     { name: scaleModeIonian, pitches: [2, 2, 1, 2, 2, 2, 1] },
     { name: scaleModeDorian, pitches: [2, 1, 2, 2, 2, 1, 2] },
@@ -195,50 +204,6 @@ function pianoKeysByName(chordName, chordPitches) {
     return r;
 }
 //
-var strumdefs = [
-    {
-        category: '', name: '',
-        start: 'V---A-V---A-V-A-',
-        end: 'X...X...'
-    },
-    {
-        category: '', name: '',
-        start: 'VV------------------------------',
-        end: 'A-'
-    }
-];
-var rhythmdefs = [
-    {
-        category: '', name: '',
-        start: 'O---..O---..O-O-',
-        end: '.OOOOOOO'
-    }
-];
-var beatsdefs = [
-    {
-        category: '', name: '',
-        start: { len16: 8 * 2, encoded: '0001010540104110a011a111' },
-        end: { len16: 8 * 2, encoded: '0089010440104175a011a111' }
-    }
-];
-var melodydefs = [
-    {
-        category: '', name: '',
-        chord: 'E',
-        start: {
-            len16: 8 * 4,
-            encoded: '0000210400230210400430210400630210400800214400a30210400c30210400e30210401000214401200210401400217401600210401800214401a30210401c30210401e3021040'
-        },
-        end: {
-            len16: 8 * 2
-            //, chord: 'C'
-            ,
-            encoded: '0000210400230210400400214400630210400800217400a30210400c00214400e0021740'
-        }
-    }
-];
-var chordPitches = [];
-var chordfrets = [];
 /*
 function parseDrumStep(data: number) {
     if ((data | parseInt('00000001', 2)) == data) return 0;
@@ -385,13 +350,22 @@ function morphPitch(pitch, fromMode, toMode) {
     //let toneDiff=toMode[0]-fromMode[0];
     //let stepDiff=toMode[step]-fromMode[step]
     //let morphed = pitch + (toMode[0] - fromMode[0]) + ((fromMode[step]-fromMode[0]) - (toMode[step]-toMode[0]));
-    var morphed = pitch + (toMode[step] - fromMode[step]);
+    if (toMode[0] >= 4)
+        pitch = pitch - 12; //E
+    var morphed = repitch(pitch + (toMode[step] - fromMode[step]));
     //console.log(pitch, morphed, base, step, toMode, fromMode);
     return morphed;
+}
+function repitch(pitch) {
+    while (pitch < 4) {
+        pitch = pitch + 12;
+    }
+    return pitch;
 }
 function addMelody(at, to, current, melody) {
     //console.log(current.chord,melody.start.chord);
     var toMode = findModePitches(current.chord);
+    //console.log(toMode);
     var fromMode = findModePitches(melody.chord);
     var start = parseMelody(melody.start.encoded);
     var end = parseMelody(melody.end.encoded);
@@ -448,9 +422,10 @@ function composeMelody(chords, melody) {
         addMelody(nn, beats, current, melody);
         nn = nn + current.len16;
     }
+    //console.log(beats);
     return beats;
 }
-function composePianoRhythm(chords, rhythm) {
+function composePianoRhythm(chords, rhythm, chordPitches) {
     var beats = [];
     var part = [];
     var curChord = '';
@@ -460,17 +435,17 @@ function composePianoRhythm(chords, rhythm) {
         }
         else {
             if (part.length > 0) {
-                addPartRhythm((i - part.length) * 8, part[0], part.length * 8, rhythm, beats);
+                addPartRhythm((i - part.length) * 8, part[0], part.length * 8, rhythm, beats, chordPitches);
             }
             part = [];
             curChord = chords[i];
             part.push(chords[i]);
         }
     }
-    addPartRhythm((chords.length - part.length) * 8, part[0], part.length * 8, rhythm, beats);
+    addPartRhythm((chords.length - part.length) * 8, part[0], part.length * 8, rhythm, beats, chordPitches);
     return beats;
 }
-function addPartRhythm(stepshift, chordCurrent, len16, rhythm, beats) {
+function addPartRhythm(stepshift, chordCurrent, len16, rhythm, beats, chordPitches) {
     //console.log(step, chord, len16);
     var step = 0;
     var durationStrum = [];
@@ -534,7 +509,7 @@ function addPartRhythm(stepshift, chordCurrent, len16, rhythm, beats) {
         }
     }
 }
-function composeGuitarStrum(chords, strums) {
+function composeGuitarStrum(chords, strums, chordFrets) {
     var beats = [];
     var part = [];
     var curChord = '';
@@ -546,7 +521,7 @@ function composeGuitarStrum(chords, strums) {
         else {
             if (part.length > 0) {
                 //console.log(':',part.length,curChord,part);
-                addPartGuitar((i - part.length) * 8, part[0], part.length * 8, strums, beats);
+                addPartGuitar((i - part.length) * 8, part[0], part.length * 8, strums, beats, chordFrets);
             }
             part = [];
             curChord = chords[i];
@@ -554,10 +529,10 @@ function composeGuitarStrum(chords, strums) {
         }
     }
     //console.log(':',part.length,curChord,part);
-    addPartGuitar((chords.length - part.length) * 8, part[0], part.length * 8, strums, beats);
+    addPartGuitar((chords.length - part.length) * 8, part[0], part.length * 8, strums, beats, chordFrets);
     return beats;
 }
-function addPartGuitar(stepshift, chordCurrent, len16, strums, beats) {
+function addPartGuitar(stepshift, chordCurrent, len16, strums, beats, chordfrets) {
     //console.log(step, chord, len16);
     var step = 0;
     var durationStrum = [];
@@ -638,27 +613,44 @@ function parseMelody(encoded) {
     }
     return beats;
 }
-var prgrsn = [];
-function composeURL() {
-    var progression = prgrsn[0];
+function composeURL(chordPitches, chordfrets) {
+    var progression = progressionsList[0];
     var tempo = 120;
-    var drumData = beatFill(progression.chords, beatsdefs[0]);
-    var gitStrumData = composeGuitarStrum(progression.chords, strumdefs[0]);
-    var pianoRhythmData = composePianoRhythm(progression.chords, rhythmdefs[0]);
-    var melodyData = composeMelody(progression.chords, melodydefs[0]);
-    var viData = composeViola(progression.chords, chordPitches);
+    var drumData = beatFill(progression.chords, beatsDefs[0]);
+    //let gitStrumData: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[0],chordfrets);
+    //let pianoRhythmData: InsBeat[] = composePianoRhythm(progression.chords, rhythmDefs[0],chordPitches);
+    //let melodyData: InsBeat[] = composeMelody(progression.chords, melodyDefs[0]);
+    //let viData: InsBeat[] = composeViola(progression.chords, chordPitches);
+    var tracksData = [];
+    if (strumDefs[0].start.length) {
+        var t = composeGuitarStrum(progression.chords, strumDefs[0], chordfrets);
+        tracksData = tracksData.concat(t);
+    }
+    if (rhythmDefs[0].start.length) {
+        var t = composePianoRhythm(progression.chords, rhythmDefs[0], chordPitches);
+        tracksData = tracksData.concat(t);
+    }
+    if (melodyDefs[0].start.len16) {
+        var t = composeMelody(progression.chords, melodyDefs[0]);
+        tracksData = tracksData.concat(t);
+    }
+    if (bassDefs[0].start.len16) {
+        var t = composeMelody(progression.chords, bassDefs[0]);
+        tracksData = tracksData.concat(t);
+    }
     //console.log(parseMelody(melodydefs[0].start.encoded));
     var drumVolumes = [4, 4, 6, 4, 6, 6, 6, 6];
     var insVolumes = [7, 6, 4, 7, 4, 7, 5, 7];
     var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
-    var url = window.encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
+    //let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
+    var url = window.encodeRiffURL(tempo, drumData, tracksData, drumVolumes, insVolumes, eqVolumes);
     window.open(url);
 }
 //
 function initApp() {
     console.log('initApp');
-    console.log(chordPitches, chordPitches);
-    composeURL();
+    //console.log(chordPitches, chordPitches);
+    composeURL(chordPitchesList, fretPitchesList);
 }
 document.getElementById('proceduralgeneration').onclick = initApp;
 console.log('proceduralgeneration v1.01');
