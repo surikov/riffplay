@@ -536,7 +536,7 @@ var chordfretsData = [
 	{ name: "Gsus4", pitch: 7, frets: [3, 3, 0, 0, 1, 3] }
 ];
 let prgrsnData = [
-	{ category: 'nice', name: '?', chords: ['Am', 'E7', 'Am', 'Am', 'C', 'G', 'C', 'C', 'Dm', 'Dm', 'Am', 'Am', 'E7', 'E7', 'Am', 'Am'] }
+	{ category: 'nice', name: '?', chords: ['Am', 'E7', 'Am', 'Am', 'C', 'G', 'C', 'C', 'Dm', 'Dm', 'Am', 'Am', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7', 'E7'] }
 	, { category: 'nice', name: '?', chords: ['Am', 'E7', 'Am', 'Am', 'C', 'G', 'C', 'C', 'Dm', 'Dm', 'Am', 'Am', 'E7', 'E7', 'Am', 'Am'] }
 	, { category: 'nice', name: '1', chords: ['Am7', 'Em7', 'Dsus4', 'Dm7'] }
 	, { category: 'nice', name: '2', chords: ['C', 'F', 'G', 'Am'] }

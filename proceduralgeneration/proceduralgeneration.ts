@@ -26,6 +26,15 @@ let BassGuitar = 5; //11
 let StringEnsemble = 6; //6
 let SynthBass = 7; //8
 //
+let scaleModeIonian = 'Ionian';//majorC
+let scaleModeDorian = 'Dorian';//minorDVI+
+let scaleModePhrygian = 'Phrygian';//minorEII-
+let scaleModeLydian = 'Lydian';//majorFIV+
+let scaleModeMixolydian = 'Mixolydian';//majorGVII-
+let scaleModeAeolian = 'Aeolian';//minorA
+//
+let scaleModeLocrian = 'Locrian'//minorHII-V-;
+//
 type InsBeat = {
 	track: number,
 	beat: number,
@@ -49,6 +58,9 @@ type FretKeys = {
 type Progression = {
 	category: string, name: string, chords: string[]
 };
+type ChordDuration = {
+	chord: string, len16: number
+};
 type BeatDefinition = {
 	category: string
 	, name: string
@@ -61,13 +73,108 @@ type BeatDefinition = {
 		, encoded: string
 	}
 };
+type RhythmDefinition = {
+	category: string
+	, name: string
+	, start: string
+	, end: string
+};
 type StrumDefinition = {
 	category: string
 	, name: string
 	, start: string
 	, end: string
 };
+type MelodyDefinition = {
+	category: string
+	, name: string
+	, chord: string
+	, start: {
+		len16: number
+		
+		, encoded: string
+	}
+	, end: {
+		len16: number
+		
+		, encoded: string
+	}
+};
 //
+let scaleModes: ChordPitches[] = [
+	{ name: scaleModeIonian, pitches: [2, 2, 1, 2, 2, 2, 1] }
+	, { name: scaleModeDorian, pitches: [2, 1, 2, 2, 2, 1, 2] }
+	, { name: scaleModePhrygian, pitches: [1, 2, 2, 2, 1, 2, 2] }
+	, { name: scaleModeLydian, pitches: [2, 2, 2, 1, 2, 2, 1] }
+	, { name: scaleModeMixolydian, pitches: [2, 2, 1, 2, 2, 1, 2] }
+	, { name: scaleModeAeolian, pitches: [2, 1, 2, 2, 1, 2, 2] }
+	, { name: scaleModeLocrian, pitches: [1, 2, 2, 1, 2, 2, 2] }
+];
+function findScaleMode(name: string): number[] {
+	if (name == scaleModeIonian) return scaleModes[0].pitches;
+	if (name == scaleModeDorian) return scaleModes[1].pitches;
+	if (name == scaleModePhrygian) return scaleModes[2].pitches;
+	if (name == scaleModeLydian) return scaleModes[3].pitches;
+	if (name == scaleModeMixolydian) return scaleModes[4].pitches;
+	if (name == scaleModeAeolian) return scaleModes[5].pitches;
+	if (name == scaleModeLocrian) return scaleModes[6].pitches;
+	return [];
+}
+function findModePitches(chordName: string): number[] {
+	let nameLen = 1;
+	let steps: number[] = [];
+	let root = -1;
+	let a = chordName.substr(0, 1);
+	if (a == 'C') {
+		root = 0;
+	}
+	if (a == 'D') {
+		root = 2;
+	}
+	if (a == 'E') {
+		root = 4;
+	}
+	if (a == 'F') {
+		root = 5;
+	}
+	if (a == 'G') {
+		root = 7;
+	}
+	if (a == 'A') {
+		root = 9;
+	}
+	if (a == 'B') {
+		root = 11;
+	}
+	if (chordName.substr(1, 1) == '#') {
+		root++;
+		nameLen++;
+	} else {
+		if (chordName.substr(1, 1) == 'b') {
+			root--;
+			nameLen++;
+			if (root < 0) {
+				root = root + 12;
+			}
+		}
+	}
+	if ((chordName.substr(1, 1) == 'b') || (chordName.substr(1, 1) == '#')) {
+		nameLen = 2;
+	}
+	if (chordName.substr(nameLen, 1) == 'm' && (chordName.substr(nameLen, 3) != 'maj')) {
+		steps = findScaleMode(scaleModeAeolian);
+	} else {
+		steps = findScaleMode(scaleModeIonian);
+	}
+	let pitches: number[] = [root];
+	pitches.push(pitches[pitches.length - 1] + steps[0]);
+	pitches.push(pitches[pitches.length - 1] + steps[1]);
+	pitches.push(pitches[pitches.length - 1] + steps[2]);
+	pitches.push(pitches[pitches.length - 1] + steps[3]);
+	pitches.push(pitches[pitches.length - 1] + steps[4]);
+	pitches.push(pitches[pitches.length - 1] + steps[5]);
+	return pitches;
+}
 function findFretKeysByName(name: string, chordfrets: FretKeys[]): FretKeys | null {
 	for (let i = 0; i < chordfrets.length; i++) {
 		let cf = chordfrets[i];
@@ -147,19 +254,44 @@ function pianoKeysByName(chordName: string, chordPitches: ChordPitches[]): numbe
 let strumdefs: StrumDefinition[] = [
 	{
 		category: '', name: ''
+		, start: 'V---A-V---A-V-A-'
+		, end: 'X...X...'
+	}
+	, {
+		category: '', name: ''
 		, start: 'VV------------------------------'
 		, end: 'A-'
-	}, {
-		category: '', name: ''
-		, start: 'V---A-V---A-V-A-'
-		, end: 'X...X...V-A-V-A-'
 	}
 ];
+let rhythmdefs: RhythmDefinition[] = [
+	{
+		category: '', name: ''
+		, start: 'O---..O---..O-O-'
+		, end: '.OOOOOOO'
+	}
+];
+
 let beatsdefs: BeatDefinition[] = [
 	{
 		category: '', name: ''
 		, start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }
 		, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' }
+	}
+];
+let melodydefs: MelodyDefinition[] = [
+	{
+		category: '', name: ''
+		, chord: 'E'
+		, start: {
+			len16: 8 * 4
+			
+			, encoded: '0000210400230210400430210400630210400800214400a30210400c30210400e30210401000214401200210401400217401600210401800214401a30210401c30210401e3021040'
+		}
+		, end: {
+			len16: 8 * 2
+			//, chord: 'C'
+			, encoded: '0000210400230210400400214400630210400800217400a30210400c00214400e0021740'
+		}
 	}
 ];
 
@@ -241,46 +373,207 @@ function beatFill(chords: string[], beatDefinition: BeatDefinition): DrumBeat[] 
 	}
 	return beats;
 }
+function addViola(at: number, to: InsBeat[], current: ChordDuration, chordPitches: ChordPitches[]) {
+	let pitches = pianoKeysByName(current.chord, chordPitches);
+	for (let k = 0; k < pitches.length; k++) {
+		to.push({
+			track: 6,
+			beat: at,
+			length: current.len16,
+			shift: 0,
+			pitch: pitches[k]
+		});
+	}
+}
 function composeViola(chords: string[], chordPitches: ChordPitches[]): InsBeat[] {
 	let beats: InsBeat[] = [];
+	let durations: ChordDuration[] = chordDurations(chords);
 	let nn = 0;
-	for (let i = 0; i < chords.length; i++) {
-		let chord = chords[i];
-		let pitches = pianoKeysByName(chord, chordPitches);
-		for (let k = 0; k < pitches.length; k++) {
-			let pitch = pitches[k];
-
-			beats.push({
-				track: 6,
-				beat: nn,
-				length: 8,
-				shift: 0,
-				pitch: pitches[k]
-			});
-
-		}
-		nn = nn + 8;
+	for (let i = 0; i < durations.length; i++) {
+		let current: ChordDuration = durations[i];
+		addViola(nn, beats, current, chordPitches);
+		nn = nn + current.len16;
 	}
 	return beats;
 }
-function composeGuitar(chords: string[], strums: StrumDefinition): InsBeat[] {
-	let beats: InsBeat[] = [];
-	/*let chordDuration: { chord: string, len16: number }[] = [];
+function chordDurations(chords: string[]): ChordDuration[] {
+	let durations: { len16: number, chord: string }[] = [];
 	let curChord = '';
 	for (let i = 0; i < chords.length; i++) {
-		//console.log(i,chords[i],curChord,chordDuration);
 		if (chords[i] == curChord) {
-			chordDuration[chordDuration.length - 1].len16 = chordDuration[chordDuration.length - 1].len16 + 8;
+			if (durations.length > 0) {
+				durations[durations.length - 1].len16 = durations[durations.length - 1].len16 + 8;
+			}
 		} else {
+			durations.push({ len16: 8, chord: chords[i] });
 			curChord = chords[i];
-			chordDuration.push({ chord: curChord, len16: 8 });
 		}
 	}
-	var strumStep=0;
-	var progressStep=0;
-	for(let i=0;i<chordDuration.length;i++){
-		var a=composeGuitar2('',strums);
-	}*/
+	return durations;
+
+}
+function morphPitch(pitch: number, fromMode: number[], toMode: number[]): number {
+	let base = (pitch + 12 - fromMode[0]) % 12;
+	let step = 0;
+	for (let i = 0; i < fromMode.length; i++) {
+		if (fromMode[i] > base + fromMode[0]) {
+			break;
+		}
+		step = i;
+	}
+	//let toneDiff=toMode[0]-fromMode[0];
+	//let stepDiff=toMode[step]-fromMode[step]
+	//let morphed = pitch + (toMode[0] - fromMode[0]) + ((fromMode[step]-fromMode[0]) - (toMode[step]-toMode[0]));
+	let morphed = pitch + (toMode[step] - fromMode[step])
+	//console.log(pitch, morphed, base, step, toMode, fromMode);
+	return morphed;
+}
+function addMelody(at: number, to: InsBeat[], current: ChordDuration, melody: MelodyDefinition) {
+	//console.log(current.chord,melody.start.chord);
+	let toMode: number[] = findModePitches(current.chord);
+	let fromMode: number[] = findModePitches(melody.chord);
+	let start: InsBeat[] = parseMelody(melody.start.encoded);
+	let end: InsBeat[] = parseMelody(melody.end.encoded);
+	let step=0;
+	for (let i = 0; i < current.len16; i++) {
+		if ((i < current.len16 - melody.end.len16) || (melody.end.len16 >= current.len16)) {
+			for (let k = 0; k < start.length; k++) {
+				let note = start[k];
+				if (note.beat == step) {
+					let len16 = note.length;
+					if (note.beat + len16 >= start.length) {
+						len16 = start.length - note.beat;
+					}
+					to.push({
+						track: note.track
+						, beat: at + i
+						, length: note.length
+						, shift: note.shift
+						, pitch: morphPitch(note.pitch, fromMode, toMode)
+					});
+				}
+			}
+			step++;
+			if(step>=melody.start.len16){
+				step=0;
+			}
+		}else{
+			for (let k = 0; k < end.length; k++) {
+				let note = end[k];
+				if (note.beat == i - (current.len16 - melody.end.len16)) {
+					let len16 = note.length;
+					if (note.beat + len16 >= end.length) {
+						len16 = end.length - note.beat;
+					}
+					to.push({
+						track: note.track
+						, beat: at + i
+						, length: note.length
+						, shift: note.shift
+						, pitch: morphPitch(note.pitch, fromMode, toMode)
+					});
+				}
+			}
+		}
+	}
+}
+function composeMelody(chords: string[], melody: MelodyDefinition): InsBeat[] {
+	let beats: InsBeat[] = [];
+	let durations: ChordDuration[] = chordDurations(chords);
+	let nn = 0;
+	for (let i = 0; i < durations.length; i++) {
+		let current: ChordDuration = durations[i];
+		addMelody(nn, beats, current, melody);
+		nn = nn + current.len16;
+	}
+	return beats;
+}
+
+function composePianoRhythm(chords: string[], rhythm: RhythmDefinition): InsBeat[] {
+	let beats: InsBeat[] = [];
+	var part = [];
+	let curChord = '';
+	for (let i = 0; i < chords.length; i++) {
+		if (chords[i] == curChord) {
+			part.push(chords[i]);
+		} else {
+			if (part.length > 0) {
+				addPartRhythm((i - part.length) * 8, part[0], part.length * 8, rhythm, beats);
+			}
+			part = [];
+			curChord = chords[i];
+			part.push(chords[i]);
+
+		}
+	}
+	addPartRhythm((chords.length - part.length) * 8, part[0], part.length * 8, rhythm, beats);
+	return beats;
+}
+function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, rhythm: StrumDefinition, beats: InsBeat[]) {
+	//console.log(step, chord, len16);
+	let step = 0;
+	var durationStrum: { nn: number, strumKind: string, len16: number, chord: string }[] = [];
+	for (let i = 0; i < len16; i++) {
+		if ((i < len16 - rhythm.end.length) || (rhythm.end.length >= len16)) {
+			let strumKind = rhythm.start.substr(step, 1);
+			if (strumKind == '.') {
+				//
+			} else {
+				if (strumKind == '-') {
+					if (durationStrum.length) {
+						if (durationStrum[durationStrum.length - 1].strumKind != 'X') {
+							durationStrum[durationStrum.length - 1].len16++;
+						}
+					}
+				} else {
+					durationStrum.push({ nn: i, strumKind: strumKind, len16: 1, chord: chordCurrent });
+				}
+			}
+			step++;
+			if (step >= rhythm.start.length) {
+				step = 0;
+			}
+		} else {
+			var r = i - (len16 - rhythm.end.length);
+			let strumKind = rhythm.end.substr(r, 1);
+			if (strumKind == '.') {
+				//
+			} else {
+				if (strumKind == '-') {
+					if (durationStrum.length) {
+
+						durationStrum[durationStrum.length - 1].len16++;
+
+					}
+				} else {
+					durationStrum.push({ nn: i, strumKind: strumKind, len16: 1, chord: chordCurrent });
+				}
+			}
+
+		}
+	}
+	for (let i = 0; i < durationStrum.length; i++) {
+		let b = durationStrum[i];
+		let pitches = pianoKeysByName(b.chord, chordPitches);
+		//let pitches: number[] = findChordPitches(b.chord, chordfrets);
+		for (let k = 0; k < pitches.length; k++) {
+			//if (!(b.strumKind == 'A' && k == 0)) {
+			//if (!(b.strumKind == 'V' && k == pitches.length - 1)) {
+			beats.push({
+				track: 4,
+				beat: stepshift + b.nn,
+				length: b.len16,
+				shift: 0,
+				pitch: pitches[k]
+			});
+			//}
+			//}
+		}
+	}
+}
+function composeGuitarStrum(chords: string[], strums: StrumDefinition): InsBeat[] {
+	let beats: InsBeat[] = [];
+
 	var part = [];
 	let curChord = '';
 
@@ -291,7 +584,7 @@ function composeGuitar(chords: string[], strums: StrumDefinition): InsBeat[] {
 		} else {
 			if (part.length > 0) {
 				//console.log(':',part.length,curChord,part);
-				addPartGuitar((i-part.length) * 8, part[0], part.length * 8, strums,beats);
+				addPartGuitar((i - part.length) * 8, part[0], part.length * 8, strums, beats);
 			}
 			part = [];
 			curChord = chords[i];
@@ -300,15 +593,16 @@ function composeGuitar(chords: string[], strums: StrumDefinition): InsBeat[] {
 		}
 	}
 	//console.log(':',part.length,curChord,part);
-	addPartGuitar((chords.length-part.length) * 8, part[0], part.length * 8, strums,beats);
+	addPartGuitar((chords.length - part.length) * 8, part[0], part.length * 8, strums, beats);
 	return beats;
 }
-function addPartGuitar(stepshift: number, chordCurrent: string, len16: number, strums: StrumDefinition,beats: InsBeat[]) {
+function addPartGuitar(stepshift: number, chordCurrent: string, len16: number, strums: StrumDefinition, beats: InsBeat[]) {
 	//console.log(step, chord, len16);
 	let step = 0;
 	var durationStrum: { nn: number, strumKind: string, len16: number, chord: string }[] = [];
 	for (let i = 0; i < len16; i++) {
-		if (i < len16 - strums.end.length) {
+		//if (i < len16 - strums.end.length) {
+		if ((i < len16 - strums.end.length) || (strums.end.length >= len16)) {
 			let strumKind = strums.start.substr(step, 1);
 			if (strumKind == '.') {
 				//
@@ -354,7 +648,7 @@ function addPartGuitar(stepshift: number, chordCurrent: string, len16: number, s
 				if (!(b.strumKind == 'V' && k == pitches.length - 1)) {
 					beats.push({
 						track: 1,
-						beat: stepshift+b.nn,
+						beat: stepshift + b.nn,
 						length: b.len16,
 						shift: 0,
 						pitch: pitches[k]
@@ -364,89 +658,37 @@ function addPartGuitar(stepshift: number, chordCurrent: string, len16: number, s
 		}
 	}
 }
-/*
-function composeGuitar2(chords: string[], strums: StrumDefinition): InsBeat[] {
-	let step = 0;
-	var chordCurrent = '';
-	var durationStrum: { nn: number, strumKind: string, len16: number, chord: string }[] = [];
-	for (let i = 0; i < chords.length * 8; i++) {
-		if (i < chords.length * 8 - strums.end.length) {
-			var chordName = chords[Math.floor(i / 8)];
-			if (chordCurrent != chordName) {
-				step = 0;
-				chordCurrent = chordName;
-			}
-			//let pitches: number[] = findChordPitches(chordCurrent, chordfrets);
-			//console.log(i, step, chords[Math.floor(i / 8)],strums.start.substr(step,1),pitches);
-			let strumKind = strums.start.substr(step, 1);
-			if (strumKind == '.') {
-				//
-			} else {
-				if (strumKind == '-') {
-					if (durationStrum.length) {
-						if (durationStrum[durationStrum.length - 1].strumKind != 'X') {
-							durationStrum[durationStrum.length - 1].len16++;
-						}
-					}
-				} else {
-					durationStrum.push({ nn: i, strumKind: strumKind, len16: 1, chord: chordCurrent });
-				}
-			}
-			step++;
-			if (step >= strums.start.length) {
-				step = 0;
-			}
-		} else {
-			var r = i - (chords.length * 8 - strums.end.length);
-			let strumKind = strums.end.substr(r, 1);
-			if (strumKind == '.') {
-				//
-			} else {
-				if (strumKind == '-') {
-					if (durationStrum.length) {
-						if (durationStrum[durationStrum.length - 1].strumKind != 'X') {
-							durationStrum[durationStrum.length - 1].len16++;
-						}
-					}
-				} else {
-					durationStrum.push({ nn: i, strumKind: strumKind, len16: 1, chord: chordCurrent });
-				}
-			}
-
-		}
-	}
+function parseMelody(encoded: string): InsBeat[] {
+	//console.log(encoded);
 	let beats: InsBeat[] = [];
-	for (let i = 0; i < durationStrum.length; i++) {
-		let b = durationStrum[i];
-		let pitches: number[] = findChordPitches(b.chord, chordfrets);
-		for (let k = 0; k < pitches.length; k++) {
-			if (!(b.strumKind == 'A' && k == 0)) {
-				if (!(b.strumKind == 'V' && k == pitches.length - 1)) {
-					beats.push({
-						track: 1,
-						beat: b.nn,
-						length: b.len16,
-						shift: 0,
-						pitch: pitches[k]
-					});
-				}
-			}
-		}
+	let cnt = encoded.length / 9;
+	for (var i = 0; i < cnt; i++) {
+		beats.push({
+			track: parseInt(encoded.substring(i * 9 + 2, i * 9 + 2 + 1), 16)
+			, beat: parseInt(encoded.substring(i * 9, i * 9 + 2), 16)
+			, length: parseInt(encoded.substring(i * 9 + 3, i * 9 + 3 + 2), 16)
+			, shift: parseInt(encoded.substring(i * 9 + 7, i * 9 + 7 + 2), 16) - 64
+			, pitch: parseInt(encoded.substring(i * 9 + 5, i * 9 + 5 + 2), 16)
+		});
 	}
-	//console.log(durationStrum, beats);
 	return beats;
-}*/
+}
 let prgrsn: Progression[] = [];
 function composeURL() {
 	let progression: Progression = prgrsn[0];
 	let tempo = 120;
 	let drumData: DrumBeat[] = beatFill(progression.chords, beatsdefs[0]);
-	let gitData: InsBeat[] = composeGuitar(progression.chords, strumdefs[0]);
+	let gitStrumData: InsBeat[] = composeGuitarStrum(progression.chords, strumdefs[0]);
+	let pianoRhythmData: InsBeat[] = composePianoRhythm(progression.chords, rhythmdefs[0]);
+	let melodyData: InsBeat[] = composeMelody(progression.chords, melodydefs[0]);
 	let viData: InsBeat[] = composeViola(progression.chords, chordPitches);
+
+	//console.log(parseMelody(melodydefs[0].start.encoded));
+
 	var drumVolumes = [4, 4, 6, 4, 6, 6, 6, 6];
 	var insVolumes = [7, 6, 4, 7, 4, 7, 5, 7];
 	var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
-	let url = (window as any).encodeRiffURL(tempo, drumData, gitData.concat(viData), drumVolumes, insVolumes, eqVolumes);
+	let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
 	window.open(url);
 }
 //
