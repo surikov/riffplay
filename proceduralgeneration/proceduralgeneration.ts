@@ -679,7 +679,7 @@ function composeURL(chordPitches:ChordPitches[],chordfrets: FretKeys[]) {
 
 	//console.log(parseMelody(melodydefs[0].start.encoded));
 
-	var drumVolumes = [4, 4, 6, 4, 6, 6, 6, 6];
+	var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 6];
 	var insVolumes = [7, 6, 4, 7, 4, 7, 5, 7];
 	var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
 	//let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);

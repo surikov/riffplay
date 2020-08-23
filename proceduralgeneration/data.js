@@ -536,49 +536,51 @@ var chordfretsData = [
 	{ name: "Gmmaj9", pitch: 7, frets: [3, 0, 0, 3, 3, 2] },
 	{ name: "Gsus4", pitch: 7, frets: [3, 3, 0, 0, 1, 3] }
 ];
-let prlist=[
-	{ category: 'jazz', name: '', chords: 'C-D7-F-C' }
-	,{ category: 'jazz', name: '', chords: 'C-F-G-G7' }
-	,{ category: 'jazz', name: '', chords: 'C-Am-E-G' }
-	,{ category: 'jazz', name: '', chords: 'C-Gm-Dm' }
-	,{ category: 'jazz', name: '', chords: 'Am-G-D' }
-	,{ category: 'blues', name: '', chords: 'Am-G-D-F' }
-	,{ category: 'sad', name: '', chords: 'C-Am-F-G' }
-	,{ category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' }
-	,{ category: 'epic', name: '', chords: 'C-G-Am-F' }
-	,{ category: 'nice', name: '', chords: 'Am-Dm-F-G' }
-	,{ category: 'nice', name: '', chords: 'Am-G-Em-F' }
-	,{ category: 'nice', name: '', chords: 'F-Am-G' }
-	,{ category: 'nice', name: '', chords: 'Am-G-Dm7' }
-	,{ category: 'nice', name: '', chords: 'Dm-Am-C-G' }
-	,{ category: 'nice', name: '', chords: 'Am-Em-G-Dm' }
-	,{ category: 'nice', name: '', chords: 'C-F-G-Am' }
-	,{ category: 'nice', name: '', chords: 'Am7-Em7-Dsus4-Dm7' }
-	,{ category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' }
-	,{ category: 'sad', name: '', chords: 'Am-B-Gm' }
-	,{ category: 'sad', name: '', chords: 'F-Em7-Am-G' }
-	,{ category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' }
-	,{ category: 'sad', name: '', chords: 'Am-F7-G-Em-F-G' }
-	,{ category: 'sad', name: '', chords: 'Dm-F-Am-G' }
-	,{ category: 'sad', name: '', chords: 'Am-G-C-F-E-E7' }
-	,{ category: 'sad', name: '', chords: 'Am-Dsus6-Dm-F-G-Dm7' }
-	,{ category: 'sad', name: '', chords: 'Am7-F7-G-Em7' }
-	,{ category: 'major', name: '', chords: 'C-Dm-Am7-F-G-C' }
-	,{ category: 'major', name: '', chords: 'C-Am-F' }
-	,{ category: 'major', name: '', chords: 'D-A-C-G' }
-	,{ category: 'major', name: '', chords: 'Am-F-C-G' }
-	,{ category: 'major', name: '', chords: 'C-Dm-F-G' }
-	,{ category: 'major', name: '', chords: 'F-Am-G-D' }
-	,{ category: 'major', name: '', chords: 'C-G-F-G-C' }
-	,{ category: 'major', name: '', chords: 'C-Am-Em-F' }
+let prlist = [
+	{ category: 'sad', name: '', chords: 'Am-B-Gm' }
+	//
+	,{ category: 'jazz', name: '', chords: 'C-D7-F-C' }
+	, { category: 'jazz', name: '', chords: 'C-F-G-G7' }
+	, { category: 'jazz', name: '', chords: 'C-Am-E-G' }
+	, { category: 'jazz', name: '', chords: 'C-Gm-Dm' }
+	, { category: 'jazz', name: '', chords: 'Am-G-D' }
+	, { category: 'blues', name: '', chords: 'Am-G-D-F' }
+	, { category: 'sad', name: '', chords: 'C-Am-F-G' }
+	, { category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' }
+	, { category: 'epic', name: '', chords: 'C-G-Am-F' }
+	, { category: 'nice', name: '', chords: 'Am-Dm-F-G' }
+	, { category: 'nice', name: '', chords: 'Am-G-Em-F' }
+	, { category: 'nice', name: '', chords: 'F-Am-G' }
+	, { category: 'nice', name: '', chords: 'Am-G-Dm7' }
+	, { category: 'nice', name: '', chords: 'Dm-Am-C-G' }
+	, { category: 'nice', name: '', chords: 'Am-Em-G-Dm' }
+	, { category: 'nice', name: '', chords: 'C-F-G-Am' }
+	, { category: 'nice', name: '', chords: 'Am7-Em7-Dsus4-Dm7' }
+	, { category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' }
+	, { category: 'sad', name: '', chords: 'Am-B-Gm' }
+	, { category: 'sad', name: '', chords: 'F-Em7-Am-G' }
+	, { category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' }
+	, { category: 'sad', name: '', chords: 'Am-F7-G-Em-F-G' }
+	, { category: 'sad', name: '', chords: 'Dm-F-Am-G' }
+	, { category: 'sad', name: '', chords: 'Am-G-C-F-E-E7' }
+	, { category: 'sad', name: '', chords: 'Am-Dsus6-Dm-F-G-Dm7' }
+	, { category: 'sad', name: '', chords: 'Am7-F7-G-Em7' }
+	, { category: 'major', name: '', chords: 'C-Dm-Am7-F-G-C' }
+	, { category: 'major', name: '', chords: 'C-Am-F' }
+	, { category: 'major', name: '', chords: 'D-A-C-G' }
+	, { category: 'major', name: '', chords: 'Am-F-C-G' }
+	, { category: 'major', name: '', chords: 'C-Dm-F-G' }
+	, { category: 'major', name: '', chords: 'F-Am-G-D' }
+	, { category: 'major', name: '', chords: 'C-G-F-G-C' }
+	, { category: 'major', name: '', chords: 'C-Am-Em-F' }
 ];
 let prgrsnData = [];
-for(var i=0;i<prlist.length;i++){
-	var p=prlist[i];
-	var arr=p.chords.split('-');
+for (var i = 0; i < prlist.length; i++) {
+	var p = prlist[i];
+	var arr = p.chords.split('-');
 	//console.log(arr);
-	var chordsProg=[];
-	if(arr.length==3){
+	var chordsProg = [];
+	if (arr.length == 3) {
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[0]);
@@ -588,7 +590,7 @@ for(var i=0;i<prlist.length;i++){
 		chordsProg.push(arr[2]);
 		chordsProg.push(arr[2]);
 	}
-	if(arr.length==4){
+	if (arr.length == 4) {
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[1]);
@@ -598,7 +600,7 @@ for(var i=0;i<prlist.length;i++){
 		chordsProg.push(arr[3]);
 		chordsProg.push(arr[3]);
 	}
-	if(arr.length==5){
+	if (arr.length == 5) {
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[1]);
@@ -608,7 +610,7 @@ for(var i=0;i<prlist.length;i++){
 		chordsProg.push(arr[3]);
 		chordsProg.push(arr[4]);
 	}
-	if(arr.length==6){
+	if (arr.length == 6) {
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[1]);
@@ -618,7 +620,7 @@ for(var i=0;i<prlist.length;i++){
 		chordsProg.push(arr[4]);
 		chordsProg.push(arr[5]);
 	}
-	if(arr.length==7){
+	if (arr.length == 7) {
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[1]);
 		chordsProg.push(arr[2]);
@@ -628,7 +630,7 @@ for(var i=0;i<prlist.length;i++){
 		chordsProg.push(arr[6]);
 		chordsProg.push(arr[6]);
 	}
-	if(arr.length==8){
+	if (arr.length == 8) {
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[1]);
 		chordsProg.push(arr[2]);
@@ -653,10 +655,10 @@ let prgrsnData = [
 let bassDefData = [
 	{
 		category: '', name: ''
-		, chord: 'C'
+		, chord: 'Em'
 		, start: {
-			len16: 8 * 2
-			, encoded: '005020c40025021840045020c40065021840085020c400a50218400c5020c400e5021840'
+			len16: 8 * 8
+			, encoded: '0050204400250104400650204400a50204400c50207400e5020440105020940125010b401650204401a50204401c50202401e5020440205020940225010b402650204402a50204402c50207402e50204403050202403250104403650204403a50204403c50202403e5020440'
 		}
 		, end: {
 			len16: 0
@@ -676,7 +678,7 @@ let bassDefData = [
 			, encoded: ''
 		}
 	}
-	,{
+	, {
 		category: '', name: ''
 		, chord: 'Am'
 		, start: {
@@ -694,7 +696,7 @@ let melodydefsData = [
 		category: '', name: ''
 		, chord: 'E'
 		, start: {
-			len16:0
+			len16: 0
 			, encoded: ''
 		}
 		, end: {
@@ -702,7 +704,7 @@ let melodydefsData = [
 			, encoded: ''
 		}
 	}
-	,{
+	, {
 		category: '', name: ''
 		, chord: 'E'
 		, start: {
@@ -724,7 +726,13 @@ let strumDefsData = [
 		, end: ''
 	}
 	////////////////////////////////
-	,{
+	, {
+		category: '', name: ''
+		, start: 'V---A-V---A-V-A-'
+		, end: ''
+	}
+	////////////////////////////////
+	, {
 		category: '', name: ''
 		, start: 'V---A-V---A-V-A-'
 		, end: 'X...X...'
@@ -740,50 +748,27 @@ let rhythmDefsData = [
 		, start: ''
 		, end: ''
 	}
-	,{
+	, {
 		category: '', name: ''
 		, start: 'O---..O---..O-O-'
 		, end: '.OOOOOOO'
 	}
 ];
 let beatsDefsData = [
-	{
-		category: '', name: ''
-		, start: { len16: 8 * 2, encoded: '0001014140104110a011a111' }
-		, end: { len16: 0, encoded: '' }
-	}
+	{ category: '', name: 'frost', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 0, encoded: '' } }
 	//
-	,{
-		category: '', name: ''
-		, start: { len16: 8 * 2, encoded: '0001014140104110a011a111' }
-		, end: { len16: 0, encoded: '' }
-	},{
-		category: '', name: ''
-		, start: { len16: 8 * 2, encoded: '0011011180448144' }
-		, end: { len16: 0, encoded: '' }
-	}
-	,{
-		category: '', name: ''
-		, start: { len16: 8 * 2, encoded: '008101454010411080558155' }
-		, end: { len16: 0, encoded: '' }
-	}
-	,{
-		category: '', name: ''
-		, start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }
-		, end: { len16: 0, encoded: '' }
-	}
-	,{
-		category: '', name: ''
-		, start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }
-		, end: { len16: 0, encoded: '' }
-	}
-	,{
-		category: '', name: ''
-		, start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }
-		, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' }
-	}
+	,{ category: '', name: 'motorhead', start: { len16: 8 * 2, encoded: '003101294044414480558155' }, end: { len16: 0, encoded: '' } }
+	,{ category: '', name: 'axel', start: { len16: 8 * 2, encoded: '0063014e4011411180ff81ffc1f8' }, end: { len16: 0, encoded: '' } }
+	,{ category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 0, encoded: '' } }
+	,{ category: '', name: 'bigroom', start: { len16: 8 * 2, encoded: '00110111201121114010411080448144' }, end: { len16: 0, encoded: '' } }
+	, { category: '', name: 'simplerock1', start: { len16: 8 * 2, encoded: '0001014140104110a011a111' }, end: { len16: 0, encoded: '' } }
+	, { category: '', name: 'simpledance', start: { len16: 8 * 2, encoded: '0011011180448144' }, end: { len16: 0, encoded: '' } }
+	, { category: '', name: 'rap', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 0, encoded: '' } }
+	, { category: '', name: 'prodigy', start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }, end: { len16: 0, encoded: '' } }
+	, { category: '', name: 'simpleride', start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }, end: { len16: 0, encoded: '' } }
+	, { category: '', name: 'simplerock2', start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' } }
 ];
-bassDefs=bassDefData;
+bassDefs = bassDefData;
 beatsDefs = beatsDefsData;
 rhythmDefs = rhythmDefsData;
 strumDefs = strumDefsData;
