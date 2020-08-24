@@ -353,10 +353,14 @@ function morphPitch(pitch, fromMode, toMode, needRepitch) {
     if (toMode[0] >= 4)
         pitch = pitch - 12; //E
     //let morphed = repitch(pitch + (toMode[step] - fromMode[step]));
-    var morphed = pitch + (toMode[step] - fromMode[step]);
+    var morphed = 12 + pitch + (toMode[step] - fromMode[step]);
     if (needRepitch) {
-        morphed = repitch(morphed);
+        //morphed= repitch(morphed);
     }
+    if (morphed < 0)
+        morphed = morphed + 12;
+    if (morphed >= 120)
+        morphed = morphed - 12;
     //console.log(pitch, morphed, base, step, toMode, fromMode);
     return morphed;
 }
@@ -647,7 +651,8 @@ function parseMelody(encoded) {
     return beats;
 }
 function composeURL(chordPitches, chordfrets) {
-    var progression = progressionsList[0];
+    var prognum = Math.floor(progressionsList.length * Math.random());
+    var progression = progressionsList[prognum];
     var tempo = 120;
     var drumData = beatFill(progression.chords, beatsDefs[0]);
     //let gitStrumData: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[0],chordfrets);
@@ -673,7 +678,7 @@ function composeURL(chordPitches, chordfrets) {
     }
     //console.log(parseMelody(melodydefs[0].start.encoded));
     var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 6];
-    var insVolumes = [7, 6, 4, 7, 4, 7, 5, 7];
+    var insVolumes = [7, 3, 4, 7, 4, 7, 5, 7];
     var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
     //let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
     var url = window.encodeRiffURL(tempo, drumData, tracksData, drumVolumes, insVolumes, eqVolumes);
