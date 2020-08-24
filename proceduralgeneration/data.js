@@ -537,15 +537,41 @@ var chordfretsData = [
 	{ name: "Gsus4", pitch: 7, frets: [3, 3, 0, 0, 1, 3] }
 ];
 let prlist = [
-	{ category: 'sad', name: '', chords: 'Am-B-Gm' }
+	{ category: 'sad', name: '', chords: 'Bm-A-G-F#' }
+	,{ category: 'sad', name: '', chords: 'Em-G-C-Am' }
+	,{ category: 'sad', name: '', chords: 'Am-C-D-Am-C-Am' }
+	,{ category: 'sad', name: '', chords: 'Fmaj-A' }
+	,{ category: 'sad', name: '', chords: 'Em-B-G-Em' }
+	,{ category: 'sad', name: '', chords: 'Am-Dm-Fm-C' }
+	,{ category: 'sad', name: '', chords: 'C-Am-Dm-G' }
+	,{ category: 'sad', name: '', chords: 'Am-F-Em-Am' }
+	,{ category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' }
+	, { category: 'sad', name: '', chords: 'Am-B-Gm' }
+	, { category: 'sad', name: '', chords: 'F-Em7-Am-G' }
+	, { category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' }
+	, { category: 'sad', name: '', chords: 'Am-F7-G-Em-F-G' }
+	, { category: 'sad', name: '', chords: 'Dm-F-Am-G' }
+	, { category: 'sad', name: '', chords: 'Am-G-C-F-E-E7' }
+	, { category: 'sad', name: '', chords: 'Am-Dsus6-Dm-F-G-Dm7' }
+	, { category: 'sad', name: '', chords: 'Am7-F7-G-Em7' }
+	, { category: 'sad', name: '', chords: 'C-Am-F-G' }
 	//
+	,{ category: 'jazz', name: '', chords: 'Cm7-Ab7-G7' }
+	,{ category: 'jazz', name: '', chords: 'D7-G7-C7-F7' }
+	,{ category: 'jazz', name: '', chords: 'Cmaj7-C7-Fmaj7-Fm7-Em7-A7-Dm7-G7-Cmaj7' }
+	,{ category: 'jazz', name: '', chords: 'Cmaj7-Gm7-C7-Fmaj7' }
+	,{ category: 'jazz', name: '', chords: 'Cmaj7-D7-Dm7-G7-Cmaj7' }
+	,{ category: 'jazz', name: '', chords: 'Dm7-G7-Cmaj7' }
+	,{ category: 'jazz', name: '', chords: 'Cmaj7-Cm7-F7' }
+	,{ category: 'jazz', name: '', chords: 'Cmaj7-Am7-Dm7-G7-Em7-A7-Dm7-G7' }
+	,{ category: 'jazz', name: '', chords: 'Dm7-G7-Cmaj7-C6' }
 	,{ category: 'jazz', name: '', chords: 'C-D7-F-C' }
 	, { category: 'jazz', name: '', chords: 'C-F-G-G7' }
 	, { category: 'jazz', name: '', chords: 'C-Am-E-G' }
 	, { category: 'jazz', name: '', chords: 'C-Gm-Dm' }
 	, { category: 'jazz', name: '', chords: 'Am-G-D' }
+	//
 	, { category: 'blues', name: '', chords: 'Am-G-D-F' }
-	, { category: 'sad', name: '', chords: 'C-Am-F-G' }
 	, { category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' }
 	, { category: 'epic', name: '', chords: 'C-G-Am-F' }
 	, { category: 'nice', name: '', chords: 'Am-Dm-F-G' }
@@ -556,15 +582,7 @@ let prlist = [
 	, { category: 'nice', name: '', chords: 'Am-Em-G-Dm' }
 	, { category: 'nice', name: '', chords: 'C-F-G-Am' }
 	, { category: 'nice', name: '', chords: 'Am7-Em7-Dsus4-Dm7' }
-	, { category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' }
-	, { category: 'sad', name: '', chords: 'Am-B-Gm' }
-	, { category: 'sad', name: '', chords: 'F-Em7-Am-G' }
-	, { category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' }
-	, { category: 'sad', name: '', chords: 'Am-F7-G-Em-F-G' }
-	, { category: 'sad', name: '', chords: 'Dm-F-Am-G' }
-	, { category: 'sad', name: '', chords: 'Am-G-C-F-E-E7' }
-	, { category: 'sad', name: '', chords: 'Am-Dsus6-Dm-F-G-Dm7' }
-	, { category: 'sad', name: '', chords: 'Am7-F7-G-Em7' }
+	//
 	, { category: 'major', name: '', chords: 'C-Dm-Am7-F-G-C' }
 	, { category: 'major', name: '', chords: 'C-Am-F' }
 	, { category: 'major', name: '', chords: 'D-A-C-G' }
@@ -573,13 +591,67 @@ let prlist = [
 	, { category: 'major', name: '', chords: 'F-Am-G-D' }
 	, { category: 'major', name: '', chords: 'C-G-F-G-C' }
 	, { category: 'major', name: '', chords: 'C-Am-Em-F' }
+	, { category: 'major', name: '', chords: 'G-C-D' }
+	, { category: 'major', name: '', chords: 'G-D-Em-C' }
+	, { category: 'major', name: '', chords: 'Am-D-G' }
+	, { category: 'major', name: '', chords: 'C-F-C-G' }
+	, { category: 'major', name: '', chords: 'D-A-Bm-F#m-G-D-G-A' }
+	, { category: 'major', name: '', chords: 'A-E-F#m-D-A-E' }
+	
 ];
+function repeatChords(list,progression,chords,nums){
+	var row=[];
+	for(let i=0;i<nums.length;i++){
+		row.push(chords[nums[i]]);
+	}
+	list.push({ category: progression.category, name: progression.name, chords: row });
+}
 let prgrsnData = [];
 for (var i = 0; i < prlist.length; i++) {
 	var p = prlist[i];
+	//console.log(i,p);
 	var arr = p.chords.split('-');
+	if (arr.length == 3) {
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,1,1,1]);
+	}
+	if (arr.length == 3) {
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,1,2,2]);
+		repeatChords(prgrsnData,p,arr,[0,0,1,1,2,2,2,2]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,1,1,2]);
+	}
+	if (arr.length == 4) {
+		repeatChords(prgrsnData,p,arr,[0,0,1,1,2,2,3,3]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,1,2,2,2,3]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,1,2,3]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,0,0,1,1,2,2,2,2,2,2,3,3]);
+	}
+	if (arr.length == 5) {
+		repeatChords(prgrsnData,p,arr,[0,0,1,1,2,2,3,4]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,2,3,4]);
+		repeatChords(prgrsnData,p,arr,[0,1,2,3,4,4,4,4]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,1,1,1,2,2,2,2,3,3,4,4]);
+	}
+	if (arr.length == 6) {
+		repeatChords(prgrsnData,p,arr,[0,0,1,2,3,3,4,5]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,1,1,1,2,2,3,3,4,4,5,5]);
+		repeatChords(prgrsnData,p,arr,[0,0,1,1,2,2,3,3,4,4,4,4,5,5,5,5]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,1,2,2,3,3,3,3,4,4,5,5]);
+	}
+	if (arr.length == 7) {
+		repeatChords(prgrsnData,p,arr,[0,0,1,1,2,2,3,3,4,4,5,5,6,6,6,6]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,0,1,1,1,1,3,3,4,4,5,5,6,6]);
+		
+	}
+	if (arr.length == 8) {
+		repeatChords(prgrsnData,p,arr,[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,1,2,2,2,3,4,4,4,5,6,6,6,7]);
+	}
+	if (arr.length == 9) {
+		repeatChords(prgrsnData,p,arr,[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,8]);
+		repeatChords(prgrsnData,p,arr,[0,0,0,1,2,2,2,3,4,4,5,5,6,6,7,8]);
+	}
 	//console.log(arr);
-	var chordsProg = [];
+	/*var chordsProg = [];
 	if (arr.length == 3) {
 		chordsProg.push(arr[0]);
 		chordsProg.push(arr[0]);
@@ -641,7 +713,12 @@ for (var i = 0; i < prlist.length; i++) {
 		chordsProg.push(arr[7]);
 	}
 	prgrsnData.push({ category: p.category, name: p.name, chords: chordsProg });
+	*/
 }
+var p=prgrsnData[165];
+console.log(p)
+prgrsnData.unshift(p);
+console.log(prgrsnData);
 /*
 let prgrsnData = [
 	{ category: 'nice', name: '2', chords: ['C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'F', 'F', 'F', 'F', 'F', 'F', 'G', 'Am'] }
@@ -654,41 +731,14 @@ let prgrsnData = [
 
 let bassDefData = [
 	{
-		category: '', name: ''
-		, chord: 'Em'
-		, start: {
-			len16: 8 * 8
-			, encoded: '0050204400250104400650204400a50204400c50207400e5020440105020940125010b401650204401a50204401c50202401e5020440205020940225010b402650204402a50204402c50207402e50204403050202403250104403650204403a50204403c50202403e5020440'
-		}
-		, end: {
-			len16: 0
-			, encoded: ''
-		}
-	}
-	,
-	{
-		category: '', name: ''
-		, chord: 'C'
-		, start: {
-			len16: 8 * 2
-			, encoded: '005040c400450210400650213400a5020c400c5021040'
-		}
-		, end: {
-			len16: 0
-			, encoded: ''
-		}
-	}
-	, {
-		category: '', name: ''
-		, chord: 'Am'
-		, start: {
-			len16: 8 * 2
-			, encoded: '005020940025020940045020940065020c400850209400a50209400c50209400e5020740'
-		}
-		, end: {
-			len16: 0
-			, encoded: ''
-		}
+		category: '', name: '', chord: 'Em', len16: 8 * 8
+		, encoded: '0050204400250104400650204400a50204400c50207400e5020440105020940125010b401650204401a50204401c50202401e5020440205020940225010b402650204402a50204402c50207402e50204403050202403250104403650204403a50204403c50202403e5020440'
+	}, {
+		category: '', name: '', chord: 'C', len16: 8 * 2
+		, encoded: '005040c400450210400650213400a5020c400c5021040'
+	}, {
+		category: '', name: '', chord: 'Am', len16: 8 * 2
+		, encoded: '005020940025020940045020940065020c400850209400a50209400c50209400e5020740'
 	}
 ];
 let melodydefsData = [
@@ -755,7 +805,7 @@ let rhythmDefsData = [
 	}
 ];
 let beatsDefsData = [
-	{ category: '', name: 'frost', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 0, encoded: '' } }
+	{ category: '', name: 'frost', start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }, end: { len16: 0, encoded: '' } }
 	//
 	,{ category: '', name: 'motorhead', start: { len16: 8 * 2, encoded: '003101294044414480558155' }, end: { len16: 0, encoded: '' } }
 	,{ category: '', name: 'axel', start: { len16: 8 * 2, encoded: '0063014e4011411180ff81ffc1f8' }, end: { len16: 0, encoded: '' } }

@@ -338,7 +338,7 @@ function chordDurations(chords) {
     }
     return durations;
 }
-function morphPitch(pitch, fromMode, toMode) {
+function morphPitch(pitch, fromMode, toMode, needRepitch) {
     var base = (pitch + 12 - fromMode[0]) % 12;
     var step = 0;
     for (var i = 0; i < fromMode.length; i++) {
@@ -352,7 +352,11 @@ function morphPitch(pitch, fromMode, toMode) {
     //let morphed = pitch + (toMode[0] - fromMode[0]) + ((fromMode[step]-fromMode[0]) - (toMode[step]-toMode[0]));
     if (toMode[0] >= 4)
         pitch = pitch - 12; //E
-    var morphed = repitch(pitch + (toMode[step] - fromMode[step]));
+    //let morphed = repitch(pitch + (toMode[step] - fromMode[step]));
+    var morphed = pitch + (toMode[step] - fromMode[step]);
+    if (needRepitch) {
+        morphed = repitch(morphed);
+    }
     //console.log(pitch, morphed, base, step, toMode, fromMode);
     return morphed;
 }
@@ -384,7 +388,7 @@ function addMelody(at, to, current, melody) {
                         beat: at + i,
                         length: note.length,
                         shift: note.shift,
-                        pitch: morphPitch(note.pitch, fromMode, toMode)
+                        pitch: morphPitch(note.pitch, fromMode, toMode, false)
                     });
                 }
             }
@@ -406,7 +410,7 @@ function addMelody(at, to, current, melody) {
                         beat: at + i,
                         length: note.length,
                         shift: note.shift,
-                        pitch: morphPitch(note.pitch, fromMode, toMode)
+                        pitch: morphPitch(note.pitch, fromMode, toMode, false)
                     });
                 }
             }
@@ -423,6 +427,35 @@ function composeMelody(chords, melody) {
         nn = nn + current.len16;
     }
     //console.log(beats);
+    return beats;
+}
+function composeBass(chords, bass) {
+    var beats = [];
+    //console.log(toMode);
+    var fromMode = findModePitches(bass.chord);
+    var line = parseMelody(bass.encoded);
+    var step = 0;
+    for (var ch = 0; ch < chords.length; ch++) {
+        var curChord = chords[ch];
+        var toMode = findModePitches(curChord);
+        for (var s = 0; s < 8; s++) {
+            for (var k = 0; k < line.length; k++) {
+                if (line[k].beat == step) {
+                    beats.push({
+                        track: line[k].track,
+                        beat: ch * 8 + s,
+                        length: line[k].length,
+                        shift: line[k].shift,
+                        pitch: morphPitch(line[k].pitch, fromMode, toMode, true)
+                    });
+                }
+            }
+            step++;
+            if (step >= bass.len16) {
+                step = 0;
+            }
+        }
+    }
     return beats;
 }
 function composePianoRhythm(chords, rhythm, chordPitches) {
@@ -634,8 +667,8 @@ function composeURL(chordPitches, chordfrets) {
         var t = composeMelody(progression.chords, melodyDefs[0]);
         tracksData = tracksData.concat(t);
     }
-    if (bassDefs[0].start.len16) {
-        var t = composeMelody(progression.chords, bassDefs[0]);
+    if (bassDefs[0].len16) {
+        var t = composeBass(progression.chords, bassDefs[0]);
         tracksData = tracksData.concat(t);
     }
     //console.log(parseMelody(melodydefs[0].start.encoded));
