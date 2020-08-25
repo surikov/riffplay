@@ -271,12 +271,13 @@ function beatFill(chords, beatDefinition) {
     var beats = [];
     var chordCurrent = '';
     for (var i_1 = 0; i_1 < chords.length * 8; i_1++) {
+        //console.log(step);
         if (i_1 < chords.length * 8 - beatDefinition.end.len16) {
-            var chordName = chords[Math.floor(i_1 / 8)];
+            /*var chordName = chords[Math.floor(i / 8)];
             if (chordCurrent != chordName) {
                 step = 0;
                 chordCurrent = chordName;
-            }
+            }*/
             //console.log(i, step, chords[Math.floor(i / 8)]);
             for (var k = 0; k < startbeatdrum.length; k++) {
                 if (startbeatdrum[k].beat == step) {
@@ -672,11 +673,48 @@ function stripDrums(drums) {
     var r = [];
     for (var i = 0; i < drums.length; i++) {
         var single = drums[i];
+        //console.log(single);
         if (!existsdDrum(r, single)) {
             r.push(single);
         }
+        else {
+            console.log('skip');
+        }
     }
+    //console.log(r,drums);
     return r;
+}
+function repeatChords(chords) {
+    var row = [];
+    var nums = [];
+    if (chords.length == 2) {
+        nums = [0, 0, 0, 0, 1, 1, 1, 1];
+    }
+    if (chords.length == 3) {
+        nums = [0, 0, 0, 0, 1, 1, 2, 2];
+    }
+    if (chords.length == 4) {
+        nums = [0, 0, 1, 1, 2, 2, 3, 3];
+    }
+    if (chords.length == 5) {
+        nums = [0, 0, 1, 1, 2, 2, 4, 5];
+    }
+    if (chords.length == 6) {
+        nums = [0, 0, 1, 1, 2, 3, 4, 5];
+    }
+    if (chords.length == 7) {
+        nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6];
+    }
+    if (chords.length == 8) {
+        nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
+    }
+    if (chords.length == 9) {
+        nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
+    }
+    for (var i = 0; i < nums.length; i++) {
+        row.push(chords[nums[i]]);
+    }
+    return row;
 }
 function stripTracks(instrs) {
     var r = [];
@@ -690,7 +728,12 @@ function stripTracks(instrs) {
 }
 function composeURL(chordPitches, chordfrets) {
     var prognum = Math.floor(progressionsList.length * Math.random());
-    var progression = progressionsList[prognum];
+    //let progression: Progression = progressionsList[prognum];
+    var chordRow = progressionsList[prognum];
+    var arr = chordRow.chords.split('-');
+    var chords = repeatChords(arr);
+    var progression = { category: chordRow.category, name: chordRow.name, chords: chords };
+    console.log(progression);
     var tempo = 120;
     var drumData = beatFill(progression.chords, beatsDefs[0]);
     //let gitStrumData: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[0],chordfrets);

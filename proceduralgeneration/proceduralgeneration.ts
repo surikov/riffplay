@@ -37,7 +37,7 @@ let scaleModeLocrian = 'Locrian'//minorHII-V-;
 //
 let chordPitchesList: ChordPitches[] = [];
 let fretPitchesList: FretKeys[] = [];
-let progressionsList: Progression[] = [];
+let progressionsList: ChordRow[] = [];
 let melodyDefs: MelodyDefinition[] = [];
 let bassDefs: BassDefinition[] = [];
 let strumDefs: StrumDefinition[] = [];
@@ -68,7 +68,9 @@ type FretKeys = {
 type Progression = {
 	category: string, name: string, chords: string[]
 };
-
+type ChordRow = {
+	category: string, name: string, chords: string
+};
 type ChordDuration = {
 	chord: string, len16: number
 };
@@ -323,12 +325,13 @@ function beatFill(chords: string[], beatDefinition: BeatDefinition): DrumBeat[] 
 	let beats: DrumBeat[] = [];
 	var chordCurrent = '';
 	for (let i = 0; i < chords.length * 8; i++) {
+		//console.log(step);
 		if (i < chords.length * 8 - beatDefinition.end.len16) {
-			var chordName = chords[Math.floor(i / 8)];
+			/*var chordName = chords[Math.floor(i / 8)];
 			if (chordCurrent != chordName) {
 				step = 0;
 				chordCurrent = chordName;
-			}
+			}*/
 			//console.log(i, step, chords[Math.floor(i / 8)]);
 			for (let k = 0; k < startbeatdrum.length; k++) {
 				if (startbeatdrum[k].beat == step) {
@@ -715,11 +718,47 @@ function stripDrums(drums: DrumBeat[]): DrumBeat[] {
 	let r: DrumBeat[] = [];
 	for (var i = 0; i < drums.length; i++) {
 		var single: DrumBeat = drums[i];
+		//console.log(single);
 		if (!existsdDrum(r, single)) {
 			r.push(single);
+		}else{
+			console.log('skip');
 		}
 	}
+	//console.log(r,drums);
 	return r;
+}
+function repeatChords(chords:string[]):string[] {
+	var row :string[]= [];
+	var nums :number[]= [];
+	if (chords.length == 2) {
+		nums=[0, 0, 0, 0, 1, 1, 1, 1];
+	}
+	if (chords.length == 3) {
+		nums=[0, 0, 0, 0, 1, 1, 2, 2];
+	}
+	if (chords.length == 4) {
+		nums=[0, 0, 1, 1, 2, 2, 3, 3];
+	}
+	if (chords.length == 5) {
+		nums=[0, 0, 1, 1, 2, 2, 3, 4];
+	}
+	if (chords.length == 6) {
+		nums=[0, 0, 1, 1, 2, 3, 4, 5];
+	}
+	if (chords.length == 7) {
+		nums=[0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6];
+	}
+	if (chords.length == 8) {
+		nums=[0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
+	}
+	if (chords.length == 9) {
+		nums= [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
+	}
+	for (let i = 0; i < nums.length; i++) {
+		row.push(chords[nums[i]]);
+	}
+	return row;
 }
 function stripTracks(instrs: InsBeat[]): InsBeat[] {
 	let r: InsBeat[] = [];
@@ -733,7 +772,12 @@ function stripTracks(instrs: InsBeat[]): InsBeat[] {
 }
 function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	let prognum = Math.floor(progressionsList.length * Math.random());
-	let progression: Progression = progressionsList[prognum];
+	//let progression: Progression = progressionsList[prognum];
+	let chordRow: ChordRow =progressionsList[prognum];
+	var arr:string[] = chordRow.chords.split('-');
+	var chords:string[]= repeatChords(arr);
+	let progression: Progression = {category: chordRow.category, name: chordRow.name, chords: chords};
+	console.log(progression);
 	let tempo = 120;
 	let drumData: DrumBeat[] = beatFill(progression.chords, beatsDefs[0]);
 	//let gitStrumData: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[0],chordfrets);

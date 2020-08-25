@@ -51,6 +51,7 @@ var chordPitchesDatat = [
 	{ name: 'mmaj11', pitches: [3, 5, 7, 11] },
 	{ name: 'sus2', pitches: [2, 7] },
 	{ name: 'sus4', pitches: [5, 7] }
+	
 ];
 var chordfretsData = [
 	{ name: "A69", pitch: 9, frets: [-1, 0, 4, 4, 2, 2] },
@@ -542,7 +543,7 @@ let prlist = [
 	 { category: 'sad', name: '', chords: 'Bm-A-G-F#' }
 	, { category: 'sad', name: '', chords: 'Em-G-C-Am' }
 	, { category: 'sad', name: '', chords: 'Am-C-D-Am-C-Am' }
-	, { category: 'sad', name: '', chords: 'Fmaj-A' }
+	, { category: 'sad', name: '', chords: 'Fmaj7-A' }
 	, { category: 'sad', name: '', chords: 'Em-B-G-Em' }
 	, { category: 'sad', name: '', chords: 'Am-Dm-Fm-C' }
 	, { category: 'sad', name: '', chords: 'C-Am-Dm-G' }
@@ -554,7 +555,7 @@ let prlist = [
 	, { category: 'sad', name: '', chords: 'Am-F7-G-Em-F-G' }
 	, { category: 'sad', name: '', chords: 'Dm-F-Am-G' }
 	, { category: 'sad', name: '', chords: 'Am-G-C-F-E-E7' }
-	, { category: 'sad', name: '', chords: 'Am-Dsus6-Dm-F-G-Dm7' }
+	, { category: 'sad', name: '', chords: 'Am-Dsus4-Dm-F-G-Dm7' }
 	, { category: 'sad', name: '', chords: 'Am7-F7-G-Em7' }
 	, { category: 'sad', name: '', chords: 'C-Am-F-G' }
 	//
@@ -601,18 +602,19 @@ let prlist = [
 	, { category: 'major', name: '', chords: 'A-E-F#m-D-A-E' }
 
 ];
+/*
 function repeatChords(list, progression, chords, nums) {
 	var row = [];
 	for (let i = 0; i < nums.length; i++) {
 		row.push(chords[nums[i]]);
 	}
 	list.push({ category: progression.category, name: progression.name, chords: row });
-}
-let prgrsnData = [];
-for (var i = 0; i < prlist.length; i++) {
-	var p = prlist[i];
+}*/
+//let prgrsnData = [];
+//for (var i = 0; i < prlist.length; i++) {
+//	var p = prlist[i];
 	//console.log(i,p);
-	var arr = p.chords.split('-');
+	/*var arr = p.chords.split('-');
 	if (arr.length == 2) {
 		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 1, 1, 1]);
 		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 0, 0, 1, 1]);
@@ -653,7 +655,7 @@ for (var i = 0; i < prlist.length; i++) {
 	if (arr.length == 9) {
 		repeatChords(prgrsnData, p, arr, [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8]);
 		repeatChords(prgrsnData, p, arr, [0, 0, 0, 1, 2, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7, 8]);
-	}
+	}*/
 	//console.log(arr);
 	/*var chordsProg = [];
 	if (arr.length == 3) {
@@ -718,12 +720,12 @@ for (var i = 0; i < prlist.length; i++) {
 	}
 	prgrsnData.push({ category: p.category, name: p.name, chords: chordsProg });
 	*/
-}
+//}
 /*
 var p=prgrsnData[165];
 console.log(p)
 prgrsnData.unshift(p);*/
-console.log(prgrsnData);
+//console.log(prgrsnData);
 /*
 let prgrsnData = [
 	{ category: 'nice', name: '2', chords: ['C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'F', 'F', 'F', 'F', 'F', 'F', 'G', 'Am'] }
@@ -782,6 +784,11 @@ let melodydefsData = [
 let strumDefsData = [
 	{
 		category: '', name: ''
+		, start: ''
+		, end: 'V-'
+	}
+	,{
+		category: '', name: ''
 		, start: 'VA--............V-A-X...........X---X-..........'
 		, end: 'V-'
 	}
@@ -805,8 +812,8 @@ let strumDefsData = [
 let rhythmDefsData = [
 	{
 		category: '', name: ''
-		, start: ''
-		, end: ''
+		, start: 'O--O--O--O--O--O'
+		, end: 'O.O.'
 	}
 	, {
 		category: '', name: ''
@@ -815,19 +822,23 @@ let rhythmDefsData = [
 	}
 ];
 let beatsDefsData = [
-	{ category: '', name: 'test', start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }, end: { len16: 0, encoded: '' } }
-	//
-	,{ category: '', name: 'explo', start: { len16: 8 * 2, encoded: '006401444011411180118111' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'motorhead', start: { len16: 8 * 2, encoded: '003101294044414480558155' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'axel', start: { len16: 8 * 2, encoded: '0063014e4011411180ff81ffc1f8' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'bigroom', start: { len16: 8 * 2, encoded: '00110111201121114010411080448144' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'simplerock1', start: { len16: 8 * 2, encoded: '0001014140104110a011a111' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'simpledance', start: { len16: 8 * 2, encoded: '0011011180448144' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'rap', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'prodigy', start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'simpleride', start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'simplerock2', start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' } }
+	{ category: '', name: 'simpledance', start: { len16: 8 * 2, encoded: '0011011180448144' }, end: { len16: 8*2, encoded: '001101f980448144' } }
+	,{ category: '', name: 'axel', start: { len16: 8 * 2, encoded: '0063014e4011411180ff81ffc1f8' }, end: { len16: 0, encoded: '' } }
+	, { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 8*2, encoded: '008901994010412280cca001a111c050' } }
+	,{ category: '', name: 'bigroom2', start: { len16: 8 * 2, encoded: '001101152011211540104110a044a144' }, end: { len16: 8*2, encoded: '001101f5201121f54010a044a144' } }
+	,{ category: '', name: 'bigroom', start: { len16: 8 * 2, encoded: '00110111201121114010411080448144' }, end: { len16: 8*2, encoded: '00110111201121114010411180518155' } }
+	,{ category: '', name: 'rap', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 8*2, encoded: '00810105401041d080558104a101c150' } }
+	,{ category: '', name: 'prodigy', start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }, end: { len16: 8*2, encoded: '0005010521404090419080fe81aea001a151' } }
+	,{ category: '', name: 'simpleride', start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }, end: { len16: 0, encoded: '' } }
+	,{ category: '', name: 'simplerock2', start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' } }
+	,{ category: '', name: 'hard rock', start: { len16: 8 * 4, encoded: '00050105020503454010411042104310c055c155c255c355' }, end: { len16: 8*2, encoded: '0005010c21c0401060406133c014' } }
+	,{ category: '', name: 'power metal', start: { len16: 8 * 4, encoded: '00440144024603464011411142114311a010a111a211a311e001' }, end: { len16: 8*2, encoded: '00820108405d4157e041' } }
+	,{ category: '', name: 'punk speed', start: { len16: 8 * 2, encoded: '0031012940444144c055c155' }, end: { len16: 8*2, encoded: '0033010921a0404441146140c055c115' } }
+	,{ category: '', name: 'punk tom', start: { len16: 8 * 4, encoded: '000101050201030504010505060107052054215522552355245525552655275540104110421043184410451046104730e001' }, end: { len16: 8*2, encoded: '00110111205421556080614ce001' } }
+	,{ category: '', name: 'funk1+', start: { len16: 8 * 4, encoded: '000101250205030440b0419242b04392805d8153825d8353a104a304' }, end: { len16: 8*2, encoded: '000521404090411b61248055' } }
+	,{ category: '', name: 'rock2', start: { len16: 8 *2, encoded: '0001014540904110a011a111' }, end: { len16: 8*2, encoded: '000101112120401041cca011a101' } }
+	,{ category: '', name: 'rock1-', start: { len16: 8 * 4, encoded: '000501040245034440104110421043108015815582158355a040a240' }, end: { len16: 8*2, encoded: '0005011121404010410f61208055' } }
+	,{ category: '', name: 'rock3 half slow', start: { len16: 8 *4, encoded: '004101400241034441014301c011c111c211c311' }, end: { len16: 8*2, encoded: '0041010441d1c011c111' } }	
 ];
 bassDefs = bassDefData;
 beatsDefs = beatsDefsData;
@@ -836,5 +847,5 @@ strumDefs = strumDefsData;
 melodyDefs = melodydefsData;
 chordPitchesList = chordPitchesDatat;
 fretPitchesList = chordfretsData;
-progressionsList = prgrsnData;
+progressionsList = prlist;
 //https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=78-76444757-44646666-0d0c0c0a08090d0e090c--000020c40023020c40040021040063020c400800213400a3020c400c00210400e0021340-000000000000000000000000-000000000000000000000000
