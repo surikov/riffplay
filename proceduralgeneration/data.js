@@ -620,22 +620,23 @@ for (var i = 0; i < prlist.length; i++) {
 	if (arr.length == 3) {
 		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 1, 2, 2]);
 		repeatChords(prgrsnData, p, arr, [0, 0, 1, 1, 2, 2, 2, 2]);
-		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 1, 1, 2]);
+		repeatChords(prgrsnData, p, arr, [0, 1, 2, 2, 2, 2, 2, 2]);
 	}
 	if (arr.length == 4) {
 		repeatChords(prgrsnData, p, arr, [0, 0, 1, 1, 2, 2, 3, 3]);
-		repeatChords(prgrsnData, p, arr, [0, 0, 0, 1, 2, 2, 2, 3]);
-		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 1, 2, 3]);
-		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3]);
+		repeatChords(prgrsnData, p, arr, [0, 1, 2, 2, 3, 3, 3, 3]);
+		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 2, 3, 3]);
+		repeatChords(prgrsnData, p, arr, [0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3]);
 	}
 	if (arr.length == 5) {
-		repeatChords(prgrsnData, p, arr, [0, 0, 1, 1, 2, 2, 3, 4]);
-		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 2, 3, 4]);
-		repeatChords(prgrsnData, p, arr, [0, 1, 2, 3, 4, 4, 4, 4]);
+		repeatChords(prgrsnData, p, arr, [0, 0, 1, 2, 3, 3, 4, 4]);
+		repeatChords(prgrsnData, p, arr, [0, 1, 2, 2, 3, 3, 4, 4]);
+		repeatChords(prgrsnData, p, arr, [0, 1, 2, 2, 3, 3, 3, 4]);
 		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4]);
 	}
 	if (arr.length == 6) {
 		repeatChords(prgrsnData, p, arr, [0, 0, 1, 2, 3, 3, 4, 5]);
+		repeatChords(prgrsnData, p, arr, [0, 1, 2, 2, 3, 4, 5, 5]);
 		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5]);
 		repeatChords(prgrsnData, p, arr, [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5]);
 		repeatChords(prgrsnData, p, arr, [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5]);
@@ -735,8 +736,8 @@ let prgrsnData = [
 
 let bassDefData = [
 	{
-		category: '', name: '', chord: 'Am', len16: 8 * 2
-		, encoded: '005020940025020940045020940065020c400850209400a50209400c50209400e5020740'
+		category: '', name: '', chord: 'Am', len16: 8 * 4
+		, encoded: '0050409400450404400850409400c50404401050409401450404401850209401a50204401c50205401e5020740'
 	}
 	//
 	,{
@@ -781,8 +782,8 @@ let melodydefsData = [
 let strumDefsData = [
 	{
 		category: '', name: ''
-		, start: 'V---A-V---A-V-A-'
-		, end: ''
+		, start: 'VA--............V-A-X...........X---X-..........'
+		, end: 'V-'
 	}
 	////////////////////////////////
 	, {

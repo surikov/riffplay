@@ -387,7 +387,7 @@ function chordDurations(chords: string[]): ChordDuration[] {
 	return durations;
 
 }
-function morphPitch(pitch: number, fromMode: number[], toMode: number[],needRepitch:boolean): number {
+function morphPitch(pitch: number, fromMode: number[], toMode: number[], needRepitch: boolean): number {
 	let base = (pitch + 12 - fromMode[0]) % 12;
 	let step = 0;
 	for (let i = 0; i < fromMode.length; i++) {
@@ -401,12 +401,12 @@ function morphPitch(pitch: number, fromMode: number[], toMode: number[],needRepi
 	//let morphed = pitch + (toMode[0] - fromMode[0]) + ((fromMode[step]-fromMode[0]) - (toMode[step]-toMode[0]));
 	if (toMode[0] >= 4) pitch = pitch - 12;//E
 	//let morphed = repitch(pitch + (toMode[step] - fromMode[step]));
-	let morphed =12+ pitch + (toMode[step] - fromMode[step]);
-	if(needRepitch){
-		//morphed= repitch(morphed);
+	let morphed = 12 + pitch + (toMode[step] - fromMode[step]);
+	if (needRepitch) {
+		morphed= repitch(morphed);
 	}
-	if(morphed<0)morphed=morphed+12;
-	if(morphed>=120)morphed=morphed-12;
+	if (morphed < 0) morphed = morphed + 12;
+	if (morphed >= 120) morphed = morphed - 12;
 	//console.log(pitch, morphed, base, step, toMode, fromMode);
 	return morphed;
 }
@@ -438,7 +438,7 @@ function addMelody(at: number, to: InsBeat[], current: ChordDuration, melody: Me
 						, beat: at + i
 						, length: note.length
 						, shift: note.shift
-						, pitch: morphPitch(note.pitch, fromMode, toMode,false)
+						, pitch: morphPitch(note.pitch, fromMode, toMode, false)
 					});
 				}
 			}
@@ -459,7 +459,7 @@ function addMelody(at: number, to: InsBeat[], current: ChordDuration, melody: Me
 						, beat: at + i
 						, length: note.length
 						, shift: note.shift
-						, pitch: morphPitch(note.pitch, fromMode, toMode,false)
+						, pitch: morphPitch(note.pitch, fromMode, toMode, false)
 					});
 				}
 			}
@@ -480,7 +480,7 @@ function composeMelody(chords: string[], melody: MelodyDefinition): InsBeat[] {
 }
 function composeBass(chords: string[], bass: BassDefinition): InsBeat[] {
 	let beats: InsBeat[] = [];
-	
+
 	//console.log(toMode);
 	let fromMode: number[] = findModePitches(bass.chord);
 	let line: InsBeat[] = parseMelody(bass.encoded);
@@ -489,14 +489,14 @@ function composeBass(chords: string[], bass: BassDefinition): InsBeat[] {
 		let curChord = chords[ch];
 		let toMode: number[] = findModePitches(curChord);
 		for (let s = 0; s < 8; s++) {
-			for(let k=0;k<line.length;k++){
-				if(line[k].beat==step){
+			for (let k = 0; k < line.length; k++) {
+				if (line[k].beat == step) {
 					beats.push({
 						track: line[k].track
-						, beat: ch*8+s
+						, beat: ch * 8 + s
 						, length: line[k].length
 						, shift: line[k].shift
-						, pitch: morphPitch(line[k].pitch, fromMode, toMode,true)
+						, pitch: morphPitch(line[k].pitch, fromMode, toMode, true)
 					});
 				}
 			}
@@ -693,9 +693,46 @@ function parseMelody(encoded: string): InsBeat[] {
 	}
 	return beats;
 }
-
+function existsdDrum(drums: DrumBeat[], single: DrumBeat): boolean {
+	for (var i = 0; i < drums.length; i++) {
+		var d: DrumBeat = drums[i];
+		if (d.beat == single.beat && d.drum == single.drum) {
+			return true;
+		}
+	}
+	return false;
+}
+function existsIns(instrs: InsBeat[], single: InsBeat): boolean {
+	for (var i = 0; i < instrs.length; i++) {
+		var a: InsBeat = instrs[i];
+		if (a.beat == single.beat && a.pitch == single.pitch && a.track == single.track) {
+			return true;
+		}
+	}
+	return false;
+}
+function stripDrums(drums: DrumBeat[]): DrumBeat[] {
+	let r: DrumBeat[] = [];
+	for (var i = 0; i < drums.length; i++) {
+		var single: DrumBeat = drums[i];
+		if (!existsdDrum(r, single)) {
+			r.push(single);
+		}
+	}
+	return r;
+}
+function stripTracks(instrs: InsBeat[]): InsBeat[] {
+	let r: InsBeat[] = [];
+	for (var i = 0; i < instrs.length; i++) {
+		var single: InsBeat = instrs[i];
+		if (!existsIns(r, single)) {
+			r.push(single);
+		}
+	}
+	return r;
+}
 function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
-	let prognum=Math.floor(progressionsList.length*Math.random());
+	let prognum = Math.floor(progressionsList.length * Math.random());
 	let progression: Progression = progressionsList[prognum];
 	let tempo = 120;
 	let drumData: DrumBeat[] = beatFill(progression.chords, beatsDefs[0]);
@@ -724,9 +761,12 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	//console.log(parseMelody(melodydefs[0].start.encoded));
 
 	var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 6];
-	var insVolumes = [7, 3, 4, 7, 4, 7, 5, 7];
+	var insVolumes = [7, 6, 4, 7, 4, 7, 5, 7];
 	var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
 	//let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
+
+	drumData = stripDrums(drumData);
+	tracksData = stripTracks(tracksData);
 	let url = (window as any).encodeRiffURL(tempo, drumData, tracksData, drumVolumes, insVolumes, eqVolumes);
 	window.open(url);
 }

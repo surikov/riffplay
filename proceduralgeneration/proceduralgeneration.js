@@ -355,7 +355,7 @@ function morphPitch(pitch, fromMode, toMode, needRepitch) {
     //let morphed = repitch(pitch + (toMode[step] - fromMode[step]));
     var morphed = 12 + pitch + (toMode[step] - fromMode[step]);
     if (needRepitch) {
-        //morphed= repitch(morphed);
+        morphed = repitch(morphed);
     }
     if (morphed < 0)
         morphed = morphed + 12;
@@ -650,6 +650,44 @@ function parseMelody(encoded) {
     }
     return beats;
 }
+function existsdDrum(drums, single) {
+    for (var i = 0; i < drums.length; i++) {
+        var d = drums[i];
+        if (d.beat == single.beat && d.drum == single.drum) {
+            return true;
+        }
+    }
+    return false;
+}
+function existsIns(instrs, single) {
+    for (var i = 0; i < instrs.length; i++) {
+        var a = instrs[i];
+        if (a.beat == single.beat && a.pitch == single.pitch && a.track == single.track) {
+            return true;
+        }
+    }
+    return false;
+}
+function stripDrums(drums) {
+    var r = [];
+    for (var i = 0; i < drums.length; i++) {
+        var single = drums[i];
+        if (!existsdDrum(r, single)) {
+            r.push(single);
+        }
+    }
+    return r;
+}
+function stripTracks(instrs) {
+    var r = [];
+    for (var i = 0; i < instrs.length; i++) {
+        var single = instrs[i];
+        if (!existsIns(r, single)) {
+            r.push(single);
+        }
+    }
+    return r;
+}
 function composeURL(chordPitches, chordfrets) {
     var prognum = Math.floor(progressionsList.length * Math.random());
     var progression = progressionsList[prognum];
@@ -678,9 +716,11 @@ function composeURL(chordPitches, chordfrets) {
     }
     //console.log(parseMelody(melodydefs[0].start.encoded));
     var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 6];
-    var insVolumes = [7, 3, 4, 7, 4, 7, 5, 7];
+    var insVolumes = [7, 6, 4, 7, 4, 7, 5, 7];
     var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
     //let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
+    drumData = stripDrums(drumData);
+    tracksData = stripTracks(tracksData);
     var url = window.encodeRiffURL(tempo, drumData, tracksData, drumVolumes, insVolumes, eqVolumes);
     window.open(url);
 }
