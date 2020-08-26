@@ -40,6 +40,7 @@ let fretPitchesList: FretKeys[] = [];
 let progressionsList: ChordRow[] = [];
 let melodyDefs: ChordRiffDefinition[] = [];
 let bassDefs: FullLineDefinition[] = [];
+let soloDefs: FullLineDefinition[] = [];
 let strumDefs: StrumDefinition[] = [];
 let rhythmDefs: PianoRhythmDefinition[] = [];
 let beatsDefs: BeatDefinition[] = [];
@@ -734,14 +735,21 @@ function stripDrums(drums: DrumBeat[]): DrumBeat[] {
 function repeatChords(chords: string[]): string[] {
 	var row: string[] = [];
 	var nums: number[] = [];
+	var seed = Math.random();
 	if (chords.length == 2) {
 		nums = [0, 0, 0, 0, 1, 1, 1, 1];
 	}
 	if (chords.length == 3) {
-		nums = [0, 0, 0, 0, 1, 1, 2, 2];
+		if (seed < 0.5)
+			nums = [0, 0, 0, 0, 1, 1, 2, 2];
+		else
+			nums = [0, 0, 1, 1, 2, 2, 2, 2];
 	}
 	if (chords.length == 4) {
-		nums = [0, 0, 1, 1, 2, 2, 3, 3];
+		if (seed < 0.75)
+			nums = [0, 0, 1, 1, 2, 2, 3, 3];
+		else
+			nums = [0, 0, 0, 1, 2, 2, 2, 3];
 	}
 	if (chords.length == 5) {
 		nums = [0, 0, 1, 1, 2, 2, 3, 4];
@@ -815,11 +823,16 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 		//replaceTracks(t,5,7);
 		tracksData = tracksData.concat(t);
 	}
+	if (soloDefs[0].len16) {
+		let t: InsBeat[] = composeFullLine(progression.chords, soloDefs[0]);
+		//replaceTracks(t,5,7);
+		tracksData = tracksData.concat(t);
+	}
 
 	//console.log(parseMelody(melodydefs[0].start.encoded));
 
-	var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 6];
-	var insVolumes = [7, 6, 4, 7, 4, 7, 5, 7];
+	var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 4];
+	var insVolumes = [3, 5, 4, 3, 4, 7, 5, 7];
 	var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
 	//let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
 

@@ -735,9 +735,22 @@ let prgrsnData = [
 	, { category: 'nice', name: '2', chords: ['C', 'F', 'G', 'Am'] }
 	, { category: 'nice', name: '3', chords: ['Dm7', 'G7', 'Cmaj7', 'Cmaj7'] }
 ];*/
-
+let soloDefData=[
+	{
+		category: '', name: 'mechty', chord: 'Am', len16: 8 * 0
+		, encoded: ''
+	}
+	,{
+		category: '', name: 'mechty', chord: 'Am', len16: 8 * 8
+		, encoded: '0000415400430415400800213400a30215400c00213400e30215401000415401430415401800213401a30215401c00213401e00211402000415402430415402800213402a30215402c00213402e30215403000415403430111403500310403830211403a30211403c30213403e3021540'
+	}
+];
 let bassDefData = [
-	
+	{
+		category: '', name: 'mechty', chord: 'Am', len16: 8 * 8
+		, encoded: '0050409400650209400850204400c50209401050409401650209401850204401c5020940205040940265020940285020c402a50209402c5020e402e5021040305040940365020940385020c403a50209403c50210403e5020940'
+	}
+	,
 	{
 		category: '', name: 'tgdm', chord: 'Am', len16: 8 * 8
 		, encoded: '005010940025010940045010940065010c400750109400850109400a50109400c50109400e5020940105010940125010940145010940165011040175010c401850109401a50109401c5020c401e5020940205020940245020c402850209402a50209402c5010c402d50110402e5020940305020940325020940345020c403650109403750109403850209403a5020c403c50209403e5020940'
@@ -773,7 +786,7 @@ let bassDefData = [
 	}
 ];
 let melodydefsData = [
-	{
+{
 		category: '', name: ''
 		, chord: 'E'
 		, start: {
@@ -802,6 +815,12 @@ let melodydefsData = [
 ];
 let strumDefsData = [
 	{
+		category: '', name: 'mechty'
+		, start: 'V---V.A-V.A-V-A.'
+		, end: ''
+	}
+	,
+	{
 		category: '', name: ''
 		, start: ''
 		, end: 'V-'
@@ -829,6 +848,12 @@ let strumDefsData = [
 	}
 ];
 let rhythmDefsData = [
+	{
+		category: '', name: 'empty'
+		, start: ''
+		, end: ''
+	}
+	,
 	{
 		category: '', name: ''
 		, start: '2--2--2--2--2--2'
@@ -862,6 +887,7 @@ let beatsDefsData = [
 	,{ category: '', name: 'rock3 half slow', start: { len16: 8 *4, encoded: '004101400241034441014301c011c111c211c311' }, end: { len16: 8*2, encoded: '0041010441d1c011c111' } }	
 ];
 bassDefs = bassDefData;
+soloDefs = soloDefData;
 beatsDefs = beatsDefsData;
 rhythmDefs = rhythmDefsData;
 strumDefs = strumDefsData;
