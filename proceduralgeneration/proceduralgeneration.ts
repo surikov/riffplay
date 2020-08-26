@@ -221,8 +221,8 @@ function findChordPitches(chordName: String, frets: FretKeys[]): number[] {
 	}
 	return [-1, -1, -1, -1, -1, -1]
 }
-function pianoKeysByName(chordName: string, chordPitches: ChordPitches[]): number[] {
-	let r: number[] = [];
+function pianoKeysByName(chordName: string, chordPitches: ChordPitches[], trans: number): number[] {
+	let retarr: number[] = [];
 	let a = chordName.substr(0, 1);
 	let start = 1;
 	let root = -1;
@@ -251,24 +251,25 @@ function pianoKeysByName(chordName: string, chordPitches: ChordPitches[]): numbe
 		root++;
 		start++;
 	}
-	root = root + 24;
+	//root = root + 24;
 	if (chordName.substr(1, 1) == 'b') {
 		root--;
-		if (root < 0)
-			root = root - 12;
 		start++;
 	}
-	r.push(root);
+	root = root + trans;
+	if (root < 0) root = root + 12;
+	if (root >= 120) root = root - 12;
+	retarr.push(root);
 	let chordKind = chordName.substr(start);
 	for (var i = 0; i < chordPitches.length; i++) {
 		if (chordPitches[i].name == chordKind) {
 			for (var p = 0; p < chordPitches[i].pitches.length; p++) {
-				r.push(root + chordPitches[i].pitches[p]);
+				retarr.push(root + chordPitches[i].pitches[p]);
 			}
 			break;
 		}
 	}
-	return r;
+	return retarr;
 }
 //
 
@@ -407,7 +408,7 @@ function morphPitch(pitch: number, fromMode: number[], toMode: number[], needRep
 	//let morphed = repitch(pitch + (toMode[step] - fromMode[step]));
 	let morphed = 12 + pitch + (toMode[step] - fromMode[step]);
 	if (needRepitch) {
-		morphed= repitch(morphed);
+		morphed = repitch(morphed);
 	}
 	if (morphed < 0) morphed = morphed + 12;
 	if (morphed >= 120) morphed = morphed - 12;
@@ -533,7 +534,7 @@ function composePianoRhythm(chords: string[], rhythm: PianoRhythmDefinition, cho
 	addPartRhythm((chords.length - part.length) * 8, part[0], part.length * 8, rhythm, beats, chordPitches);
 	return beats;
 }
-function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, rhythm: StrumDefinition, beats: InsBeat[], chordPitches: ChordPitches[]) {
+function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, rhythm: StrumDefinition, tobeats: InsBeat[], chordPitches: ChordPitches[]) {
 	//console.log(step, chord, len16);
 	let step = 0;
 	var durationStrum: { nn: number, strumKind: string, len16: number, chord: string }[] = [];
@@ -545,9 +546,9 @@ function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, r
 			} else {
 				if (strumKind == '-') {
 					if (durationStrum.length) {
-						if (durationStrum[durationStrum.length - 1].strumKind != 'X') {
-							durationStrum[durationStrum.length - 1].len16++;
-						}
+						//if (durationStrum[durationStrum.length - 1].strumKind != 'X') {
+						durationStrum[durationStrum.length - 1].len16++;
+						//}
 					}
 				} else {
 					durationStrum.push({ nn: i, strumKind: strumKind, len16: 1, chord: chordCurrent });
@@ -577,16 +578,17 @@ function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, r
 		}
 	}
 	for (let i = 0; i < durationStrum.length; i++) {
-		let b = durationStrum[i];
-		let pitches = pianoKeysByName(b.chord, chordPitches);
+		let strike = durationStrum[i];
+		let trans = 12 * Number(strike.strumKind);
+		let pitches = pianoKeysByName(strike.chord, chordPitches, trans);
 		//let pitches: number[] = findChordPitches(b.chord, chordfrets);
 		for (let k = 0; k < pitches.length; k++) {
 			//if (!(b.strumKind == 'A' && k == 0)) {
 			//if (!(b.strumKind == 'V' && k == pitches.length - 1)) {
-			beats.push({
+			tobeats.push({
 				track: 4,
-				beat: stepshift + b.nn,
-				length: b.len16,
+				beat: stepshift + strike.nn,
+				length: strike.len16,
 				shift: 0,
 				pitch: pitches[k]
 			});
@@ -722,39 +724,39 @@ function stripDrums(drums: DrumBeat[]): DrumBeat[] {
 		//console.log(single);
 		if (!existsdDrum(r, single)) {
 			r.push(single);
-		}else{
+		} else {
 			console.log('skip');
 		}
 	}
 	//console.log(r,drums);
 	return r;
 }
-function repeatChords(chords:string[]):string[] {
-	var row :string[]= [];
-	var nums :number[]= [];
+function repeatChords(chords: string[]): string[] {
+	var row: string[] = [];
+	var nums: number[] = [];
 	if (chords.length == 2) {
-		nums=[0, 0, 0, 0, 1, 1, 1, 1];
+		nums = [0, 0, 0, 0, 1, 1, 1, 1];
 	}
 	if (chords.length == 3) {
-		nums=[0, 0, 0, 0, 1, 1, 2, 2];
+		nums = [0, 0, 0, 0, 1, 1, 2, 2];
 	}
 	if (chords.length == 4) {
-		nums=[0, 0, 1, 1, 2, 2, 3, 3];
+		nums = [0, 0, 1, 1, 2, 2, 3, 3];
 	}
 	if (chords.length == 5) {
-		nums=[0, 0, 1, 1, 2, 2, 3, 4];
+		nums = [0, 0, 1, 1, 2, 2, 3, 4];
 	}
 	if (chords.length == 6) {
-		nums=[0, 0, 1, 1, 2, 3, 4, 5];
+		nums = [0, 0, 1, 1, 2, 3, 4, 5];
 	}
 	if (chords.length == 7) {
-		nums=[0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6];
+		nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6];
 	}
 	if (chords.length == 8) {
-		nums=[0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
+		nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
 	}
 	if (chords.length == 9) {
-		nums= [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
+		nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
 	}
 	for (let i = 0; i < nums.length; i++) {
 		row.push(chords[nums[i]]);
@@ -771,22 +773,22 @@ function stripTracks(instrs: InsBeat[]): InsBeat[] {
 	}
 	return r;
 }
-function replaceTracks(instrs: InsBeat[],from:number,to:number): void {
+function replaceTracks(instrs: InsBeat[], from: number, to: number): void {
 	let r: InsBeat[] = [];
 	for (var i = 0; i < instrs.length; i++) {
 		var single: InsBeat = instrs[i];
-		if (single.track==from) {
-			single.track=to;
+		if (single.track == from) {
+			single.track = to;
 		}
 	}
 }
 function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	let prognum = Math.floor(progressionsList.length * Math.random());
 	//let progression: Progression = progressionsList[prognum];
-	let chordRow: ChordRow =progressionsList[prognum];
-	var arr:string[] = chordRow.chords.split('-');
-	var chords:string[]= repeatChords(arr);
-	let progression: Progression = {category: chordRow.category, name: chordRow.name, chords: chords};
+	let chordRow: ChordRow = progressionsList[prognum];
+	var arr: string[] = chordRow.chords.split('-');
+	var chords: string[] = repeatChords(arr);
+	let progression: Progression = { category: chordRow.category, name: chordRow.name, chords: chords };
 	console.log(progression);
 	let tempo = 120;
 	let drumseed = Math.floor(beatsDefs.length * Math.random());
