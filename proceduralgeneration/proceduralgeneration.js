@@ -704,25 +704,37 @@ function repeatChords(chords) {
             nums = [0, 0, 1, 1, 2, 2, 2, 2];
     }
     if (chords.length == 4) {
-        if (seed < 0.15)
+        if (seed < 0.75)
             nums = [0, 0, 1, 1, 2, 2, 3, 3];
         else
             nums = [0, 0, 0, 1, 2, 2, 2, 3];
     }
     if (chords.length == 5) {
-        nums = [0, 0, 1, 1, 2, 2, 3, 4];
+        if (seed < 0.5)
+            nums = [0, 0, 1, 1, 2, 2, 3, 4];
+        else
+            nums = [0, 1, 2, 2, 3, 3, 4, 4];
     }
     if (chords.length == 6) {
-        nums = [0, 0, 1, 1, 2, 3, 4, 5];
+        if (seed < 0.5)
+            nums = [0, 0, 1, 1, 2, 3, 4, 5];
+        else
+            nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5];
     }
     if (chords.length == 7) {
-        nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6];
+        if (seed < 0.5)
+            nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6];
+        else
+            nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6];
     }
     if (chords.length == 8) {
         nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
     }
     if (chords.length == 9) {
-        nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
+        if (seed < 0.5)
+            nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
+        else
+            nums = [0, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
     }
     for (var i = 0; i < nums.length; i++) {
         row.push(chords[nums[i]]);
@@ -750,6 +762,7 @@ function replaceTracks(instrs, from, to) {
 }
 function composeURL(chordPitches, chordfrets) {
     var prognum = Math.floor(progressionsList.length * Math.random());
+    //prognum=0;
     //let progression: Progression = progressionsList[prognum];
     var chordRow = progressionsList[prognum];
     var arr = chordRow.chords.split('-');
