@@ -38,10 +38,10 @@ let scaleModeLocrian = 'Locrian'//minorHII-V-;
 let chordPitchesList: ChordPitches[] = [];
 let fretPitchesList: FretKeys[] = [];
 let progressionsList: ChordRow[] = [];
-let melodyDefs: MelodyDefinition[] = [];
-let bassDefs: BassDefinition[] = [];
+let melodyDefs: ChordRiffDefinition[] = [];
+let bassDefs: FullLineDefinition[] = [];
 let strumDefs: StrumDefinition[] = [];
-let rhythmDefs: RhythmDefinition[] = [];
+let rhythmDefs: PianoRhythmDefinition[] = [];
 let beatsDefs: BeatDefinition[] = [];
 
 //
@@ -86,7 +86,7 @@ type BeatDefinition = {
 		, encoded: string
 	}
 };
-type RhythmDefinition = {
+type PianoRhythmDefinition = {
 	category: string
 	, name: string
 	, start: string
@@ -98,14 +98,14 @@ type StrumDefinition = {
 	, start: string
 	, end: string
 };
-type BassDefinition = {
+type FullLineDefinition = {
 	category: string
 	, name: string
 	, chord: string
 	, len16: number
 	, encoded: string
 };
-type MelodyDefinition = {
+type ChordRiffDefinition = {
 	category: string
 	, name: string
 	, chord: string
@@ -351,6 +351,7 @@ function beatFill(chords: string[], beatDefinition: BeatDefinition): DrumBeat[] 
 	}
 	return beats;
 }
+/*
 function addViola(at: number, to: InsBeat[], current: ChordDuration, chordPitches: ChordPitches[]) {
 	let pitches = pianoKeysByName(current.chord, chordPitches);
 	for (let k = 0; k < pitches.length; k++) {
@@ -373,7 +374,7 @@ function composeViola(chords: string[], chordPitches: ChordPitches[]): InsBeat[]
 		nn = nn + current.len16;
 	}
 	return beats;
-}
+}*/
 function chordDurations(chords: string[]): ChordDuration[] {
 	let durations: { len16: number, chord: string }[] = [];
 	let curChord = '';
@@ -419,7 +420,7 @@ function repitch(pitch: number): number {
 	}
 	return pitch;
 }
-function addMelody(at: number, to: InsBeat[], current: ChordDuration, melody: MelodyDefinition) {
+function addMelody(at: number, to: InsBeat[], current: ChordDuration, melody: ChordRiffDefinition) {
 	//console.log(current.chord,melody.start.chord);
 	let toMode: number[] = findModePitches(current.chord);
 	//console.log(toMode);
@@ -469,7 +470,7 @@ function addMelody(at: number, to: InsBeat[], current: ChordDuration, melody: Me
 		}
 	}
 }
-function composeMelody(chords: string[], melody: MelodyDefinition): InsBeat[] {
+function composeChordRiffs(chords: string[], melody: ChordRiffDefinition): InsBeat[] {
 	let beats: InsBeat[] = [];
 	let durations: ChordDuration[] = chordDurations(chords);
 	let nn = 0;
@@ -481,7 +482,7 @@ function composeMelody(chords: string[], melody: MelodyDefinition): InsBeat[] {
 	//console.log(beats);
 	return beats;
 }
-function composeBass(chords: string[], bass: BassDefinition): InsBeat[] {
+function composeFullLine(chords: string[], bass: FullLineDefinition): InsBeat[] {
 	let beats: InsBeat[] = [];
 
 	//console.log(toMode);
@@ -512,7 +513,7 @@ function composeBass(chords: string[], bass: BassDefinition): InsBeat[] {
 	return beats;
 }
 
-function composePianoRhythm(chords: string[], rhythm: RhythmDefinition, chordPitches: ChordPitches[]): InsBeat[] {
+function composePianoRhythm(chords: string[], rhythm: PianoRhythmDefinition, chordPitches: ChordPitches[]): InsBeat[] {
 	let beats: InsBeat[] = [];
 	var part = [];
 	let curChord = '';
@@ -770,6 +771,15 @@ function stripTracks(instrs: InsBeat[]): InsBeat[] {
 	}
 	return r;
 }
+function replaceTracks(instrs: InsBeat[],from:number,to:number): void {
+	let r: InsBeat[] = [];
+	for (var i = 0; i < instrs.length; i++) {
+		var single: InsBeat = instrs[i];
+		if (single.track==from) {
+			single.track=to;
+		}
+	}
+}
 function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	let prognum = Math.floor(progressionsList.length * Math.random());
 	//let progression: Progression = progressionsList[prognum];
@@ -779,7 +789,8 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	let progression: Progression = {category: chordRow.category, name: chordRow.name, chords: chords};
 	console.log(progression);
 	let tempo = 120;
-	let drumData: DrumBeat[] = beatFill(progression.chords, beatsDefs[0]);
+	let drumseed = Math.floor(beatsDefs.length * Math.random());
+	let drumData: DrumBeat[] = beatFill(progression.chords, beatsDefs[drumseed]);
 	//let gitStrumData: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[0],chordfrets);
 	//let pianoRhythmData: InsBeat[] = composePianoRhythm(progression.chords, rhythmDefs[0],chordPitches);
 	//let melodyData: InsBeat[] = composeMelody(progression.chords, melodyDefs[0]);
@@ -794,11 +805,12 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 		tracksData = tracksData.concat(t);
 	}
 	if (melodyDefs[0].start.len16) {
-		let t: InsBeat[] = composeMelody(progression.chords, melodyDefs[0]);
+		let t: InsBeat[] = composeChordRiffs(progression.chords, melodyDefs[0]);
 		tracksData = tracksData.concat(t);
 	}
 	if (bassDefs[0].len16) {
-		let t: InsBeat[] = composeBass(progression.chords, bassDefs[0]);
+		let t: InsBeat[] = composeFullLine(progression.chords, bassDefs[0]);
+		//replaceTracks(t,5,7);
 		tracksData = tracksData.concat(t);
 	}
 

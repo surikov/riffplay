@@ -738,7 +738,20 @@ let prgrsnData = [
 
 let bassDefData = [
 	{
-		category: '', name: '', chord: 'Am', len16: 8 * 4
+		category: '', name: 'tgdm', chord: 'Cm', len16: 8 * 4
+		, encoded: '005020c40025010c40035020c40055020c40075011040085020c400a5020c400c5020c400e5021040105020c40125010c40135021040155021340175011040185020c401a5020c401c5020c401e5021040'
+	}
+	,
+	{
+		category: '', name: 'octa3', chord: 'Bm', len16: 8 * 2
+		, encoded: '005020b40025021740045020b40065020e40085020b400a50217400c5020b400e5021240'
+	}
+	,{
+		category: '', name: 'short', chord: 'Am', len16: 8 * 2
+		, encoded: '005040940045020c40075010940085010c400a50110400c50209400e5020940'
+	}
+	,{
+		category: '', name: 'kvint', chord: 'Am', len16: 8 * 4
 		, encoded: '0050409400450404400850409400c50404401050409401450404401850209401a50204401c50205401e5020740'
 	}
 	//
@@ -822,7 +835,9 @@ let rhythmDefsData = [
 	}
 ];
 let beatsDefsData = [
-	{ category: '', name: 'simpledance', start: { len16: 8 * 2, encoded: '0011011180448144' }, end: { len16: 8*2, encoded: '001101f980448144' } }
+	
+	{ category: '', name: 'simpledance2', start: { len16: 8 * 2, encoded: '0011011120402104401041106002a044a144' }, end: { len16: 8*2, encoded: '0011011120402155401060026155a044a144' } }
+	,{ category: '', name: 'simpledance', start: { len16: 8 * 2, encoded: '0011011180448144' }, end: { len16: 8*2, encoded: '001101f980448144' } }
 	,{ category: '', name: 'axel', start: { len16: 8 * 2, encoded: '0063014e4011411180ff81ffc1f8' }, end: { len16: 0, encoded: '' } }
 	, { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 8*2, encoded: '008901994010412280cca001a111c050' } }
 	,{ category: '', name: 'bigroom2', start: { len16: 8 * 2, encoded: '001101152011211540104110a044a144' }, end: { len16: 8*2, encoded: '001101f5201121f54010a044a144' } }
