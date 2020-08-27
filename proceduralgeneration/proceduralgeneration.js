@@ -37,13 +37,14 @@ var scaleModeLocrian = 'Locrian'; //minorHII-V-;
 //
 var chordPitchesList = [];
 var fretPitchesList = [];
-var progressionsList = [];
+//let progressionsList2: ChordRow[] = [];
 var melodyDefs = [];
 var bassDefs = [];
 var soloDefs = [];
 var strumDefs = [];
 var rhythmDefs = [];
 var beatsDefs = [];
+var allprogressions = [];
 //
 var scaleModes = [
     { name: scaleModeIonian, pitches: [2, 2, 1, 2, 2, 2, 1] },
@@ -690,48 +691,54 @@ function stripDrums(drums) {
     //console.log(r,drums);
     return r;
 }
-function repeatChords(chords) {
+function repeatChords(chords, sub) {
     var row = [];
     var nums = [];
-    var seed = Math.random();
+    //var seed = Math.random();
     if (chords.length == 2) {
-        nums = [0, 0, 0, 0, 1, 1, 1, 1];
+        if (sub < 0.5)
+            nums = nums = [0, 0, 1, 1];
+        else
+            nums = [0, 0, 0, 0, 1, 1, 1, 1];
     }
     if (chords.length == 3) {
-        if (seed < 0.5)
+        if (sub < 0.5)
             nums = [0, 0, 0, 0, 1, 1, 2, 2];
         else
             nums = [0, 0, 1, 1, 2, 2, 2, 2];
     }
     if (chords.length == 4) {
-        if (seed < 0.75)
+        if (sub < 0.5)
             nums = [0, 0, 1, 1, 2, 2, 3, 3];
         else
             nums = [0, 0, 0, 1, 2, 2, 2, 3];
     }
     if (chords.length == 5) {
-        if (seed < 0.5)
+        if (sub < 0.5)
             nums = [0, 0, 1, 1, 2, 2, 3, 4];
         else
             nums = [0, 1, 2, 2, 3, 3, 4, 4];
     }
     if (chords.length == 6) {
-        if (seed < 0.5)
+        if (sub < 0.5)
             nums = [0, 0, 1, 1, 2, 3, 4, 5];
         else
             nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5];
     }
     if (chords.length == 7) {
-        if (seed < 0.5)
+        if (sub < 0.5)
             nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6];
         else
             nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6];
     }
     if (chords.length == 8) {
-        nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
+        if (sub < 0.5)
+            nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
+        else
+            nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7];
     }
     if (chords.length == 9) {
-        if (seed < 0.5)
+        if (sub < 0.5)
             nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
         else
             nums = [0, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
@@ -763,13 +770,13 @@ function replaceTracks(instrs, from, to) {
 function composeURL(chordPitches, chordfrets) {
     //let prognum = Math.floor(progressionsList.length * Math.random());
     var nn = Number(document.getElementById('sliderProgression').value);
-    var prognum = '' + (Math.floor(progressionsList.length * nn / 1000));
+    var prognum = '' + (Math.floor(allprogressions.length * nn / 1000));
     //prognum=0;
-    //let progression: Progression = progressionsList[prognum];
-    var chordRow = progressionsList[prognum];
-    var arr = chordRow.chords.split('-');
-    var chords = repeatChords(arr);
-    var progression = { category: chordRow.category, name: chordRow.name, chords: chords };
+    var progression = allprogressions[prognum];
+    //let chordRow: ChordRow = progressionsList[prognum];
+    //var arr: string[] = chordRow.chords.split('-');
+    //var chords: string[] = repeatChords(arr);
+    //let progression: Progression = { category: chordRow.category, name: chordRow.name, chords: chords };
     //console.log(progression);
     var tempo = 120;
     //let drumseed = Math.floor(beatsDefs.length * Math.random());
@@ -781,29 +788,35 @@ function composeURL(chordPitches, chordfrets) {
     //let melodyData: InsBeat[] = composeMelody(progression.chords, melodyDefs[0]);
     //let viData: InsBeat[] = composeViola(progression.chords, chordPitches);
     nn = Number(document.getElementById('sliderStrum').value);
-    var strumseed = '' + (Math.floor(strumDefs.length * nn / 1000));
+    var strumseed = Math.floor(strumDefs.length * nn / 1000);
     nn = Number(document.getElementById('sliderBass').value);
-    var bassseed = '' + (Math.floor(bassDefs.length * nn / 1000));
+    var bassseed = Math.floor(bassDefs.length * nn / 1000);
+    nn = Number(document.getElementById('sliderRhythm').value);
+    var rhythmseed = Math.floor(rhythmDefs.length * nn / 1000);
+    nn = Number(document.getElementById('sliderSolo').value);
+    var soloseed = Math.floor(soloDefs.length * nn / 1000);
+    nn = Number(document.getElementById('sliderMelody').value);
+    var melodyseed = Math.floor(melodyDefs.length * nn / 1000);
     var tracksData = [];
-    if (strumDefs[0].start.length) {
+    if (strumDefs[strumseed].start.length) {
         var t = composeGuitarStrum(progression.chords, strumDefs[strumseed], chordfrets);
         tracksData = tracksData.concat(t);
     }
-    if (rhythmDefs[0].start.length) {
-        var t = composePianoRhythm(progression.chords, rhythmDefs[0], chordPitches);
+    if (rhythmDefs[rhythmseed].start.length) {
+        var t = composePianoRhythm(progression.chords, rhythmDefs[rhythmseed], chordPitches);
         tracksData = tracksData.concat(t);
     }
-    if (melodyDefs[0].start.len16) {
-        var t = composeChordRiffs(progression.chords, melodyDefs[0]);
+    if (melodyDefs[melodyseed].start.len16) {
+        var t = composeChordRiffs(progression.chords, melodyDefs[melodyseed]);
         tracksData = tracksData.concat(t);
     }
-    if (bassDefs[0].len16) {
+    if (bassDefs[bassseed].len16) {
         var t = composeFullLine(progression.chords, bassDefs[bassseed]);
         //replaceTracks(t,5,7);
         tracksData = tracksData.concat(t);
     }
-    if (soloDefs[0].len16) {
-        var t = composeFullLine(progression.chords, soloDefs[0]);
+    if (soloDefs[soloseed].len16) {
+        var t = composeFullLine(progression.chords, soloDefs[soloseed]);
         //replaceTracks(t,5,7);
         tracksData = tracksData.concat(t);
     }
@@ -831,13 +844,22 @@ function parsChanged() {
     nn = Number(document.getElementById('sliderBass').value);
     document.getElementById('infoBass').innerHTML = '' + (Math.floor(bassDefs.length * nn / 1000));
     nn = Number(document.getElementById('sliderProgression').value);
-    document.getElementById('infoProgression').innerHTML = '' + (Math.floor(progressionsList.length * nn / 1000));
+    document.getElementById('infoProgression').innerHTML = '' + (Math.floor(allprogressions.length * nn / 1000));
     nn = Number(document.getElementById('sliderStrum').value);
     document.getElementById('infoStrum').innerHTML = '' + (Math.floor(strumDefs.length * nn / 1000));
+    nn = Number(document.getElementById('sliderRhythm').value);
+    document.getElementById('infoRhythm').innerHTML = '' + (Math.floor(rhythmDefs.length * nn / 1000));
+    nn = Number(document.getElementById('sliderSolo').value);
+    document.getElementById('infoSolo').innerHTML = '' + (Math.floor(soloDefs.length * nn / 1000));
+    nn = Number(document.getElementById('sliderMelody').value);
+    document.getElementById('infoMelody').innerHTML = '' + (Math.floor(melodyDefs.length * nn / 1000));
 }
 document.getElementById('proceduralgeneration').onclick = initApp;
 document.getElementById('sliderDrum').value = Math.floor(Math.random() * 1000);
 document.getElementById('sliderBass').value = Math.floor(Math.random() * 1000);
 document.getElementById('sliderProgression').value = Math.floor(Math.random() * 1000);
 document.getElementById('sliderStrum').value = Math.floor(Math.random() * 1000);
+document.getElementById('sliderRhythm').value = Math.floor(Math.random() * 1000);
+document.getElementById('sliderSolo').value = Math.floor(Math.random() * 1000);
+document.getElementById('sliderMelody').value = Math.floor(Math.random() * 1000);
 console.log('proceduralgeneration v1.01');

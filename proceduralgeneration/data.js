@@ -537,7 +537,7 @@ var chordfretsData = [
 	{ name: "Gmmaj9", pitch: 7, frets: [3, 0, 0, 3, 3, 2] },
 	{ name: "Gsus4", pitch: 7, frets: [3, 3, 0, 0, 1, 3] }
 ];
-let prlist = [
+let progressionsList2 = [
 	
 	//{ category: 'test', name: '', chords: 'F-Am-G-D' }
 	 { category: 'sad', name: '', chords: 'Fmaj7-A' }
@@ -751,9 +751,15 @@ let prgrsnData = [
 ];*/
 let soloDefData=[
 	{
-		category: '', name: 'mechty', chord: 'Am', len16: 8 * 0
+		category: '', name: '', chord: 'Am', len16: 8 * 0
 		, encoded: ''
 	}
+	,{
+		category: '', name: 'laser', chord: 'Cm', len16: 8 * 2
+		, encoded: '007010c40017021340037010c40047021140067010c40077020f40097010c400a70213400c70211400e7021340'
+	}
+	//
+
 	,{
 		category: '', name: 'mechty', chord: 'Am', len16: 8 * 8
 		, encoded: '0000415400430415400800213400a30215400c00213400e30215401000415401430415401800213401a30215401c00213401e00211402000415402430415402800213402a30215402c00213402e30215403000415403430111403500310403830211403a30211403c30213403e3021540'
@@ -761,18 +767,18 @@ let soloDefData=[
 ];
 let bassDefData = [
 	{
+		category: '', name: 'mechty', chord: 'Am', len16: 0
+		, encoded: ''
+	}
+	,
+	{
+		category: '', name: 'laser', chord: 'Am', len16: 8 * 2
+		, encoded: '0050109400150109400250115400350115400450109400550109400650115400750115400850109400950109400a50115400b50115400c50109400d50109400e50115400f5011540'
+	}
+	,
+	{
 		category: '', name: 'mechty', chord: 'Am', len16: 8 * 8
 		, encoded: '0050409400650209400850204400c50209401050409401650209401850204401c5020940205040940265020940285020c402a50209402c5020e402e5021040305040940365020940385020c403a50209403c50210403e5020940'
-	}
-	,
-	{
-		category: '', name: 'tgdm', chord: 'Am', len16: 8 * 8
-		, encoded: '005010940025010940045010940065010c400750109400850109400a50109400c50109400e5020940105010940125010940145010940165011040175010c401850109401a50109401c5020c401e5020940205020940245020c402850209402a50209402c5010c402d50110402e5020940305020940325020940345020c403650109403750109403850209403a5020c403c50209403e5020940'
-	}
-	,
-	{
-		category: '', name: 'tgdm', chord: 'Cm', len16: 8 * 4
-		, encoded: '005020c40025010c40035020c40055020c40075011040085020c400a5020c400c5020c400e5021040105020c40125010c40135021040155021340175011040185020c401a5020c401c5020c401e5021040'
 	}
 	,
 	{
@@ -789,16 +795,17 @@ let bassDefData = [
 	}
 	//
 	,{
-		category: '', name: '', chord: 'Am', len16: 8 * 8
-		, encoded: '005020940025020940045020c400650409400a50209400c5020c400e5020940105020e40125021040145020c401650409401a50209401c5020c401e5020940205020c40225021040245020c402650409402a50209402c5020c402e5020940305020c40325020940345020c403650409403a50209403c5020c403e5020940'
+		category: '', name: '', chord: 'F', len16: 8 * 4
+		, encoded: '0050205400250205400450209400650205400a50205400c50209400e5020c40105020940125020c401450209401650205401a50205401c50209401e5020540'
 	}, {
-		category: '', name: '', chord: 'C', len16: 8 * 2
-		, encoded: '005040c400450210400650213400a5020c400c5021040'
+		category: '', name: '', chord: 'Am', len16: 8 * 2
+		, encoded: '005040940045020c400650410400a50209400c5040c40'
 	}, {
 		category: '', name: '', chord: 'Am', len16: 8 * 2
 		, encoded: '005020940025020940045020940065020c400850209400a50209400c50209400e5020740'
 	}
 ];
+
 let melodydefsData = [
 {
 		category: '', name: ''
@@ -828,6 +835,12 @@ let melodydefsData = [
 	}
 ];
 let strumDefsData = [
+	{
+		category: '', name: ''
+		, start: ''
+		, end: ''
+	}
+	,
 	{
 		category: '', name: 'mechty'
 		, start: 'V---V.A-V.A-V-A.'
@@ -881,24 +894,38 @@ let rhythmDefsData = [
 ];
 let beatsDefsData = [
 	
-	{ category: '', name: 'simpledance2', start: { len16: 8 * 2, encoded: '0011011120402104401041106002a044a144' }, end: { len16: 8*2, encoded: '0011011120402155401060026155a044a144' } }
+	{ category: '', name: 'rock3 half slow', start: { len16: 8 *4, encoded: '004101400241034441014301c011c111c211c311' }, end: { len16: 8*2, encoded: '0041010441d1c011c111' } }	
 	,{ category: '', name: 'simpledance', start: { len16: 8 * 2, encoded: '0011011180448144' }, end: { len16: 8*2, encoded: '001101f980448144' } }
-	//,{ category: '', name: 'axel', start: { len16: 8 * 2, encoded: '0063014e4011411180ff81ffc1f8' }, end: { len16: 0, encoded: '' } }
-	, { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 8*2, encoded: '008901994010412280cca001a111c050' } }
-	,{ category: '', name: 'bigroom2', start: { len16: 8 * 2, encoded: '001101152011211540104110a044a144' }, end: { len16: 8*2, encoded: '001101f5201121f54010a044a144' } }
+	
+	
+	
 	,{ category: '', name: 'bigroom', start: { len16: 8 * 2, encoded: '00110111201121114010411080448144' }, end: { len16: 8*2, encoded: '00110111201121114010411180518155' } }
-	,{ category: '', name: 'rap', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 8*2, encoded: '00810105401041d080558104a101c150' } }
-	,{ category: '', name: 'prodigy', start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }, end: { len16: 8*2, encoded: '0005010521404090419080fe81aea001a151' } }
+	,{ category: '', name: 'bigroom2', start: { len16: 8 * 2, encoded: '001101152011211540104110a044a144' }, end: { len16: 8*2, encoded: '001101f5201121f54010a044a144' } }
 	,{ category: '', name: 'simpleride', start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }, end: { len16: 8*2, encoded: '0089011040104165c055c105e110' } }
 	,{ category: '', name: 'simplerock2', start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' } }
-	,{ category: '', name: 'hard rock', start: { len16: 8 * 4, encoded: '00050105020503454010411042104310c055c155c255c355' }, end: { len16: 8*2, encoded: '0005010c21c0401060406133c014' } }
-	,{ category: '', name: 'power metal', start: { len16: 8 * 4, encoded: '00440144024603464011411142114311a010a111a211a311e001' }, end: { len16: 8*2, encoded: '00820108405d4157e041' } }
-	,{ category: '', name: 'punk speed', start: { len16: 8 * 2, encoded: '0031012940444144c055c155' }, end: { len16: 8*2, encoded: '0033010921a0404441146140c055c115' } }
-	,{ category: '', name: 'punk tom', start: { len16: 8 * 4, encoded: '000101050201030504010505060107052054215522552355245525552655275540104110421043184410451046104730e001' }, end: { len16: 8*2, encoded: '00110111205421556080614ce001' } }
-	,{ category: '', name: 'funk1+', start: { len16: 8 * 4, encoded: '000101250205030440b0419242b04392805d8153825d8353a104a304' }, end: { len16: 8*2, encoded: '000521404090411b61248055' } }
-	,{ category: '', name: 'rock2', start: { len16: 8 *2, encoded: '0001014540904110a011a111' }, end: { len16: 8*2, encoded: '000101112120401041cca011a101' } }
 	,{ category: '', name: 'rock1-', start: { len16: 8 * 4, encoded: '000501040245034440104110421043108015815582158355a040a240' }, end: { len16: 8*2, encoded: '0005011121404010410f61208055' } }
-	,{ category: '', name: 'rock3 half slow', start: { len16: 8 *4, encoded: '004101400241034441014301c011c111c211c311' }, end: { len16: 8*2, encoded: '0041010441d1c011c111' } }	
+	,{ category: '', name: 'hard rock', start: { len16: 8 * 4, encoded: '00050105020503454010411042104310c055c155c255c355' }, end: { len16: 8*2, encoded: '0005010c21c0401060406133c014' } }
+	,{ category: '', name: 'rock2', start: { len16: 8 *2, encoded: '0001014540904110a011a111' }, end: { len16: 8*2, encoded: '000101112120401041cca011a101' } }
+	,{ category: '', name: 'rap', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 8*2, encoded: '00810105401041d080558104a101c150' } }
+
+	
+	,{ category: '', name: 'prodigy', start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }, end: { len16: 8*2, encoded: '0005010521404090419080fe81aea001a151' } }
+	, { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 8*2, encoded: '008901994010412280cca001a111c050' } }
+
+	
+	
+	
+	
+	
+	
+	
+	,{ category: '', name: 'funk1+', start: { len16: 8 * 4, encoded: '000101250205030440b0419242b04392805d8153825d8353a104a304' }, end: { len16: 8*2, encoded: '000521404090411b61248055' } }
+	
+	
+	,{ category: '', name: 'simpledance2', start: { len16: 8 * 2, encoded: '0011011120402104401041106002a044a144' }, end: { len16: 8*2, encoded: '0011011120402155401060026155a044a144' } }
+	,{ category: '', name: 'punk tom', start: { len16: 8 * 4, encoded: '000101050201030504010505060107052054215522552355245525552655275540104110421043184410451046104730e001' }, end: { len16: 8*2, encoded: '00110111205421556080614ce001' } }
+	,{ category: '', name: 'punk speed', start: { len16: 8 * 2, encoded: '0031012940444144c055c155' }, end: { len16: 8*2, encoded: '0033010921a0404441146140c055c115' } }
+	,{ category: '', name: 'power metal', start: { len16: 8 * 4, encoded: '00440144024603464011411142114311a010a111a211a311e001' }, end: { len16: 8*2, encoded: '00820108405d4157e041' } }
 ];
 bassDefs = bassDefData;
 soloDefs = soloDefData;
@@ -908,6 +935,17 @@ strumDefs = strumDefsData;
 melodyDefs = melodydefsData;
 chordPitchesList = chordPitchesDatat;
 fretPitchesList = chordfretsData;
-progressionsList = prlist;
+//progressionsList2 = prlist;
+for(var i=0;i<progressionsList2.length;i++){
+	//allprogressions
+	let chordRow = progressionsList2[i];
+	var arr = chordRow.chords.split('-');
+	var chords = repeatChords(arr,0);
+	let progression= { category: chordRow.category, name: chordRow.name, chords: chords };
+	allprogressions.push(progression);
+	chords = repeatChords(arr,1);
+	 progression = { category: chordRow.category, name: chordRow.name, chords: chords };
+	allprogressions.push(progression);
+}
 //https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=78-76444757-44646666-0d0c0c0a08090d0e090c--000020c40023020c40040021040063020c400800213400a3020c400c00210400e0021340-000000000000000000000000-000000000000000000000000
 parsChanged();
