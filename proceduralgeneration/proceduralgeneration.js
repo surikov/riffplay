@@ -761,24 +761,32 @@ function replaceTracks(instrs, from, to) {
     }
 }
 function composeURL(chordPitches, chordfrets) {
-    var prognum = Math.floor(progressionsList.length * Math.random());
+    //let prognum = Math.floor(progressionsList.length * Math.random());
+    var nn = Number(document.getElementById('sliderProgression').value);
+    var prognum = '' + (Math.floor(progressionsList.length * nn / 1000));
     //prognum=0;
     //let progression: Progression = progressionsList[prognum];
     var chordRow = progressionsList[prognum];
     var arr = chordRow.chords.split('-');
     var chords = repeatChords(arr);
     var progression = { category: chordRow.category, name: chordRow.name, chords: chords };
-    console.log(progression);
+    //console.log(progression);
     var tempo = 120;
-    var drumseed = Math.floor(beatsDefs.length * Math.random());
+    //let drumseed = Math.floor(beatsDefs.length * Math.random());
+    nn = Number(document.getElementById('sliderDrum').value);
+    var drumseed = '' + (Math.floor(beatsDefs.length * nn / 1000));
     var drumData = beatFill(progression.chords, beatsDefs[drumseed]);
     //let gitStrumData: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[0],chordfrets);
     //let pianoRhythmData: InsBeat[] = composePianoRhythm(progression.chords, rhythmDefs[0],chordPitches);
     //let melodyData: InsBeat[] = composeMelody(progression.chords, melodyDefs[0]);
     //let viData: InsBeat[] = composeViola(progression.chords, chordPitches);
+    nn = Number(document.getElementById('sliderStrum').value);
+    var strumseed = '' + (Math.floor(strumDefs.length * nn / 1000));
+    nn = Number(document.getElementById('sliderBass').value);
+    var bassseed = '' + (Math.floor(bassDefs.length * nn / 1000));
     var tracksData = [];
     if (strumDefs[0].start.length) {
-        var t = composeGuitarStrum(progression.chords, strumDefs[0], chordfrets);
+        var t = composeGuitarStrum(progression.chords, strumDefs[strumseed], chordfrets);
         tracksData = tracksData.concat(t);
     }
     if (rhythmDefs[0].start.length) {
@@ -790,7 +798,7 @@ function composeURL(chordPitches, chordfrets) {
         tracksData = tracksData.concat(t);
     }
     if (bassDefs[0].len16) {
-        var t = composeFullLine(progression.chords, bassDefs[0]);
+        var t = composeFullLine(progression.chords, bassDefs[bassseed]);
         //replaceTracks(t,5,7);
         tracksData = tracksData.concat(t);
     }
@@ -801,7 +809,7 @@ function composeURL(chordPitches, chordfrets) {
     }
     //console.log(parseMelody(melodydefs[0].start.encoded));
     var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 4];
-    var insVolumes = [3, 5, 4, 3, 4, 7, 5, 7];
+    var insVolumes = [3, 3, 4, 3, 4, 7, 5, 7];
     var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
     //let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
     drumData = stripDrums(drumData);
@@ -815,5 +823,21 @@ function initApp() {
     //console.log(chordPitches, chordPitches);
     composeURL(chordPitchesList, fretPitchesList);
 }
+function parsChanged() {
+    //console.log('drum',(document.getElementById('sliderDrum') as any).value);
+    //console.log('bass',(document.getElementById('sliderBass') as any).value);
+    var nn = Number(document.getElementById('sliderDrum').value);
+    document.getElementById('infoDrum').innerHTML = '' + (Math.floor(beatsDefs.length * nn / 1000));
+    nn = Number(document.getElementById('sliderBass').value);
+    document.getElementById('infoBass').innerHTML = '' + (Math.floor(bassDefs.length * nn / 1000));
+    nn = Number(document.getElementById('sliderProgression').value);
+    document.getElementById('infoProgression').innerHTML = '' + (Math.floor(progressionsList.length * nn / 1000));
+    nn = Number(document.getElementById('sliderStrum').value);
+    document.getElementById('infoStrum').innerHTML = '' + (Math.floor(strumDefs.length * nn / 1000));
+}
 document.getElementById('proceduralgeneration').onclick = initApp;
+document.getElementById('sliderDrum').value = Math.floor(Math.random() * 1000);
+document.getElementById('sliderBass').value = Math.floor(Math.random() * 1000);
+document.getElementById('sliderProgression').value = Math.floor(Math.random() * 1000);
+document.getElementById('sliderStrum').value = Math.floor(Math.random() * 1000);
 console.log('proceduralgeneration v1.01');

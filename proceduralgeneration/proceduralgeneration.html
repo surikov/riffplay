@@ -4,7 +4,15 @@
  </head>
  <body>
   <h1>proceduralgeneration</h1>
-  <p><a id='proceduralgeneration' href='#'>startApp</a>
+  <p>Drum <span id="infoDrum">X</span></p>
+  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderDrum" onChange='parsChanged();'></p>
+  <p>Bass <span id="infoBass">X</span></p>
+  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderBass" onChange='parsChanged();'></p>
+  <p>Progression <span id="infoProgression">X</span></p>
+  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderProgression" onChange='parsChanged();'></p>
+  <p>Strum <span id="infoStrum">X</span></p>
+  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderStrum" onChange='parsChanged();'></p>
+  <p><a id='proceduralgeneration' href='#'>startApp</p>
   <script type='text/javascript' src='proceduralgeneration.js'></script>
   <script type='text/javascript' src='data.js'></script>
  </body>

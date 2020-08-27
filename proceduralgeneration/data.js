@@ -910,3 +910,4 @@ chordPitchesList = chordPitchesDatat;
 fretPitchesList = chordfretsData;
 progressionsList = prlist;
 //https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=78-76444757-44646666-0d0c0c0a08090d0e090c--000020c40023020c40040021040063020c400800213400a3020c400c00210400e0021340-000000000000000000000000-000000000000000000000000
+parsChanged();
