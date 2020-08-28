@@ -537,10 +537,13 @@ var chordfretsData = [
 	{ name: "Gmmaj9", pitch: 7, frets: [3, 0, 0, 3, 3, 2] },
 	{ name: "Gsus4", pitch: 7, frets: [3, 3, 0, 0, 1, 3] }
 ];
+//https://www.hooktheory.com/theorytab/
 let progressionsList2 = [
 	
-	//{ category: 'test', name: '', chords: 'F-Am-G-D' }
-	 { category: 'sad', name: '', chords: 'Fmaj7-A' }
+	{ category: 'test', name: '', chords: 'Em-D-C-D' }
+	 
+//
+	 ,{ category: 'sad', name: '', chords: 'Fmaj7-A' }
 	,{ category: 'major', name: '', chords: 'C-D-E-F-G-A-B' }
 	,{ category: 'sad', name: '', chords: 'Am-C-Dm-Em' }
 	,{ category: 'sad', name: '', chords: 'F-Em-Am-G-Am' }
@@ -551,7 +554,7 @@ let progressionsList2 = [
 	 ,{ category: 'sad', name: '', chords: 'Bm-A-G-F#' }
 	, { category: 'sad', name: '', chords: 'Em-G-C-Am' }
 	, { category: 'sad', name: '', chords: 'Am-C-D-Am-C-Am' }
-	
+	,{ category: 'sad', name: '', chords: 'Em-D-C-B' }
 	, { category: 'sad', name: '', chords: 'Em-B-G-Em' }
 	, { category: 'sad', name: '', chords: 'Am-F-C-G' }
 	, { category: 'sad', name: '', chords: 'Am-Dm-Fm-C' }
@@ -568,7 +571,7 @@ let progressionsList2 = [
 	, { category: 'sad', name: '', chords: 'Am7-F7-G-Em7' }
 	, { category: 'sad', name: '', chords: 'C-Am-F-G' }
 	,{ category: 'sad', name: '', chords: 'Am-D7-E7-Am' }
-	//
+	,{ category: 'test', name: '', chords: 'Em-D-C-D' }
 	,{ category: 'jazz', name: '', chords: 'Am-F7-D7-E7' }
 	, { category: 'jazz', name: '', chords: 'Cm7-Ab7-G7' }
 	, { category: 'jazz', name: '', chords: 'D7-G7-C7-F7' }
@@ -584,7 +587,7 @@ let progressionsList2 = [
 	, { category: 'jazz', name: '', chords: 'C-Am-E-G' }
 	, { category: 'jazz', name: '', chords: 'C-Gm-Dm' }
 	, { category: 'jazz', name: '', chords: 'Am-G-D' }
-	//
+	,{ category: 'blus', name: '', chords: '-' }
 	, { category: 'blues', name: '', chords: 'Am-G-D-F' }
 	, { category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' }
 	, { category: 'epic', name: '', chords: 'C-G-Am-F' }
@@ -596,7 +599,7 @@ let progressionsList2 = [
 	, { category: 'nice', name: '', chords: 'Am-Em-G-Dm' }
 	, { category: 'nice', name: '', chords: 'C-F-G-Am' }
 	, { category: 'nice', name: '', chords: 'Am7-Em7-Dsus4-Dm7' }
-	//
+	,{ category: 'major', name: '', chords: 'G-C-D-C' }
 	,{ category: 'major', name: '', chords: 'G-C-F-C' }
 	,{ category: 'major', name: '', chords: 'F-G-Am-Em' }
 	, { category: 'major', name: '', chords: 'C-Dm-Am7-F-G-C' }
@@ -615,6 +618,9 @@ let progressionsList2 = [
 	, { category: 'major', name: '', chords: 'A-E-F#m-D-A-E' }
 ,{ category: 'major', name: '', chords: 'C-F-Dm-G' }
 ,{ category: 'major', name: '', chords: 'C-F-G' }
+,{ category: 'major', name: '', chords: 'G-Em-C-D' }
+, { category: 'major', name: '', chords: 'G-D-Em-Bm-C-G-C-D' }
+,{ category: 'major', name: '', chords: 'D-C-G-D' }
 ];
 /*
 function repeatChords(list, progression, chords, nums) {
@@ -803,7 +809,11 @@ let bassDefData = [
 	}, {
 		category: '', name: '', chord: 'Am', len16: 8 * 2
 		, encoded: '005020940025020940045020940065020c400850209400a50209400c50209400e5020740'
+	}, {
+		category: '', name: '', chord: 'Am', len16: 8 * 2
+		, encoded: '005020940025020940045020940065021040085040c400c50209400e5020740'
 	}
+	
 ];
 
 let melodydefsData = [
@@ -890,6 +900,10 @@ let rhythmDefsData = [
 		category: '', name: ''
 		, start: '1---..1---..1-1-'
 		, end: '.1111111'
+	}, {
+		category: '', name: ''
+		, start: '2-2-2..2'
+		, end: '2-2-2..22-..2-.2'
 	}
 ];
 let beatsDefsData = [

@@ -778,7 +778,6 @@ function composeURL(chordPitches, chordfrets) {
     //var chords: string[] = repeatChords(arr);
     //let progression: Progression = { category: chordRow.category, name: chordRow.name, chords: chords };
     //console.log(progression);
-    var tempo = 120;
     //let drumseed = Math.floor(beatsDefs.length * Math.random());
     nn = Number(document.getElementById('sliderDrum').value);
     var drumseed = '' + (Math.floor(beatsDefs.length * nn / 1000));
@@ -797,6 +796,13 @@ function composeURL(chordPitches, chordfrets) {
     var soloseed = Math.floor(soloDefs.length * nn / 1000);
     nn = Number(document.getElementById('sliderMelody').value);
     var melodyseed = Math.floor(melodyDefs.length * nn / 1000);
+    nn = Number(document.getElementById('sliderTempo').value);
+    var temposeed = Math.floor(3 * nn / 1000);
+    var tempo = 120;
+    if (temposeed == 0)
+        tempo = 100;
+    if (temposeed == 2)
+        tempo = 140;
     var tracksData = [];
     if (strumDefs[strumseed].start.length) {
         var t = composeGuitarStrum(progression.chords, strumDefs[strumseed], chordfrets);
@@ -853,6 +859,8 @@ function parsChanged() {
     document.getElementById('infoSolo').innerHTML = '' + (Math.floor(soloDefs.length * nn / 1000));
     nn = Number(document.getElementById('sliderMelody').value);
     document.getElementById('infoMelody').innerHTML = '' + (Math.floor(melodyDefs.length * nn / 1000));
+    nn = Number(document.getElementById('sliderTempo').value);
+    document.getElementById('infoTempo').innerHTML = '' + (Math.floor(3 * nn / 1000));
 }
 document.getElementById('proceduralgeneration').onclick = initApp;
 document.getElementById('sliderDrum').value = Math.floor(Math.random() * 1000);
@@ -862,4 +870,5 @@ document.getElementById('sliderStrum').value = Math.floor(Math.random() * 1000);
 document.getElementById('sliderRhythm').value = Math.floor(Math.random() * 1000);
 document.getElementById('sliderSolo').value = Math.floor(Math.random() * 1000);
 document.getElementById('sliderMelody').value = Math.floor(Math.random() * 1000);
+document.getElementById('sliderTempo').value = Math.floor(Math.random() * 1000);
 console.log('proceduralgeneration v1.01');
