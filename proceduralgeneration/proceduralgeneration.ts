@@ -696,16 +696,21 @@ function addPartGuitar(stepshift: number, chordCurrent: string, len16: number, s
 		let pitches: number[] = findChordPitches(b.chord, chordfrets);
 		//console.log(b.chord,pitches);
 		for (let k = 0; k < pitches.length; k++) {
-			if (!(b.strumKind == 'A' && k == 0)) {
-				if (pitches[k] > -1 && (!(b.strumKind == 'V' && k == pitches.length - 1))) {
-					beats.push({
-						track: 1,
-						beat: stepshift + b.nn,
-						length: b.len16,
-						shift: 0,
-						pitch: pitches[k]
-					});
-				}
+			if (
+				(b.strumKind == 'A' && k > 0)
+				|| (b.strumKind == 'V' && k < pitches.length - 1)
+				|| (b.strumKind == 'X' && k >2)
+			) {
+				//if (!(b.strumKind == 'A' && k == 0)) {
+				//if (pitches[k] > -1 && (!(b.strumKind == 'V' && k == pitches.length - 1))) {
+				beats.push({
+					track: 1,
+					beat: stepshift + b.nn,
+					length: b.len16,
+					shift: 0,
+					pitch: pitches[k]
+				});
+				//}
 			}
 		}
 	}
@@ -886,7 +891,7 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	insVolumes[PercussiveOrgan] = 3;
 	insVolumes[PalmMuteGuitar] = 3;
 	insVolumes[AcousticPiano] = 7;
-	insVolumes[BassGuitar] = 6;
+	insVolumes[BassGuitar] = 5;
 	insVolumes[StringEnsemble] = 3;
 	insVolumes[SynthBass] = 6;
 	var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
