@@ -542,7 +542,7 @@ var chordfretsData = [
 let progressionsList2 = [
 	//{ category: 'test', name: '', chords: 'A#-A#' },
 
-	{ category: 'test', name: '', chords: 'Em-G-Dsus4-A7sus4' }
+	{ category: 'test-------------------------', name: '', chords: 'C-Bb7-Abmaj7-F' }
 
 	//
 	, { category: 'sad', name: '', chords: 'Fmaj7-A' }
@@ -813,7 +813,7 @@ let bassDefData = [
 	, { category: '', name: 'rich5', chord: 'Am', len16: 8 * 2, encoded: '005020940025020940045020940065021040085040c400c50209400e5020740' }
 	, { category: '', name: 'rich6', chord: 'Am', len16: 8 * 2, encoded: '0050209400250209400450205400650207400850209400a50209400c50205400e5020740' }
 	, { category: '', name: 'rich7 disco', chord: 'Am', len16: 8 * 8, encoded: '0050409400450204400650207400850409400c50204400e50207401050409401450204401650207401850409401c50204401e50209402050409402450204402650205402850409402c50204402e50205403050409403450204403650205403850409403c50204403e5020940' }
-
+	, { category: '', name: 'route66', chord: 'A', len16: 8 * 2, encoded: '005020940025020940045020d40065020d400850210400a50210400c50212400e5021040' }
 ];
 
 let chordRiffsData = [
@@ -886,6 +886,21 @@ let pianoDefsData = [
 		, start: '2-2-2---------------------------'
 		, end: '2'
 		, track: 2
+	}, {
+		category: '', name: 'route66'
+		, start: '..2-----2-2-......2-----2-2-......2-----2-2-......2---2-2-2-....'
+		, end: ''
+		, track: 4
+	}, {
+		category: '', name: 'slade'
+		, start: '2...2...2...2.1-'
+		, end: ''
+		, track: 4
+	}, {
+		category: '', name: 'chicago'
+		, start: '2-..2-..2--2--2-..2-.2-.2-.2-.2-'
+		, end: ''
+		, track: 4
 	}
 ];
 let drumsDefsData = [

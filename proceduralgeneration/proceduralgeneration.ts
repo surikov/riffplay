@@ -539,6 +539,99 @@ function composeFullLine(chords: string[], fullLine: FullLineDefinition, needRep
 	return beats;
 }
 
+function composePianoBeat(chords: string[], rhythm: PianoRhythmDefinition, chordPitches: ChordPitches[], track: number): InsBeat[] {
+	let beats: InsBeat[] = [];
+	let step = 0;
+	var durationStrum: { nn: number, strumKind: string, len16: number, chord: string }[] = [];
+	for (let i = 0; i < chords.length; i++) {
+		for (let k = 0; k < 8; k++) {
+			let strumKind = rhythm.start.substr(step, 1);
+			if (strumKind == '.') {
+				//
+			} else {
+				if (strumKind == '-') {
+					if (durationStrum.length) {
+						durationStrum[durationStrum.length - 1].len16++;
+					}
+				} else {
+					durationStrum.push({ nn: i * 8 + k, strumKind: strumKind, len16: 1, chord: chords[i] });
+				}
+			}
+			step++;
+			if (step >= rhythm.start.length) {
+				step = 0;
+			}
+		}
+	}
+	for (let i = 0; i < durationStrum.length; i++) {
+		let strike = durationStrum[i];
+		let trans = 12 * Number(strike.strumKind);
+		let pitches = pianoKeysByName(strike.chord, chordPitches, trans);
+		//console.log(i,strike);
+		for (let k = 0; k < pitches.length; k++) {
+			beats.push({
+				track: track,
+				beat: strike.nn,
+				length: strike.len16,
+				shift: 0,
+				pitch: pitches[k]
+			});
+		}
+	}
+	return beats;
+}
+
+function composeGuitarBeat(chords: string[], rhythm: StrumDefinition, chordFrets: FretKeys[]): InsBeat[] {
+	let beats: InsBeat[] = [];
+	let step = 0;
+	var durationStrum: { nn: number, strumKind: string, len16: number, chord: string }[] = [];
+	for (let i = 0; i < chords.length; i++) {
+		for (let k = 0; k < 8; k++) {
+			let strumKind = rhythm.start.substr(step, 1);
+			if (strumKind == '.') {
+				//
+			} else {
+				if (strumKind == '-') {
+					if (durationStrum.length) {
+						if (durationStrum[durationStrum.length - 1].strumKind != 'X') {
+							durationStrum[durationStrum.length - 1].len16++;
+						}
+					}
+				} else {
+					durationStrum.push({ nn: i * 8 + k, strumKind: strumKind, len16: 1, chord: chords[i] });
+				}
+			}
+			step++;
+			if (step >= rhythm.start.length) {
+				step = 0;
+			}
+		}
+	}
+	for (let i = 0; i < durationStrum.length; i++) {
+		let strike = durationStrum[i];
+		let trans = 12 * Number(strike.strumKind);
+		//let pitches = pianoKeysByName(strike.chord, chordPitches, trans);
+		let pitches: number[] = findChordPitches(strike.chord, chordFrets);
+		//console.log(i,strike);
+		for (let k = 0; k < pitches.length; k++) {
+			if (
+				(strike.strumKind == 'A' && k > 0)
+				|| (strike.strumKind == 'V' && k < pitches.length - 1)
+				|| (strike.strumKind == 'X' && k > 2)
+			) {
+				beats.push({
+					track: 1,
+					beat: strike.nn,
+					length: strike.len16,
+					shift: 0,
+					pitch: pitches[k]
+				});
+			}
+		}
+	}
+	return beats;
+}
+/*
 function composePianoRhythm(chords: string[], rhythm: PianoRhythmDefinition, chordPitches: ChordPitches[], track: number): InsBeat[] {
 	let beats: InsBeat[] = [];
 	var part = [];
@@ -559,6 +652,7 @@ function composePianoRhythm(chords: string[], rhythm: PianoRhythmDefinition, cho
 	addPartRhythm((chords.length - part.length) * 8, part[0], part.length * 8, rhythm, beats, chordPitches, track);
 	return beats;
 }
+
 function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, rhythm: StrumDefinition, tobeats: InsBeat[], chordPitches: ChordPitches[], track: number) {
 	//console.log(step, chord, len16);
 	let step = 0;
@@ -621,7 +715,8 @@ function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, r
 			//}
 		}
 	}
-}
+}*/
+/*
 function composeGuitarStrum(chords: string[], strums: StrumDefinition, chordFrets: FretKeys[]): InsBeat[] {
 	let beats: InsBeat[] = [];
 
@@ -699,7 +794,7 @@ function addPartGuitar(stepshift: number, chordCurrent: string, len16: number, s
 			if (
 				(b.strumKind == 'A' && k > 0)
 				|| (b.strumKind == 'V' && k < pitches.length - 1)
-				|| (b.strumKind == 'X' && k >2)
+				|| (b.strumKind == 'X' && k > 2)
 			) {
 				//if (!(b.strumKind == 'A' && k == 0)) {
 				//if (pitches[k] > -1 && (!(b.strumKind == 'V' && k == pitches.length - 1))) {
@@ -714,7 +809,7 @@ function addPartGuitar(stepshift: number, chordCurrent: string, len16: number, s
 			}
 		}
 	}
-}
+}*/
 function parseMelody(encoded: string): InsBeat[] {
 	//console.log(encoded);
 	let beats: InsBeat[] = [];
@@ -792,7 +887,7 @@ function repeatChords(chords: string[], sub: number): string[] {
 	}
 	if (chords.length == 8) {
 		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
-		else nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
+		else nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7];
 	}
 	if (chords.length == 9) {
 		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
@@ -859,12 +954,16 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	//if(temposeed==2)tempo = 140;
 	let tracksData: InsBeat[] = [];
 	if (strumDefs[strumseed].start.length) {
-		let t: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[strumseed], chordfrets);
+		//let t: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[strumseed], chordfrets);
+		let t: InsBeat[] = composeGuitarBeat(progression.chords, strumDefs[strumseed], chordfrets);
+
 		//console.log(t);
 		tracksData = tracksData.concat(t);
 	}
 	if (pianoChordDefs[rhythmseed].start.length) {
-		let t: InsBeat[] = composePianoRhythm(progression.chords, pianoChordDefs[rhythmseed], chordPitches, pianoChordDefs[rhythmseed].track);
+		//let t: InsBeat[] = composePianoRhythm(progression.chords, pianoChordDefs[rhythmseed], chordPitches, pianoChordDefs[rhythmseed].track);
+		let t: InsBeat[] = composePianoBeat(progression.chords, pianoChordDefs[rhythmseed], chordPitches, pianoChordDefs[rhythmseed].track);
+
 		tracksData = tracksData.concat(t);
 	}
 	if (chordRiffDefs[melodyseed].start.len16) {
@@ -890,7 +989,7 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	insVolumes[AcousticGuitar] = 4;
 	insVolumes[PercussiveOrgan] = 3;
 	insVolumes[PalmMuteGuitar] = 3;
-	insVolumes[AcousticPiano] = 7;
+	insVolumes[AcousticPiano] = 4;
 	insVolumes[BassGuitar] = 5;
 	insVolumes[StringEnsemble] = 3;
 	insVolumes[SynthBass] = 6;
