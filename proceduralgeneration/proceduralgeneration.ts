@@ -38,13 +38,13 @@ let scaleModeLocrian = 'Locrian'//minorHII-V-;
 let chordPitchesList: ChordPitches[] = [];
 let fretPitchesList: FretKeys[] = [];
 //let progressionsList2: ChordRow[] = [];
-let melodyDefs: ChordRiffDefinition[] = [];
+let chordRiffDefs: ChordRiffDefinition[] = [];
 let bassDefs: FullLineDefinition[] = [];
-let soloDefs: FullLineDefinition[] = [];
+let fullRiffDefs: FullLineDefinition[] = [];
 let strumDefs: StrumDefinition[] = [];
-let rhythmDefs: PianoRhythmDefinition[] = [];
-let beatsDefs: BeatDefinition[] = [];
-let allprogressions: Progression[]=[];
+let pianoChordDefs: PianoRhythmDefinition[] = [];
+let drumsDefs: BeatDefinition[] = [];
+let allprogressions: Progression[] = [];
 
 //
 type InsBeat = {
@@ -93,6 +93,7 @@ type PianoRhythmDefinition = {
 	, name: string
 	, start: string
 	, end: string
+	, track: number
 };
 type StrumDefinition = {
 	category: string
@@ -395,32 +396,52 @@ function chordDurations(chords: string[]): ChordDuration[] {
 
 }
 function morphPitch(pitch: number, fromMode: number[], toMode: number[], needRepitch: boolean): number {
+
 	let base = (pitch + 12 - fromMode[0]) % 12;
+	let octave = Math.floor((pitch - toMode[0]) / 12);
 	let step = 0;
+	//let shift = 0;
 	for (let i = 0; i < fromMode.length; i++) {
 		if (fromMode[i] > base + fromMode[0]) {
 			break;
 		}
 		step = i;
+		//shift=fromMode[i] - base + fromMode[0];
 	}
 	//let toneDiff=toMode[0]-fromMode[0];
 	//let stepDiff=toMode[step]-fromMode[step]
 	//let morphed = pitch + (toMode[0] - fromMode[0]) + ((fromMode[step]-fromMode[0]) - (toMode[step]-toMode[0]));
-	if (toMode[0] >= 4) pitch = pitch - 12;//E
+	//if (toMode[0] >= 4) pitch = pitch - 12;//E
 	//let morphed = repitch(pitch + (toMode[step] - fromMode[step]));
-	let morphed = 12 + pitch + (toMode[step] - fromMode[step]);
+	//let morphed = 12 + pitch + (toMode[step] - fromMode[step]);
+	//let morphed = 12 *octave + toMode[step];
+	let morphed = pitch + (toMode[step] - fromMode[step]);
+	//console.log(base, step,':',pitch,  fromMode,'=>', morphed, toMode);
+	//if (toMode[0] < 4) morphed = morphed + 12;
+	//let morphed = pitch+(toMode[step] - fromMode[step]);
+	//if(fromMode[0]<toMode[0]){
+
+	//}
 	if (needRepitch) {
-		morphed = repitch(morphed);
+		morphed = repitch(toMode[0], morphed);
 	}
 	if (morphed < 0) morphed = morphed + 12;
 	if (morphed >= 120) morphed = morphed - 12;
-	//console.log(pitch, morphed, base, step, toMode, fromMode);
+	//console.log(base, step,':',pitch,  fromMode,'=>', morphed, toMode);
 	return morphed;
 }
-function repitch(pitch: number): number {
-	while (pitch < 4) {
+function repitch(to: number, pitch: number): number {
+	/*while (pitch < 4) {
 		pitch = pitch + 12;
-	}
+	}*/
+	//if(to<4)pitch = pitch + 12;
+	//pitch = pitch + 12;
+	//if (to <= 4) pitch = pitch + 12;//E
+	//if(to<4)pitch = pitch + 12;
+	pitch = pitch + 12;
+	if (to >= 4) pitch = pitch - 12;
+	if (pitch < 4) pitch = pitch + 12;
+	//console.log(pitch);
 	return pitch;
 }
 function addMelody(at: number, to: InsBeat[], current: ChordDuration, melody: ChordRiffDefinition) {
@@ -485,12 +506,13 @@ function composeChordRiffs(chords: string[], melody: ChordRiffDefinition): InsBe
 	//console.log(beats);
 	return beats;
 }
-function composeFullLine(chords: string[], bass: FullLineDefinition): InsBeat[] {
+function composeFullLine(chords: string[], fullLine: FullLineDefinition, needRepitch: boolean): InsBeat[] {
 	let beats: InsBeat[] = [];
 
 	//console.log(toMode);
-	let fromMode: number[] = findModePitches(bass.chord);
-	let line: InsBeat[] = parseMelody(bass.encoded);
+	let fromMode: number[] = findModePitches(fullLine.chord);
+	let line: InsBeat[] = parseMelody(fullLine.encoded);
+	//console.log(line);
 	let step = 0;
 	for (let ch = 0; ch < chords.length; ch++) {
 		let curChord = chords[ch];
@@ -503,20 +525,21 @@ function composeFullLine(chords: string[], bass: FullLineDefinition): InsBeat[] 
 						, beat: ch * 8 + s
 						, length: line[k].length
 						, shift: line[k].shift
-						, pitch: morphPitch(line[k].pitch, fromMode, toMode, true)
+						, pitch: morphPitch(line[k].pitch, fromMode, toMode, needRepitch)
 					});
 				}
 			}
 			step++;
-			if (step >= bass.len16) {
+			if (step >= fullLine.len16) {
 				step = 0;
 			}
 		}
 	}
+	//console.log(beats);
 	return beats;
 }
 
-function composePianoRhythm(chords: string[], rhythm: PianoRhythmDefinition, chordPitches: ChordPitches[]): InsBeat[] {
+function composePianoRhythm(chords: string[], rhythm: PianoRhythmDefinition, chordPitches: ChordPitches[], track: number): InsBeat[] {
 	let beats: InsBeat[] = [];
 	var part = [];
 	let curChord = '';
@@ -525,7 +548,7 @@ function composePianoRhythm(chords: string[], rhythm: PianoRhythmDefinition, cho
 			part.push(chords[i]);
 		} else {
 			if (part.length > 0) {
-				addPartRhythm((i - part.length) * 8, part[0], part.length * 8, rhythm, beats, chordPitches);
+				addPartRhythm((i - part.length) * 8, part[0], part.length * 8, rhythm, beats, chordPitches, track);
 			}
 			part = [];
 			curChord = chords[i];
@@ -533,10 +556,10 @@ function composePianoRhythm(chords: string[], rhythm: PianoRhythmDefinition, cho
 
 		}
 	}
-	addPartRhythm((chords.length - part.length) * 8, part[0], part.length * 8, rhythm, beats, chordPitches);
+	addPartRhythm((chords.length - part.length) * 8, part[0], part.length * 8, rhythm, beats, chordPitches, track);
 	return beats;
 }
-function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, rhythm: StrumDefinition, tobeats: InsBeat[], chordPitches: ChordPitches[]) {
+function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, rhythm: StrumDefinition, tobeats: InsBeat[], chordPitches: ChordPitches[], track: number) {
 	//console.log(step, chord, len16);
 	let step = 0;
 	var durationStrum: { nn: number, strumKind: string, len16: number, chord: string }[] = [];
@@ -588,7 +611,7 @@ function addPartRhythm(stepshift: number, chordCurrent: string, len16: number, r
 			//if (!(b.strumKind == 'A' && k == 0)) {
 			//if (!(b.strumKind == 'V' && k == pitches.length - 1)) {
 			tobeats.push({
-				track: 4,
+				track: track,
 				beat: stepshift + strike.nn,
 				length: strike.len16,
 				shift: 0,
@@ -671,9 +694,10 @@ function addPartGuitar(stepshift: number, chordCurrent: string, len16: number, s
 	for (let i = 0; i < durationStrum.length; i++) {
 		let b = durationStrum[i];
 		let pitches: number[] = findChordPitches(b.chord, chordfrets);
+		//console.log(b.chord,pitches);
 		for (let k = 0; k < pitches.length; k++) {
 			if (!(b.strumKind == 'A' && k == 0)) {
-				if (!(b.strumKind == 'V' && k == pitches.length - 1)) {
+				if (pitches[k] > -1 && (!(b.strumKind == 'V' && k == pitches.length - 1))) {
 					beats.push({
 						track: 1,
 						beat: stepshift + b.nn,
@@ -733,13 +757,13 @@ function stripDrums(drums: DrumBeat[]): DrumBeat[] {
 	//console.log(r,drums);
 	return r;
 }
-function repeatChords(chords: string[],sub:number): string[] {
+function repeatChords(chords: string[], sub: number): string[] {
 	var row: string[] = [];
 	var nums: number[] = [];
 	//var seed = Math.random();
 	if (chords.length == 2) {
-		if (sub < 0.5) nums=nums = [0, 0,  1, 1];
-		else nums = [0, 0, 0, 0, 1, 1, 1, 1];
+		if (sub < 0.5) nums = nums = [0, 0, 0, 0, 1, 1, 1, 1];
+		else nums = [0, 0, 1, 1, 0, 0, 1, 1];
 	}
 	if (chords.length == 3) {
 		if (sub < 0.5) nums = [0, 0, 0, 0, 1, 1, 2, 2];
@@ -747,23 +771,23 @@ function repeatChords(chords: string[],sub:number): string[] {
 	}
 	if (chords.length == 4) {
 		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 2, 3, 3];
-		else nums = [0, 0, 0, 1, 2, 2, 2, 3];
+		else nums = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3];
 	}
 	if (chords.length == 5) {
 		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 2, 3, 4];
-		else nums = [0, 1, 2, 2, 3, 3, 4, 4];
+		else nums = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4];
 	}
 	if (chords.length == 6) {
-		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 3, 4, 5];
-		else nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5];
+		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5];
+		else nums = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5];
 	}
 	if (chords.length == 7) {
 		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 6];
 		else nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6];
 	}
 	if (chords.length == 8) {
-		if (sub < 0.5)nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
-		else nums = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7];
+		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
+		else nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
 	}
 	if (chords.length == 9) {
 		if (sub < 0.5) nums = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8];
@@ -796,7 +820,7 @@ function replaceTracks(instrs: InsBeat[], from: number, to: number): void {
 function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	//let prognum = Math.floor(progressionsList.length * Math.random());
 	let nn = Number((document.getElementById('sliderProgression') as any).value);
-	let prognum = '' + (Math.floor(allprogressions.length*nn/1000));
+	let prognum = '' + (Math.floor(allprogressions.length * nn / 1000));
 	//prognum=0;
 	let progression: Progression = allprogressions[prognum];
 	//let chordRow: ChordRow = progressionsList[prognum];
@@ -804,50 +828,51 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 	//var chords: string[] = repeatChords(arr);
 	//let progression: Progression = { category: chordRow.category, name: chordRow.name, chords: chords };
 	//console.log(progression);
-	
+
 	//let drumseed = Math.floor(beatsDefs.length * Math.random());
 	nn = Number((document.getElementById('sliderDrum') as any).value);
-	let drumseed = '' + (Math.floor(beatsDefs.length*nn/1000));
-	let drumData: DrumBeat[] = beatFill(progression.chords, beatsDefs[drumseed]);
+	let drumseed = '' + (Math.floor(drumsDefs.length * nn / 1000));
+	let drumData: DrumBeat[] = beatFill(progression.chords, drumsDefs[drumseed]);
 	//let gitStrumData: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[0],chordfrets);
 	//let pianoRhythmData: InsBeat[] = composePianoRhythm(progression.chords, rhythmDefs[0],chordPitches);
 	//let melodyData: InsBeat[] = composeMelody(progression.chords, melodyDefs[0]);
 	//let viData: InsBeat[] = composeViola(progression.chords, chordPitches);
 	nn = Number((document.getElementById('sliderStrum') as any).value);
-	let strumseed =  Math.floor(strumDefs.length*nn/1000);
+	let strumseed = Math.floor(strumDefs.length * nn / 1000);
 	nn = Number((document.getElementById('sliderBass') as any).value);
-	let bassseed = Math.floor(bassDefs.length*nn/1000);
+	let bassseed = Math.floor(bassDefs.length * nn / 1000);
 	nn = Number((document.getElementById('sliderRhythm') as any).value);
-	let rhythmseed = Math.floor(rhythmDefs.length*nn/1000);
+	let rhythmseed = Math.floor(pianoChordDefs.length * nn / 1000);
 	nn = Number((document.getElementById('sliderSolo') as any).value);
-	let soloseed = Math.floor(soloDefs.length*nn/1000);
+	let soloseed = Math.floor(fullRiffDefs.length * nn / 1000);
 	nn = Number((document.getElementById('sliderMelody') as any).value);
-	let melodyseed = Math.floor(melodyDefs.length*nn/1000);
-	nn = Number((document.getElementById('sliderTempo') as any).value);
-	let temposeed = Math.floor(3*nn/1000);
+	let melodyseed = Math.floor(chordRiffDefs.length * nn / 1000);
+	//nn = Number((document.getElementById('sliderTempo') as any).value);
+	//let temposeed = Math.floor(3*nn/1000);
 	let tempo = 120;
-	if(temposeed==0)tempo = 100;
-	if(temposeed==2)tempo = 140;
+	//if(temposeed==0)tempo = 100;
+	//if(temposeed==2)tempo = 140;
 	let tracksData: InsBeat[] = [];
 	if (strumDefs[strumseed].start.length) {
 		let t: InsBeat[] = composeGuitarStrum(progression.chords, strumDefs[strumseed], chordfrets);
+		//console.log(t);
 		tracksData = tracksData.concat(t);
 	}
-	if (rhythmDefs[rhythmseed].start.length) {
-		let t: InsBeat[] = composePianoRhythm(progression.chords, rhythmDefs[rhythmseed], chordPitches);
+	if (pianoChordDefs[rhythmseed].start.length) {
+		let t: InsBeat[] = composePianoRhythm(progression.chords, pianoChordDefs[rhythmseed], chordPitches, pianoChordDefs[rhythmseed].track);
 		tracksData = tracksData.concat(t);
 	}
-	if (melodyDefs[melodyseed].start.len16) {
-		let t: InsBeat[] = composeChordRiffs(progression.chords, melodyDefs[melodyseed]);
+	if (chordRiffDefs[melodyseed].start.len16) {
+		let t: InsBeat[] = composeChordRiffs(progression.chords, chordRiffDefs[melodyseed]);
 		tracksData = tracksData.concat(t);
 	}
 	if (bassDefs[bassseed].len16) {
-		let t: InsBeat[] = composeFullLine(progression.chords, bassDefs[bassseed]);
+		let t: InsBeat[] = composeFullLine(progression.chords, bassDefs[bassseed], true);
 		//replaceTracks(t,5,7);
 		tracksData = tracksData.concat(t);
 	}
-	if (soloDefs[soloseed].len16) {
-		let t: InsBeat[] = composeFullLine(progression.chords, soloDefs[soloseed]);
+	if (fullRiffDefs[soloseed].len16) {
+		let t: InsBeat[] = composeFullLine(progression.chords, fullRiffDefs[soloseed], false);
 		//replaceTracks(t,5,7);
 		tracksData = tracksData.concat(t);
 	}
@@ -856,6 +881,14 @@ function composeURL(chordPitches: ChordPitches[], chordfrets: FretKeys[]) {
 
 	var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 4];
 	var insVolumes = [3, 3, 4, 3, 4, 7, 5, 7];
+	insVolumes[DistortionGuitar] = 3;
+	insVolumes[AcousticGuitar] = 4;
+	insVolumes[PercussiveOrgan] = 3;
+	insVolumes[PalmMuteGuitar] = 3;
+	insVolumes[AcousticPiano] = 7;
+	insVolumes[BassGuitar] = 6;
+	insVolumes[StringEnsemble] = 3;
+	insVolumes[SynthBass] = 6;
 	var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
 	//let url = (window as any).encodeRiffURL(tempo, drumData, gitStrumData.concat(viData.concat(pianoRhythmData.concat(melodyData))), drumVolumes, insVolumes, eqVolumes);
 
@@ -874,33 +907,48 @@ function parsChanged() {
 	//console.log('drum',(document.getElementById('sliderDrum') as any).value);
 	//console.log('bass',(document.getElementById('sliderBass') as any).value);
 	let nn: number = Number((document.getElementById('sliderDrum') as any).value);
-	(document.getElementById('infoDrum') as any).innerHTML = '' + (Math.floor(beatsDefs.length*nn/1000));
+	(document.getElementById('infoDrum') as any).innerHTML = '' + (Math.floor(drumsDefs.length * nn / 1000))
+		+ ': ' + drumsDefs[(Math.floor(drumsDefs.length * nn / 1000))].name
+		;
 	nn = Number((document.getElementById('sliderBass') as any).value);
-	(document.getElementById('infoBass') as any).innerHTML = '' + (Math.floor(bassDefs.length*nn/1000));
+	(document.getElementById('infoBass') as any).innerHTML = '' + (Math.floor(bassDefs.length * nn / 1000))
+		+ ': ' + bassDefs[(Math.floor(bassDefs.length * nn / 1000))].name
+		;
 	nn = Number((document.getElementById('sliderProgression') as any).value);
-	(document.getElementById('infoProgression') as any).innerHTML = '' + (Math.floor(allprogressions.length*nn/1000));
+	(document.getElementById('infoProgression') as any).innerHTML = '' + (Math.floor(allprogressions.length * nn / 1000))
+		+ ': ' + allprogressions[(Math.floor(allprogressions.length * nn / 1000))].category
+		+ ': ' + allprogressions[(Math.floor(allprogressions.length * nn / 1000))].chords
+		;
 	nn = Number((document.getElementById('sliderStrum') as any).value);
-	(document.getElementById('infoStrum') as any).innerHTML = '' + (Math.floor(strumDefs.length*nn/1000));
+	(document.getElementById('infoStrum') as any).innerHTML = '' + (Math.floor(strumDefs.length * nn / 1000))
+		+ ': ' + strumDefs[(Math.floor(strumDefs.length * nn / 1000))].name
+		;
 	nn = Number((document.getElementById('sliderRhythm') as any).value);
-	(document.getElementById('infoRhythm') as any).innerHTML = '' + (Math.floor(rhythmDefs.length*nn/1000));
+	(document.getElementById('infoRhythm') as any).innerHTML = '' + (Math.floor(pianoChordDefs.length * nn / 1000))
+		+ ': ' + pianoChordDefs[(Math.floor(pianoChordDefs.length * nn / 1000))].name
+		;
 	nn = Number((document.getElementById('sliderSolo') as any).value);
-	(document.getElementById('infoSolo') as any).innerHTML = '' + (Math.floor(soloDefs.length*nn/1000));
+	(document.getElementById('infoSolo') as any).innerHTML = '' + (Math.floor(fullRiffDefs.length * nn / 1000))
+		+ ': ' + fullRiffDefs[(Math.floor(fullRiffDefs.length * nn / 1000))].name
+		;
 	nn = Number((document.getElementById('sliderMelody') as any).value);
-	(document.getElementById('infoMelody') as any).innerHTML = '' + (Math.floor(melodyDefs.length*nn/1000));
-	nn = Number((document.getElementById('sliderTempo') as any).value);
-	(document.getElementById('infoTempo') as any).innerHTML = '' + (Math.floor(3*nn/1000));
+	(document.getElementById('infoMelody') as any).innerHTML = '' + (Math.floor(chordRiffDefs.length * nn / 1000))
+		+ ': ' + chordRiffDefs[(Math.floor(chordRiffDefs.length * nn / 1000))].name
+		;
+	//nn = Number((document.getElementById('sliderTempo') as any).value);
+	//(document.getElementById('infoTempo') as any).innerHTML = '' + (Math.floor(3*nn/1000));
 }
 
 document.getElementById('proceduralgeneration').onclick = initApp;
-(document.getElementById('sliderDrum') as any).value = Math.floor(Math.random() * 1000);
-(document.getElementById('sliderBass') as any).value = Math.floor(Math.random() * 1000);
-(document.getElementById('sliderProgression') as any).value = Math.floor(Math.random() * 1000);
-(document.getElementById('sliderStrum') as any).value = Math.floor(Math.random() * 1000);
-(document.getElementById('sliderRhythm') as any).value = Math.floor(Math.random() * 1000);
-(document.getElementById('sliderSolo') as any).value = Math.floor(Math.random() * 1000);
-(document.getElementById('sliderMelody') as any).value = Math.floor(Math.random() * 1000);
-(document.getElementById('sliderTempo') as any).value = Math.floor(Math.random() * 1000);
+(document.getElementById('sliderDrum') as any).value = 0;//Math.floor(Math.random() * 1000);
+(document.getElementById('sliderBass') as any).value = 0;//Math.floor(Math.random() * 1000);
+(document.getElementById('sliderProgression') as any).value = 0;//Math.floor(Math.random() * 1000);
+(document.getElementById('sliderStrum') as any).value = 0;//Math.floor(Math.random() * 1000);
+(document.getElementById('sliderRhythm') as any).value = 0;//Math.floor(Math.random() * 1000);
+(document.getElementById('sliderSolo') as any).value = 0;//Math.floor(Math.random() * 1000);
+(document.getElementById('sliderMelody') as any).value = 0;//Math.floor(Math.random() * 1000);
+//(document.getElementById('sliderTempo') as any).value = Math.floor(Math.random() * 1000);
 
-console.log('proceduralgeneration v1.01');
+console.log('proceduralgeneration v1.02');
 
 
