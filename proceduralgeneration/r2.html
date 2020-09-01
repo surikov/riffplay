@@ -1,28 +1,94 @@
 <html>
- <head>
-  <script src="https://surikov.github.io/riffplay/riffplay_module.js"></script>
- </head>
- <body>
-  <h1>proceduralgeneration</h1>
-   <!--<p>Tempo <span id="infoTempo">X</span></p>
-  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderTempo" onChange='parsChanged();'></p>
-   -->
-  <p>Chord riff <span id="infoMelody">X</span></p>
-  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderMelody" onChange='parsChanged();'></p>
-  <p>Full riff <span id="infoSolo">X</span></p>
-  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderSolo" onChange='parsChanged();'></p>
-  <p>Piano chords <span id="infoRhythm">X</span></p>
-  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderRhythm" onChange='parsChanged();'></p>
-  <p>Drum <span id="infoDrum">X</span></p>
-  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderDrum" onChange='parsChanged();'></p>
-  <p>Bass <span id="infoBass">X</span></p>
-  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderBass" onChange='parsChanged();'></p>
-  <p>Progression <span id="infoProgression">X</span></p>
-  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderProgression" onChange='parsChanged();'></p>
-  <p>Strum <span id="infoStrum">X</span></p>
-  <p><input style="width: 100%;" type="range" min="0" max="999" value="500" id="sliderStrum" onChange='parsChanged();'></p>
-  <p><a id='proceduralgeneration' href='#'>startApp</p>
-  <script type='text/javascript' src='proceduralgeneration.js'></script>
-  <script type='text/javascript' src='data.js'></script>
- </body>
+
+<head>
+	<script src="https://surikov.github.io/riffplay/riffplay_module.js"></script>
+</head>
+
+<body>
+	<h1>proceduralgeneration</h1>
+
+	<p>Progression <span id="infoProgression">X</span></p>
+	<p>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderProgression"
+			onChange='parsChanged();'>
+	</p>
+
+	<p>Drum <span id="infoDrum">X</span></p>
+	<p>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderDrum"
+			onChange='parsChanged();'>
+	</p>
+
+	<p>Bass <span id="infoBass">X</span></p>
+	<p>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderBass"
+			onChange='parsChanged();'>
+	</p>
+
+	<p>Piano/Strum/Riff rhythm <span id="infoRhythm">X</span></p>
+	<p>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderRhythm"
+			onChange='parsChanged();'>
+	</p>
+
+	<p>Pad <span id="infoPad">X</span></p>
+	<p>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderPad" onChange='parsChanged();'>
+	</p>
+
+	<p>Melody <span id="infoMelody">X</span></p>
+	<p>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderMelody"
+			onChange='parsChanged();'>
+	</p>
+
+	<p><a id='proceduralgeneration' href='javascript:test();'>startApp</p>
+
+	<script type='text/javascript' src='r2.js'></script>
+	<script type='text/javascript'>
+		console.log('init');
+		var genRiff = new GenRiff();
+
+		var progNN=0;
+		var drumNN=0;
+		var bassNN=0;
+		var padNN=0;
+		var rhNN=0;
+		var meloNN=0;
+
+		function updateColors(){
+			var nn = 1 * document.getElementById('sliderProgression').value;
+			var r=Math.floor(255 * nn / 1000);
+			var color='rgb('+r+',127,127)';
+			document.getElementById("infoProgression").style.color = color;
+			console.log(color);
+		}
+		function setInfo(infoName, valueName, arr) {
+			var sz = arr.length;
+			var nn = 1 * document.getElementById(valueName).value;
+			var r=Math.floor(sz * nn / 1000);
+			document.getElementById(infoName).innerHTML = '' +r+' '+arr[r].name;
+			return r;
+		}
+
+		function parsChanged() {
+			progNN=setInfo('infoProgression', 'sliderProgression', genRiff.progressions);
+			drumNN=setInfo('infoDrum', 'sliderDrum', genRiff.drumsDefs);
+			bassNN=setInfo('infoBass', 'sliderBass', genRiff.bassDefs);
+			rhNN=setInfo('infoRhythm', 'sliderRhythm', genRiff.rhythmDefsData);
+			padNN=setInfo('infoPad', 'sliderPad', genRiff.padDefsData);
+			meloNN=setInfo('infoMelody', 'sliderMelody', genRiff.melodyDefsData);
+			updateColors();
+		}
+
+		function test() {
+			parsChanged();
+			console.log(genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN,meloNN));
+			return null;
+		}
+
+		parsChanged();
+	</script>
+</body>
+
 </html>
