@@ -1515,7 +1515,7 @@ var GenRiff = /** @class */ (function () {
         insVolumes[this.BassGuitar] = 5;
         insVolumes[this.StringEnsemble] = 3;
         insVolumes[this.SynthBass] = 6;
-        var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
+        var eqVolumes = [13, 12, 12, 10, 8, 9, -13, -14, -9, -12];
         //this.initProgressions();
         var prog = this.progressions[progressionN];
         var drumPat = this.drumsDefs[drumN];
@@ -1679,7 +1679,8 @@ var GenRiff = /** @class */ (function () {
             insVolumes[this.SynthBass] = 6;
             var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
             */
-            this.master.band32.gain.setValueAtTime(13 - 10, 0); //-40+40
+            /*
+            this.master.band32.gain.setValueAtTime(13-10, 0);//-40+40
             this.master.band64.gain.setValueAtTime(12 - 10, 0);
             this.master.band128.gain.setValueAtTime(12 - 10, 0);
             this.master.band256.gain.setValueAtTime(10 - 10, 0);
@@ -1690,10 +1691,10 @@ var GenRiff = /** @class */ (function () {
             this.master.band8k.gain.setValueAtTime(9 - 10, 0);
             this.master.band16k.gain.setValueAtTime(12 - 10, 0);
             //
-            this.trackInfo[7 - this.SynthBass].audioNode.gain.setValueAtTime(6 / 10, 0);
+            this.trackInfo[7 - this.SynthBass].audioNode.gain.setValueAtTime(7 / 10, 0);
             this.trackInfo[7 - this.StringEnsemble].audioNode.gain.setValueAtTime(3 / 10, 0);
             this.trackInfo[7 - this.BassGuitar].audioNode.gain.setValueAtTime(5 / 10, 0);
-            this.trackInfo[7 - this.AcousticPiano].audioNode.gain.setValueAtTime(4 / 10, 0);
+            this.trackInfo[7 - this.AcousticPiano].audioNode.gain.setValueAtTime(6 / 10, 0);
             this.trackInfo[7 - this.PalmMuteGuitar].audioNode.gain.setValueAtTime(3 / 10, 0);
             this.trackInfo[7 - this.PercussiveOrgan].audioNode.gain.setValueAtTime(3 / 10, 0);
             this.trackInfo[7 - this.AcousticGuitar].audioNode.gain.setValueAtTime(4 / 10, 0);
@@ -1708,6 +1709,7 @@ var GenRiff = /** @class */ (function () {
             this.drumInfo[this.RideCymbal].audioNode.gain.setValueAtTime(6 / 10, 0);
             this.drumInfo[this.SplashCymbal].audioNode.gain.setValueAtTime(4 / 10, 0);
             //
+            */
             //console.log(this.reverberator);
             this.reverberator.output.threshold.setValueAtTime(-24, 0.0001);
             this.reverberator.output.knee.setValueAtTime(30, 0.0001);
@@ -1726,6 +1728,33 @@ var GenRiff = /** @class */ (function () {
             this.playInfo = this.generateAll(progressionN, drumN, bassN, rhythmN, padN, melodyN);
             this.nextWhen = this.audioContext.currentTime + 0.1;
             this.nextBeat = 0;
+            console.log('equalizer', this.playInfo.eqVolumes);
+            this.master.band32.gain.setValueAtTime(this.playInfo.eqVolumes[0] - 10, 0); //-40+40
+            this.master.band64.gain.setValueAtTime(this.playInfo.eqVolumes[1] - 10, 0);
+            this.master.band128.gain.setValueAtTime(this.playInfo.eqVolumes[2] - 10, 0);
+            this.master.band256.gain.setValueAtTime(this.playInfo.eqVolumes[3] - 10, 0);
+            this.master.band512.gain.setValueAtTime(this.playInfo.eqVolumes[4] - 10, 0);
+            this.master.band1k.gain.setValueAtTime(this.playInfo.eqVolumes[5] - 10, 0);
+            this.master.band2k.gain.setValueAtTime(this.playInfo.eqVolumes[6] - 10, 0);
+            this.master.band4k.gain.setValueAtTime(this.playInfo.eqVolumes[7] - 10, 0);
+            this.master.band8k.gain.setValueAtTime(this.playInfo.eqVolumes[8] - 10, 0);
+            this.master.band16k.gain.setValueAtTime(this.playInfo.eqVolumes[9] - 10, 0);
+            this.trackInfo[this.SynthBass].audioNode.gain.setValueAtTime(this.playInfo.insVolumes[0] / 10, 0);
+            this.trackInfo[this.StringEnsemble].audioNode.gain.setValueAtTime(this.playInfo.insVolumes[1] / 10, 0);
+            this.trackInfo[this.BassGuitar].audioNode.gain.setValueAtTime(this.playInfo.insVolumes[2] / 10, 0);
+            this.trackInfo[this.AcousticPiano].audioNode.gain.setValueAtTime(this.playInfo.insVolumes[3] / 10, 0);
+            this.trackInfo[this.PalmMuteGuitar].audioNode.gain.setValueAtTime(this.playInfo.insVolumes[4] / 10, 0);
+            this.trackInfo[this.PercussiveOrgan].audioNode.gain.setValueAtTime(this.playInfo.insVolumes[5] / 10, 0);
+            this.trackInfo[this.AcousticGuitar].audioNode.gain.setValueAtTime(this.playInfo.insVolumes[6] / 10, 0);
+            this.trackInfo[this.DistortionGuitar].audioNode.gain.setValueAtTime(this.playInfo.insVolumes[7] / 10, 0);
+            this.drumInfo[this.BassDrum].audioNode.gain.setValueAtTime(this.playInfo.drumVolumes[0] / 10, 0);
+            this.drumInfo[this.LowTom].audioNode.gain.setValueAtTime(this.playInfo.drumVolumes[1] / 10, 0);
+            this.drumInfo[this.SnareDrum].audioNode.gain.setValueAtTime(this.playInfo.drumVolumes[2] / 10, 0);
+            this.drumInfo[this.MidTom].audioNode.gain.setValueAtTime(this.playInfo.drumVolumes[3] / 10, 0);
+            this.drumInfo[this.ClosedHiHat].audioNode.gain.setValueAtTime(this.playInfo.drumVolumes[4] / 10, 0);
+            this.drumInfo[this.OpenHiHat].audioNode.gain.setValueAtTime(this.playInfo.drumVolumes[5] / 10, 0);
+            this.drumInfo[this.RideCymbal].audioNode.gain.setValueAtTime(this.playInfo.drumVolumes[6] / 10, 0);
+            this.drumInfo[this.SplashCymbal].audioNode.gain.setValueAtTime(this.playInfo.drumVolumes[7] / 10, 0);
             window.requestAnimationFrame(this.tick.bind(this));
             this.onAir = true;
         }
