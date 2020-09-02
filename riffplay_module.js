@@ -2,6 +2,7 @@
 console.log('1.0.2');
 
 function encodeRiffURL(tempo, storeDrums, storeTracks, drumVolumes, insVolumes, eqVolume) {
+	console.log('encodeRiffURL',tempo, storeDrums, storeTracks, drumVolumes, insVolumes, eqVolume);
 	var pad0 = function (value, size) {
 		for (var i = value.length; i < size; i++) {
 			value = '0' + value;
