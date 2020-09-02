@@ -5,13 +5,21 @@ type DrumStep = { drum: number, beat: number };
 type Progression816 = { category: string, name: string, chords: string[] };
 type ProgDescr = { category: string, name: string, chords: string };
 
-
+type PlayInfo = { tempo: number, drumData: DrumStep[], tracksData: ToneStep[], drumVolumes: number[], insVolumes: number[], eqVolumes: number[] };
 type ChordPitches = { name: string, pitches: number[] };
 type FretKeys = { pitch: number, name: string, frets: number[] }
 type PianoPatternDefinition = { category: string, name: string, piano: string, track: number };
 type MelodyPatternDefinition = { category: string, name: string, chord: string, len16: number, encoded: string };
 type StrumPatternDefinition = { category: string, name: string, strum: string };
+
+declare function WebAudioFontPlayer(): void;
+declare function WebAudioFontChannel(audioContext: AudioContext): void;
+declare function WebAudioFontReverberator(audioContext: AudioContext): void;
+
+
 class GenRiff {
+	audioContext: AudioContext;
+	player: any | null = null;
 	progressions: Progression816[] = [];
 	C = 0; Cs = 1; D = 2; Ds = 3; E = 4; F = 5; Fs = 6; G = 7; Gs = 8; A = 9; As = 10; B = 11;
 	O = 12;
@@ -974,10 +982,10 @@ class GenRiff {
 			let chordRow = this.progressionsList[i];
 			var arr: string[] = chordRow.chords.split('-');
 			var chords: string[] = this.repeatChords(arr, 0);
-			let progression: Progression816 = { category: chordRow.category, name: chordRow.category+': '+chords, chords: chords };
+			let progression: Progression816 = { category: chordRow.category, name: chordRow.category + ': ' + chords, chords: chords };
 			this.progressions.push(progression);
 			chords = this.repeatChords(arr, 1);
-			progression = { category: chordRow.category, name: chordRow.category+': '+chords, chords: chords };
+			progression = { category: chordRow.category, name: chordRow.category + ': ' + chords, chords: chords };
 			this.progressions.push(progression);
 			//console.log(i,progression);
 		}
@@ -990,7 +998,7 @@ class GenRiff {
 		for (let i = 0; i < this.overdriveDefsData.length; i++) {
 			this.rhythmDefsData.push(this.overdriveDefsData[i]);
 		}
-		console.log(this.rhythmDefsData);
+		//console.log(this.rhythmDefsData);
 	}
 
 	generateDrums(progression: Progression816, pattern: DrumPatternDefinition): DrumStep[] {
@@ -1108,7 +1116,7 @@ class GenRiff {
 		if (rhythm.piano) {
 			let step = 0;
 			var durationStrum: { nn: number, strumKind: string, len16: number, chord: string }[] = [];
-			var preChord='';
+			var preChord = '';
 			for (let i = 0; i < chords.length; i++) {
 				for (let k = 0; k < 8; k++) {
 					let strumKind = rhythm.piano.substr(step, 1);
@@ -1117,9 +1125,9 @@ class GenRiff {
 					} else {
 						if (strumKind == '-') {
 							if (durationStrum.length) {
-								if(preChord==chords[i]){
+								if (preChord == chords[i]) {
 									durationStrum[durationStrum.length - 1].len16++;
-								}else{
+								} else {
 									durationStrum.push({ nn: i * 8 + k, strumKind: durationStrum[durationStrum.length - 1].strumKind, len16: 1, chord: chords[i] });
 								}
 							}
@@ -1131,7 +1139,7 @@ class GenRiff {
 					if (step >= rhythm.piano.length) {
 						step = 0;
 					}
-					preChord=chords[i];
+					preChord = chords[i];
 				}
 			}
 			for (let i = 0; i < durationStrum.length; i++) {
@@ -1261,8 +1269,9 @@ class GenRiff {
 		//console.log(r,drums);
 		return r;
 	}
-	generate(progressionN:number,drumN:number,bassN:number,rhythmN:number,padN:number,melodyN:number) {
-		console.log(progressionN,drumN,bassN,rhythmN,padN,melodyN);
+	generateAll(progressionN: number, drumN: number, bassN: number, rhythmN: number, padN: number, melodyN: number): PlayInfo {
+		console.log('generateAll', progressionN, drumN, bassN, rhythmN, padN, melodyN);
+		this.selectedProgression = this.progressions[progressionN];
 		let tempo = 120;
 		var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 4];
 		var insVolumes = [3, 3, 4, 3, 4, 7, 5, 7];
@@ -1277,7 +1286,7 @@ class GenRiff {
 		var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
 		//this.initProgressions();
 		let prog = this.progressions[progressionN];
-		
+
 		let drumPat: DrumPatternDefinition = this.drumsDefs[drumN];
 		let drumData: DrumStep[] = this.generateDrums(prog, drumPat);
 		drumData = this.stripDrums(drumData);
@@ -1293,7 +1302,7 @@ class GenRiff {
 		let pad: PianoPatternDefinition = this.padDefsData[padN];
 		tracksData = tracksData.concat(this.composePianoBeat(prog.chords, pad));
 
-		
+
 		let melody: MelodyPatternDefinition = this.melodyDefsData[melodyN];
 		tracksData = tracksData.concat(this.composeFullLine(prog.chords, melody, false));
 		/*
@@ -1304,8 +1313,400 @@ class GenRiff {
 		*/
 
 		tracksData = this.stripTracks(tracksData);
-		let url = (window as any).encodeRiffURL(tempo, drumData, tracksData, drumVolumes, insVolumes, eqVolumes);
-		window.open(url);
-		return 'test';
+		//let url = (window as any).encodeRiffURL(tempo, drumData, tracksData, drumVolumes, insVolumes, eqVolumes);
+		//window.open(url);
+		//return url;
+		let r: PlayInfo = {
+			tempo: tempo, drumData: drumData, tracksData: tracksData, drumVolumes: drumVolumes, insVolumes: insVolumes, eqVolumes: eqVolumes
+		};
+		return r;
+	}
+	generate(progressionN: number, drumN: number, bassN: number, rhythmN: number, padN: number, melodyN: number): string {
+		let r: PlayInfo = this.generateAll(progressionN, drumN, bassN, rhythmN, padN, melodyN);
+		let url = (window as any).encodeRiffURL(r.tempo, r.drumData, r.tracksData, r.drumVolumes, r.insVolumes, r.eqVolumes);
+		return url;
+	}
+	master: any;
+	reverberator: any;
+	drumInfo = [{
+		sound: (window as any)._drum_35_0_Chaos_sf2_file,
+		pitch: 36, //36
+		title: 'Кик',
+		id: 0,
+		volumeRatio: 0.95,
+		length: 0.3
+		, audioNode: null
+	}, {
+		sound: (window as any)._drum_41_26_JCLive_sf2_file,
+		pitch: 41, //43
+		title: 'Большой том',
+		id: 1,
+		volumeRatio: 0.5,
+		length: 0.3
+		, audioNode: null
+	}, {
+		sound: (window as any)._drum_38_22_FluidR3_GM_sf2_file,
+		pitch: 38, //40
+		title: 'Рабочий',
+		id: 2,
+		volumeRatio: 1.0,
+		length: 0.3
+		, audioNode: null
+	}, {
+		sound: (window as any)._drum_45_26_JCLive_sf2_file,
+		pitch: 45, //47,48,50
+		title: 'Малый том',
+		id: 3,
+		volumeRatio: 0.75,
+		length: 0.3
+		, audioNode: null
+	}, {
+		sound: (window as any)._drum_42_26_JCLive_sf2_file,
+		pitch: 42, //44
+		title: 'Закрытый хет',
+		id: 4,
+		volumeRatio: 0.5,
+		length: 0.5
+		, audioNode: null
+	}, {
+		sound: (window as any)._drum_46_26_JCLive_sf2_file,
+		pitch: 46, //
+		title: 'Открытый хет',
+		id: 5,
+		volumeRatio: 0.5,
+		length: 0.5
+		, audioNode: null
+	}, {
+		sound: (window as any)._drum_51_26_JCLive_sf2_file,
+		pitch: 51, //rest
+		title: 'Райд',
+		id: 6,
+		volumeRatio: 0.3,
+		length: 1
+		, audioNode: null
+	}, {
+		sound: (window as any)._drum_49_26_JCLive_sf2_file,
+		pitch: 49, //
+		title: 'Сплеш',
+		id: 7,
+		volumeRatio: 0.3,
+		length: 2
+		, audioNode: null
+	}];
+	trackInfo = [{
+		color: 'rgb(255,127,77)',
+		shadow: 'rgba(255,127,77,0.4)',
+		//color: 'rgba(255,204,187,1)',
+		//shadow: 'rgba(255,204,187,0.4)',
+		title: 'Синтезатор',
+		order: 2,
+		sound: (window as any)._tone_0390_GeneralUserGS_sf2_file,
+		volume: 70,//sureNumeric(readObjectFromlocalStorage('track7'), 0, 70, 100),
+		nn: 7,
+		octave: 3,
+		inChordDelay: 0.01,
+		volumeRatio: 0.5
+		, audioNode: null
+	}, {
+		color: 'rgb(178,178,0)',
+		shadow: 'rgba(178,178,0,0.4)',
+		//color: 'rgba(204,153,0,1)',
+		//shadow: 'rgba(204,153,0,0.4)',
+		title: 'Струнные',
+		order: 1,
+		sound: (window as any)._tone_0490_Chaos_sf2_file,
+		volume: 70,//sureNumeric(readObjectFromlocalStorage('track6'), 0, 70, 100),
+		nn: 6,
+		octave: 3,
+		inChordDelay: 0,
+		volumeRatio: 0.3
+		, audioNode: null
+	}, {
+		color: 'rgb(140,0,64)',
+		shadow: 'rgba(140,0,64,0.4)',
+		//color: 'rgba(204,0,204,1)',
+		//shadow: 'rgba(204,0,204,0.4)',
+		title: 'Бас-гитара',
+		order: 5,
+		sound: (window as any)._tone_0340_Aspirin_sf2_file,
+		volume: 70,//sureNumeric(readObjectFromlocalStorage('track5'), 0, 70, 100),
+		nn: 5,
+		octave: 2,
+		inChordDelay: 0.01,
+		volumeRatio: 0.75
+		, audioNode: null
+	}, {
+		color: 'rgb(0,127,255)',
+		shadow: 'rgba(0,127,255,0.4)',
+		//color: 'rgba(00,153,255,1)',
+		//shadow: 'rgba(00,153,255,0.4)',
+		title: 'Пианино',
+		order: 3,
+		sound: (window as any)._tone_0001_FluidR3_GM_sf2_file,
+		volume: 70,//sureNumeric(readObjectFromlocalStorage('track4'), 0, 70, 100),
+		nn: 4,
+		octave: 3,
+		inChordDelay: 0,
+		volumeRatio: 0.5
+		, audioNode: null
+	}, {
+		color: 'rgb(140,35,0)',
+		shadow: 'rgba(140,35,0,0.4)',
+		//color: 'rgba(153,51,0,1)',
+		//shadow: 'rgba(153,51,0,0.4)',
+		title: 'Мьют-дисторшн',
+		order: 4,
+		sound: (window as any)._tone_0280_LesPaul_sf2_file,
+		volume: 70,//sureNumeric(readObjectFromlocalStorage('track3'), 0, 70, 100),
+		nn: 3,
+		octave: 3,
+		inChordDelay: 0,
+		volumeRatio: 1.0
+		, audioNode: null
+	}, {
+		color: 'rgb(35,51,255)',
+		shadow: 'rgba(35,51,255,0.4)',
+		//color: 'rgba(51,51,255,1)',
+		//shadow: 'rgba(51,51,255,0.4)',
+		title: 'Синт. орган',
+		order: 0,
+		inChordDelay: 0,
+		sound: (window as any)._tone_0170_SBLive_sf2,
+		//sound: _tone_0170_JCLive_sf2_file,
+		volume: 70,//sureNumeric(readObjectFromlocalStorage('track2'), 0, 70, 100),
+		nn: 2,
+		octave: 4,
+		volumeRatio: 0.7
+		, audioNode: null
+	}, {
+		color: 'rgb(45,178,0)',
+		shadow: 'rgba(45,178,0,0.4)',
+		//color: 'rgba(0,153,0,1)',
+		//shadow: 'rgba(0,153,0,0.4)',
+		title: 'Аккуст. гитара',
+		order: 6,
+		sound: (window as any)._tone_0250_Chaos_sf2_file,
+		volume: 70,//sureNumeric(readObjectFromlocalStorage('track1'), 0, 70, 100),
+		nn: 1,
+		octave: 3,
+		inChordDelay: 0.01,
+		volumeRatio: 0.5
+		, audioNode: null
+	}, {
+		color: 'rgb(255,0,0)',
+		shadow: 'rgba(255,0,0,0.4)',
+		//color: 'rgba(255,0,0,1)',
+		//shadow: 'rgba(255,0,0,0.4)',
+		title: 'Гитара-дисторшн',
+		order: 7,
+		sound: (window as any)._tone_0300_LesPaul_sf2_file,
+		volume: 70,//sureNumeric(readObjectFromlocalStorage('track0'), 0, 70, 100),
+		nn: 0,
+		octave: 3,
+		inChordDelay: 0.01,
+		volumeRatio: 0.7
+		, audioNode: null
+	}
+
+	];
+	onAir: boolean = false;
+	//tempo: number = 120;
+	playInfo: PlayInfo = null;
+	nextWhen: number = 0;
+	sentWhen: number = 0;
+	nextBeat: number = 0;
+	tickerStep: number = 0;
+	tickerDelay: number = 0;
+	//sentBeat:number=0;
+	selectedProgression: Progression816 = null;
+	sendNextBeats(when: number, startBeat: number, endBeat: number) {
+		//console.log(when, startBeat, endBeat);
+		this.sentWhen = when;
+		//this.sentBeat = startBeat;
+		var N = 4 * 60 / this.playInfo.tempo;
+		var beatLen = 1 / 16 * N;
+		for (var i = 0; i < this.playInfo.drumData.length; i++) {
+			var hit: DrumStep = this.playInfo.drumData[i];
+			if (hit.beat >= startBeat && hit.beat <= endBeat) {
+				let drumchannel = this.drumInfo[hit.drum];
+				var zones = drumchannel.sound;
+				//if (channel.info && window[channel.info.variable]) {
+				//zones = window[channel.info.variable];
+				//console.log(channel.sound,channel.info,channel.info.variable,zones);
+				//}
+				var r = 1.0 - Math.random() * 0.2;
+				//this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (hit.beat - startBeat), channel.pitch, channel.length, r * channel.volumeRatio);
+				this.player.queueWaveTable(this.audioContext, drumchannel.audioNode, zones, when + beatLen * (hit.beat - startBeat), drumchannel.pitch, drumchannel.length, r * drumchannel.volumeRatio);
+			}
+		}
+		var notes: ToneStep[] = [];
+		for (var i = 0; i < this.playInfo.tracksData.length; i++) {
+			var note: ToneStep = this.playInfo.tracksData[i];
+			if (note.beat >= startBeat && note.beat <= endBeat) {
+				notes.push(note);
+			}
+		}
+		notes.sort(function (n1, n2) {
+			var r = 1000 * (n1.beat - n2.beat) + 100000 * (n1.track - n2.track);
+			if (n1.beat == n2.beat) {
+				r = r + (n1.pitch - n2.pitch);
+			}
+			return r;
+		});
+		var currentBeat = -1;
+		var currentTrack = -1;
+		var inChordCount = 0;
+		for (var i = 0; i < notes.length; i++) {
+			var note = notes[i];
+			if (note.beat != currentBeat || note.track != currentTrack) {
+				currentBeat = note.beat;
+				currentTrack = note.track;
+				inChordCount = 0;
+			}
+			var tonechannel = this.trackInfo[7 - note.track];
+			var zones = tonechannel.sound;
+			//if (tonechannel.info && window[channel.info.variable]) {
+			//zones = window[channel.info.variable];
+			//console.log(channel.sound,channel.info,channel.info.variable,zones);
+			//}
+			var shift = [{
+				when: note.length * beatLen,
+				pitch: note.shift + tonechannel.octave * 12 + note.pitch
+			}];
+			var r = 0.6 - Math.random() * 0.2;
+			//this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, 0.075 + note.length * beatLen, r * channel.volumeRatio, shift);
+			this.player.queueWaveTable(this.audioContext, tonechannel.audioNode, zones, when + beatLen * (note.beat - startBeat) + inChordCount * tonechannel.inChordDelay, tonechannel.octave * 12 + note.pitch, 0.075 + note.length * beatLen, r * tonechannel.volumeRatio, shift);
+			inChordCount++;
+		}
+	}
+	tick() {
+		//console.log(this);
+		if (this.onAir) {
+			var beat16duration = (4 * 60 / this.playInfo.tempo) / 16;
+
+			var pieceLen16 = this.selectedProgression.chords.length * 8;
+			//console.log(pieceLen16,this.selectedProgression);
+			var t = this.audioContext.currentTime;
+			if (this.nextWhen < t) {
+				this.nextWhen = t;
+			}
+			while (this.sentWhen < t + beat16duration) {
+				this.sendNextBeats(this.nextWhen, this.nextBeat, this.nextBeat);
+				this.nextWhen = this.sentWhen + beat16duration;
+				this.nextBeat = this.nextBeat + 1;
+				if (this.nextBeat >= pieceLen16) {
+					this.nextBeat = 0;
+				}
+			}
+			//var wait = 0.5 * 1000 * (this.nextWhen - t); //this.audioContext.currentTime);
+			this.tickerStep++;
+			if (this.tickerStep >= this.tickerDelay) {
+				this.tickerStep = 0;
+			}
+		}
+		window.requestAnimationFrame(this.tick.bind(this));
+	}
+	//startTicks(){
+	//setInterval(()=>{startTicks}, 100);
+	//window.requestAnimationFrame(this.tick.bind(this));
+	//}
+	initAudio() {
+		if (this.player) {
+			console.log('skip initAudio');
+		} else {
+			this.audioContext = new AudioContext();
+			this.player = new WebAudioFontPlayer();
+			console.log(this.player);
+			this.master = new WebAudioFontChannel(this.audioContext);
+			this.reverberator = new WebAudioFontReverberator(this.audioContext);
+			this.reverberator.output.connect(this.audioContext.destination);
+			this.master.output.connect(this.reverberator.input);
+			for (var i = 0; i < 8; i++) {
+				this.trackInfo[i].audioNode = this.audioContext.createGain();
+				this.trackInfo[i].audioNode.connect(this.master.input);
+				this.drumInfo[i].audioNode = this.audioContext.createGain();
+				this.drumInfo[i].audioNode.connect(this.master.input);
+			}
+			for (var i = 0; i < this.drumInfo.length; i++) {
+				this.player.adjustPreset(this.audioContext, this.drumInfo[i].sound);
+			}
+			for (var i = 0; i < this.trackInfo.length; i++) {
+				this.player.adjustPreset(this.audioContext, this.trackInfo[i].sound);
+			}
+			//this.startTicks();
+			/*
+			var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 4];
+			var insVolumes = [3, 3, 4, 3, 4, 7, 5, 7];
+
+			insVolumes[this.DistortionGuitar] = 3;
+			insVolumes[this.AcousticGuitar] = 4;
+			insVolumes[this.PercussiveOrgan] = 3;
+			insVolumes[this.PalmMuteGuitar] = 3;
+			insVolumes[this.AcousticPiano] = 4;
+			insVolumes[this.BassGuitar] = 5;
+			insVolumes[this.StringEnsemble] = 3;
+			insVolumes[this.SynthBass] = 6;
+			var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
+			*/
+			this.master.band32.gain.setValueAtTime(13-10, 0);//-40+40
+			this.master.band64.gain.setValueAtTime(12 - 10, 0);
+			this.master.band128.gain.setValueAtTime(12 - 10, 0);
+			this.master.band256.gain.setValueAtTime(10 - 10, 0);
+			this.master.band512.gain.setValueAtTime(8 - 10, 0);
+			this.master.band1k.gain.setValueAtTime(9 - 10, 0);
+			this.master.band2k.gain.setValueAtTime(13 - 10, 0);
+			this.master.band4k.gain.setValueAtTime(14 - 10, 0);
+			this.master.band8k.gain.setValueAtTime(9 - 10, 0);
+			this.master.band16k.gain.setValueAtTime(12 - 10, 0);
+			//
+			this.trackInfo[7 - this.SynthBass].audioNode.gain.setValueAtTime(6 / 10, 0);
+			this.trackInfo[7 - this.StringEnsemble].audioNode.gain.setValueAtTime(3 / 10, 0);
+			this.trackInfo[7 - this.BassGuitar].audioNode.gain.setValueAtTime(5 / 10, 0);
+			this.trackInfo[7 - this.AcousticPiano].audioNode.gain.setValueAtTime(4 / 10, 0);
+			this.trackInfo[7 - this.PalmMuteGuitar].audioNode.gain.setValueAtTime(3 / 10, 0);
+			this.trackInfo[7 - this.PercussiveOrgan].audioNode.gain.setValueAtTime(3 / 10, 0);
+			this.trackInfo[7 - this.AcousticGuitar].audioNode.gain.setValueAtTime(4 / 10, 0);
+			this.trackInfo[7 - this.DistortionGuitar].audioNode.gain.setValueAtTime(3 / 10, 0);
+			//
+			this.drumInfo[this.BassDrum].audioNode.gain.setValueAtTime(4 / 10, 0);
+			this.drumInfo[this.LowTom].audioNode.gain.setValueAtTime(4 / 10, 0);
+			this.drumInfo[this.SnareDrum].audioNode.gain.setValueAtTime(6 / 10, 0);
+			this.drumInfo[this.MidTom].audioNode.gain.setValueAtTime(4 / 10, 0);
+			this.drumInfo[this.ClosedHiHat].audioNode.gain.setValueAtTime(6 / 10, 0);
+			this.drumInfo[this.OpenHiHat].audioNode.gain.setValueAtTime(3 / 10, 0);
+			this.drumInfo[this.RideCymbal].audioNode.gain.setValueAtTime(6 / 10, 0);
+			this.drumInfo[this.SplashCymbal].audioNode.gain.setValueAtTime(4 / 10, 0);
+			//
+			//console.log(this.reverberator);
+			this.reverberator.output.threshold.setValueAtTime(-24, 0.0001);
+			this.reverberator.output.knee.setValueAtTime(30, 0.0001);
+			this.reverberator.output.ratio.setValueAtTime(12, 0.0001);
+			this.reverberator.output.attack.setValueAtTime(0.003, 0.0001);
+			this.reverberator.output.release.setValueAtTime(0.25, 0.0001);
+
+		}
+	}
+	startPlay(progressionN: number, drumN: number, bassN: number, rhythmN: number, padN: number, melodyN: number) {
+
+		console.log('startPlay');
+		if (this.onAir) {
+			//
+		} else {
+			//this.initAudio();
+			this.playInfo = this.generateAll(progressionN, drumN, bassN, rhythmN, padN, melodyN);
+			this.nextWhen = this.audioContext.currentTime + 0.1;
+			this.nextBeat = 0;
+			window.requestAnimationFrame(this.tick.bind(this));
+			this.onAir = true;
+		}
+	}
+	pausePlay() {
+		console.log('pausePlay');
+		if (this.onAir) {
+			this.onAir = false;
+			this.player.cancelQueue(this.audioContext);
+		} else {
+			this.onAir = true;
+		}
 	}
 }

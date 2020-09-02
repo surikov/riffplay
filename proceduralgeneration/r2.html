@@ -2,6 +2,23 @@
 
 <head>
 	<script src="https://surikov.github.io/riffplay/riffplay_module.js"></script>
+	<script src="https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/0300_LesPaul_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/0280_LesPaul_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/0250_Chaos_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/0170_SBLive_sf2.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/0001_FluidR3_GM_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/0340_Aspirin_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/0390_GeneralUserGS_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/0490_Chaos_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/12835_0_Chaos_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/12838_22_FluidR3_GM_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/12841_26_JCLive_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/12842_26_JCLive_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/12845_26_JCLive_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/12846_26_JCLive_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/12849_26_JCLive_sf2_file.js"></script>
+	<script src="https://surikov.github.io/webaudiofontdata/sound/12851_26_JCLive_sf2_file.js"></script>
 </head>
 
 <body>
@@ -42,12 +59,15 @@
 			onChange='parsChanged();'>
 	</p>
 
-	<p><a id='proceduralgeneration' href='javascript:test();'>startApp</p>
+	<p><a id='proceduralgeneration' href='javascript:test();'>launch</p>
+	<p><a id='startPlay' href='javascript:startPlay();'>startPlay</p>
+	<p><a id='pausePlay' href='javascript:pausePlay();'>pausePlay</p>
 
 	<script type='text/javascript' src='r2.js'></script>
 	<script type='text/javascript'>
 		console.log('init');
 		var genRiff = new GenRiff();
+		
 
 		var progNN=0;
 		var drumNN=0;
@@ -61,13 +81,13 @@
 			var r=Math.floor(255 * nn / 1000);
 			var color='rgb('+r+',127,127)';
 			document.getElementById("infoProgression").style.color = color;
-			console.log(color);
+			//console.log(color);
 		}
 		function setInfo(infoName, valueName, arr) {
 			var sz = arr.length;
 			var nn = 1 * document.getElementById(valueName).value;
 			var r=Math.floor(sz * nn / 1000);
-			document.getElementById(infoName).innerHTML = '' +r+' '+arr[r].name;
+			document.getElementById(infoName).innerHTML = '' +r+': '+arr[r].category+' / '+arr[r].name;
 			return r;
 		}
 
@@ -79,11 +99,24 @@
 			padNN=setInfo('infoPad', 'sliderPad', genRiff.padDefsData);
 			meloNN=setInfo('infoMelody', 'sliderMelody', genRiff.melodyDefsData);
 			updateColors();
+			genRiff.playInfo = genRiff.generateAll(progNN, drumNN, bassNN, rhNN, padNN,meloNN);
 		}
-
+		function startPlay(){
+			genRiff.initAudio();
+			genRiff.startPlay(progNN, drumNN, bassNN, rhNN, padNN,meloNN);
+			return null;
+		}
+		function pausePlay(){
+			
+			genRiff.pausePlay();
+			return null;
+		}
 		function test() {
 			parsChanged();
-			console.log(genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN,meloNN));
+			//console.log(genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN,meloNN));
+			var urlprj=genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN,meloNN);
+			console.log(urlprj);
+			window.open(urlprj);
 			return null;
 		}
 
