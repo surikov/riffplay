@@ -31,8 +31,7 @@
 
 	<p>Progression <span id="infoProgression">X</span></p>
 	<p>
-		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderProgression"
-			onChange='parsChanged();'>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderProgression" onChange='parsChanged();'>
 	</p>
 
 	<p>Drum <span id="infoDrum">X</span></p>
@@ -47,8 +46,7 @@
 
 	<p>Piano/Strum/Riff rhythm <span id="infoRhythm">X</span></p>
 	<p>
-		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderRhythm"
-			onChange='parsChanged();'>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderRhythm" onChange='parsChanged();'>
 	</p>
 
 	<p>Pad <span id="infoPad">X</span></p>
@@ -58,9 +56,9 @@
 
 	<p>Melody <span id="infoMelody">X</span></p>
 	<p>
-		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderMelody"
-			onChange='parsChanged();'>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderMelody" onChange='parsChanged();'>
 	</p>
+	<!--
 	<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" id='svg1'>
 		<g id="icngroup1" transform="skewX(-25) translate(256,0)" inkscape:groupmode="layer" inkscape:label="Layer 1">
 			<rect style="fill:#ffccaa;stroke-width:0.461965" id="rect10" width="512" height="512" x="0" y="0" />
@@ -76,8 +74,9 @@
 		<animateTransform xlink:href="#icngroup1" attributeName="transform" attributeType="XML" type="translateX"
 			values="10;9;-9;-10;-9;9;10" dur="1s" repeatCount="indefinite" additive="sum" />
 	</svg>
-
+-->
 	<p><a id='proceduralgeneration' href='javascript:test();'>launch</p>
+	<p><a id='pausePlay' href='javascript:playRandom();'>randomize</p>
 	<p><a id='startPlay' href='javascript:startPlay();'>startPlay</p>
 	<p><a id='pausePlay' href='javascript:pausePlay();'>pausePlay</p>
 
@@ -86,7 +85,7 @@
 		console.log('init');
 		var genRiff = new GenRiff();
 
-
+		var preProgNN = 0;
 		var progNN = 0;
 		var drumNN = 0;
 		var bassNN = 0;
@@ -119,6 +118,12 @@
 			meloNN = setInfo('infoMelody', 'sliderMelody', genRiff.melodyDefsData);
 			updateColors();
 			genRiff.playInfo = genRiff.generateAll(progNN, drumNN, bassNN, rhNN, padNN, meloNN);
+			if (preProgNN != progNN) {
+				genRiff.pausePlay();
+				genRiff.nextBeat = 0;
+				startPlay();
+			}
+			preProgNN = progNN;
 		}
 
 		function startPlay() {
@@ -140,6 +145,24 @@
 			console.log(urlprj);
 			window.open(urlprj);
 			return null;
+		}
+
+		function playRandom() {
+			genRiff.initAudio();
+			//console.log(genRiff.progressions.length,Math.random() * genRiff.progressions.length);
+			document.getElementById('sliderProgression').value = Math.floor(1000 * Math.random());
+			document.getElementById('sliderDrum').value = Math.floor(1000 * Math.random());
+			document.getElementById('sliderBass').value = Math.floor(1000 * Math.random());
+			document.getElementById('sliderRhythm').value = Math.floor(1000 * Math.random());
+			document.getElementById('sliderPad').value = 0;//Math.floor(1000 * Math.random());
+			if (Math.random() > 0.5) {
+				document.getElementById('sliderPad').value = Math.floor(1000 * Math.random());
+			}
+			document.getElementById('sliderMelody').value = 0;//Math.floor(1000 * Math.random());
+			parsChanged();
+			genRiff.pausePlay();
+			//genRiff.nextBeat = 0;
+			startPlay();
 		}
 
 		parsChanged();

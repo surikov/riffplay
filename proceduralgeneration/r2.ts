@@ -20,6 +20,16 @@ declare function WebAudioFontReverberator(audioContext: AudioContext): void;
 class GenRiff {
 	audioContext: AudioContext;
 	player: any | null = null;
+	onAir: boolean = false;
+	//tempo: number = 120;
+	playInfo: PlayInfo = null;
+	nextWhen: number = 0;
+	sentWhen: number = 0;
+	nextBeat: number = 0;
+	tickerStep: number = 0;
+	tickerDelay: number = 0;
+	//sentBeat:number=0;
+	selectedProgression: Progression816 = null;
 	progressions: Progression816[] = [];
 	C = 0; Cs = 1; D = 2; Ds = 3; E = 4; F = 5; Fs = 6; G = 7; Gs = 8; A = 9; As = 10; B = 11;
 	O = 12;
@@ -66,19 +76,21 @@ class GenRiff {
 	];
 	drumsDefs: DrumPatternDefinition[] = [
 		{ category: '', name: 'simpledance', start: { len16: 8 * 2, encoded: '0011011180448144' }, end: { len16: 8 * 2, encoded: '001101f980448144' } }
-		, { category: '', name: 'rock3 half slow', start: { len16: 8 * 4, encoded: '004101400241034441014301c011c111c211c311' }, end: { len16: 8 * 2, encoded: '0041010441d1c011c111' } }
 		, { category: '', name: 'bigroom', start: { len16: 8 * 2, encoded: '00110111201121114010411080448144' }, end: { len16: 8 * 2, encoded: '00110111201121114010411180518155' } }
 		, { category: '', name: 'bigroom2', start: { len16: 8 * 2, encoded: '001101152011211540104110a044a144' }, end: { len16: 8 * 2, encoded: '001101f5201121f54010a044a144' } }
-		, { category: '', name: 'simpleride', start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }, end: { len16: 8 * 2, encoded: '0089011040104165c055c105e110' } }
-		, { category: '', name: 'simplerock2', start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' } }
+		, { category: '', name: 'simpledance2', start: { len16: 8 * 2, encoded: '0011011120402104401041106002a044a144' }, end: { len16: 8 * 2, encoded: '0011011120402155401060026155a044a144' } }
+		
+		, { category: '', name: 'rock3 half slow', start: { len16: 8 * 4, encoded: '004101400241034441014301c011c111c211c311' }, end: { len16: 8 * 2, encoded: '0041010441d1c011c111' } }
 		, { category: '', name: 'rock1-', start: { len16: 8 * 4, encoded: '000501040245034440104110421043108015815582158355a040a240' }, end: { len16: 8 * 2, encoded: '0005011121404010410f61208055' } }
-		, { category: '', name: 'hard rock', start: { len16: 8 * 4, encoded: '00050105020503454010411042104310c055c155c255c355' }, end: { len16: 8 * 2, encoded: '0005010c21c0401060406133c014' } }
-		, { category: '', name: 'rock2', start: { len16: 8 * 2, encoded: '0001014540904110a011a111' }, end: { len16: 8 * 2, encoded: '000101112120401041cca011a101' } }
+		, { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 8 * 2, encoded: '008901994010412280cca001a111c050' } }
 		, { category: '', name: 'rap', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 8 * 2, encoded: '00810105401041d080558104a101c150' } }
 		, { category: '', name: 'prodigy', start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }, end: { len16: 8 * 2, encoded: '0005010521404090419080fe81aea001a151' } }
-		, { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 8 * 2, encoded: '008901994010412280cca001a111c050' } }
 		, { category: '', name: 'funk1+', start: { len16: 8 * 4, encoded: '000101250205030440b0419242b04392805d8153825d8353a104a304' }, end: { len16: 8 * 2, encoded: '000521404090411b61248055' } }
-		, { category: '', name: 'simpledance2', start: { len16: 8 * 2, encoded: '0011011120402104401041106002a044a144' }, end: { len16: 8 * 2, encoded: '0011011120402155401060026155a044a144' } }
+		
+		, { category: '', name: 'simpleride', start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }, end: { len16: 8 * 2, encoded: '0089011040104165c055c105e110' } }
+		, { category: '', name: 'simplerock2', start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' } }
+		, { category: '', name: 'hard rock', start: { len16: 8 * 4, encoded: '00050105020503454010411042104310c055c155c255c355' }, end: { len16: 8 * 2, encoded: '0005010c21c0401060406133c014' } }
+		, { category: '', name: 'rock2', start: { len16: 8 * 2, encoded: '0001014540904110a011a111' }, end: { len16: 8 * 2, encoded: '000101112120401041cca011a101' } }
 		, { category: '', name: 'punk tom', start: { len16: 8 * 4, encoded: '000101050201030504010505060107052054215522552355245525552655275540104110421043184410451046104730e001' }, end: { len16: 8 * 2, encoded: '00110111205421556080614ce001' } }
 		, { category: '', name: 'punk speed', start: { len16: 8 * 2, encoded: '0031012940444144c055c155' }, end: { len16: 8 * 2, encoded: '0033010921a0404441146140c055c115' } }
 		, { category: '', name: 'power metal', start: { len16: 8 * 4, encoded: '00440144024603464011411142114311a010a111a211a311e001' }, end: { len16: 8 * 2, encoded: '00820108405d4157e041' } }
@@ -101,14 +113,13 @@ class GenRiff {
 		, { category: '', name: 'route66', chord: 'A', len16: 8 * 2, encoded: '005020940025020940045020d40065020d400850210400a50210400c50212400e5021040' }
 	];
 	strumDefs: StrumPatternDefinition[] = [
-
-		{ category: '', name: 'strum1', strum: 'V---V.A-V.A-V-A.' }
-		, { category: '', name: 'accent1', strum: 'VA--............V-A-X...........X---X-..........' }
+		{ category: '', name: 'accent1', strum: 'VAX............AVAX...........A-VAX............AVAX.V-V-V-V-V-A-' }
+		,{ category: '', name: 'strum1', strum: 'V---V.A-V.A-V-A.' }
 		, { category: '', name: 'strum2', strum: 'V---A-V---A-V-A-' }
-		, { category: '', name: 'accent2', strum: 'V---A-V---A-V-A-' }
-		, { category: '', name: 'disco strum', strum: 'VAVA..V-VAVA..V-' }
-		, { category: '', name: 'wanderwall', strum: 'V-V-V.VAVAV-V-VAVAV-V-VA-A-AVAVA' }
-		, { category: '', name: 'wanderwall2', strum: 'V-V-X.VAVAX-X-VAVAV-V-VA-A-AVAVA' }
+		//, { category: '', name: 'accent2', strum: 'V---A-V---A-V-A-' }
+		, { category: '', name: 'disco strum', strum: 'VAVX..V-' }
+		//, { category: '', name: 'wanderwall', strum: 'V-V-V.VAVAV-V-VAVAV-V-VA-A-AVAVA' }
+		//, { category: '', name: 'wanderwall2', strum: 'V-V-X.VAVAX-X-VAVAV-V-VA-A-AVAVA' }
 
 	];
 	pianoDefsData: PianoPatternDefinition[] = [
@@ -119,18 +130,32 @@ class GenRiff {
 		, { category: '', name: 'abba', piano: '.2..2-.2-.2--...', track: 4 }
 	];
 	overdriveDefsData: MelodyPatternDefinition[] = [
-		{ category: '', name: 'kickstart 1', chord: 'Am', len16: 8 * 4, encoded: '000041540000041c40040021540040021c400630215400830215400a30215400c00215400c0021c400e3021540103021540123021540140021540140021c401630215401830215401a00410401a00415401e00213401e0021a40' }
+		 { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' }
+	
 		, { category: '', name: 'kickstart2', chord: 'Am', len16: 8 * 8, encoded: '0000e15400000e1c400e30210401000e1c401001010401e00221401e00215401e0021c40200021540200022140200021c40223021540240021c40240022140263021540280021c402800221402a30215402c30215402e3021540303021540323021540340021c40340022140363021540380021c403800221403a00410403a0041c403e3021340' }
-		, { category: '', name: 'sadbutrue', chord: 'Am', len16: 8 * 16, encoded: '000061540000061c400630215400830215400a00215400a0021c400c30215400e3021540100061540100061c401630215401830215401a30218401c30218401e00218401e0021c40200061540200061c402630215402830215402a00215402a0021c402c30215402e3021540300061540300061c403630215403830215403a30218403c30218403e00218403e0021c40400061540400061c404630215404830215404a00215404c30215404e3021540500061540500061c405630215405830215405a30218405c30218405e00218405e0021c40600061540600061c406630215406830215406a30218406c30218406e3021840700061840700061c407630215407830215407a30215407c30215407e00215407e0021c40' }
 		, { category: '', name: 'gypsyroad', chord: 'Am', len16: 8 * 4, encoded: '000021840020021740043021540060041540060041c400a30215400c00415400c0041c40100021340120021540140021740160041c401600415401a30215401c0041c401c0041540' }
+		, { category: '', name: 'sadbutrue', chord: 'Am', len16: 8 * 16, encoded: '000061540000061c400630215400830215400a00215400a0021c400c30215400e3021540100061540100061c401630215401830215401a30218401c30218401e00218401e0021c40200061540200061c402630215402830215402a00215402a0021c402c30215402e3021540300061540300061c403630215403830215403a30218403c30218403e00218403e0021c40400061540400061c404630215404830215404a00215404c30215404e3021540500061540500061c405630215405830215405a30218405c30218405e00218405e0021c40600061540600061c406630215406830215406a30218406c30218406e3021840700061840700061c407630215407830215407a30215407c30215407e00215407e0021c40' }
+		,{ category: '', name: 'kickstart 1', chord: 'Am', len16: 8 * 4, encoded: '000041540000041c40040021540040021c400630215400830215400a30215400c00215400c0021c400e3021540103021540123021540140021540140021c401630215401830215401a00410401a00415401e00213401e0021a40' }
+		
 		, { category: '', name: 'gypsyroad2', chord: 'Am', len16: 8 * 4, encoded: '000021c40020021840043021540060041540060041c400a30215400c00415400c0041c40100021040120021540140021840160041c401600415401a30215401c0041c401c0041540' }
-		, { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' }
+		, { category: '', name: 'volya', chord: 'Am', len16: 8 * 8, encoded: '000021540000021c400230215400430215400630215400830215400a30215400c00218400c0021f400e0021c400e0022340100021540100021c401230215401430215401630215401830215401a30215401c00210401c00217401e00211401e0021840200021540200021c402230215402430215402630215402830215402a30215402c00218402c0021f402e0021c402e0022340300021540300021c40323021540343021540360021540360021c403830215403a00215403a0021c403c30215403e0021c403e0022340' }
+			
 	];
 	pianoStrumOverDefsData: (StrumPatternDefinition | PianoPatternDefinition | MelodyPatternDefinition)[] = [{ category: '', name: '', strum: '' }];
 	padDefsData: PianoPatternDefinition[] = [
 		{ category: '', name: 'empty', piano: '', track: 4 }
-		, { category: '', name: 'long string1', piano: '2-2-2---------------------------', track: 6 }
-		, { category: '', name: 'long organ1', piano: '2-2-2-------------------2-2-2---', track: 2 }
+		, { category: '', name: 'long string1', piano: '2-------------------------------', track: 6 }
+		, { category: '', name: 'long organ1', piano: '2-------------------------------', track: 2 }
+		, { category: '', name: 'long string2', piano: '1-------2-----------------------', track: 6 }
+		, { category: '', name: 'long organ2', piano:  '1-------2-----------------------', track: 2 }
+		, { category: '', name: 'long string3', piano: '2-------1-------2---------------', track: 6 }
+		, { category: '', name: 'long organ3', piano:  '2-------1-------2---------------', track: 2 }
+		, { category: '', name: 'long string4', piano: '2-----------------------1-------', track: 6 }
+		, { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 2 }
+		, { category: '', name: 'long string5', piano: '2-------1-------', track: 6 }
+		, { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 }
+		, { category: '', name: 'long string6', piano: '1-------2-------', track: 6 }
+		, { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
 	];
 	melodyDefsData: MelodyPatternDefinition[] = [
 		{ category: '', name: 'empty', chord: 'E', len16: 8 * 0, encoded: '' }
@@ -1285,7 +1310,7 @@ class GenRiff {
 		insVolumes[this.PalmMuteGuitar] = 4;
 		insVolumes[this.AcousticPiano] = 6;
 		insVolumes[this.BassGuitar] = 5;
-		insVolumes[this.StringEnsemble] = 3;
+		insVolumes[this.StringEnsemble] = 4;
 		insVolumes[this.SynthBass] = 10;
 		var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
 		//this.initProgressions();
@@ -1514,16 +1539,7 @@ class GenRiff {
 	}
 
 	];
-	onAir: boolean = false;
-	//tempo: number = 120;
-	playInfo: PlayInfo = null;
-	nextWhen: number = 0;
-	sentWhen: number = 0;
-	nextBeat: number = 0;
-	tickerStep: number = 0;
-	tickerDelay: number = 0;
-	//sentBeat:number=0;
-	selectedProgression: Progression816 = null;
+	
 	sendNextBeats(when: number, startBeat: number, endBeat: number) {
 		//console.log(when, startBeat, endBeat);
 		this.sentWhen = when;
