@@ -104,9 +104,10 @@ var GenRiff = /** @class */ (function () {
         ];
         this.pianoDefsData = [
             { category: '', name: 'route66', piano: '..2-----2-2-......2-----2-2-......2-----2-2-......2---2-..2-..2-', track: 4 },
-            { category: '', name: 'slade', piano: '2...2...2...2.1-', track: 4 },
+            { category: '', name: 'slade', piano: '2-..2-..2-..2-1-', track: 4 },
             { category: '', name: 'chicago', piano: '2-..2-..2--2--2-..2-.2-.2-.2-.2-', track: 4 },
-            { category: '', name: 'sandstorm', piano: '2-22-22-2-22-221', track: 4 }
+            { category: '', name: 'sandstorm', piano: '2-22-22-2-22-221', track: 4 },
+            { category: '', name: 'abba', piano: '.2..2-.2-.2--...', track: 4 }
         ];
         this.overdriveDefsData = [
             { category: '', name: 'kickstart 1', chord: 'Am', len16: 8 * 4, encoded: '000041540000041c40040021540040021c400630215400830215400a30215400c00215400c0021c400e3021540103021540123021540140021540140021c401630215401830215401a00410401a00415401e00213401e0021a40' },
@@ -116,7 +117,7 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'gypsyroad2', chord: 'Am', len16: 8 * 4, encoded: '000021c40020021840043021540060041540060041c400a30215400c00415400c0041c40100021040120021540140021840160041c401600415401a30215401c0041c401c0041540' },
             { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' }
         ];
-        this.rhythmDefsData = [{ category: '', name: '', strum: '' }];
+        this.pianoStrumOverDefsData = [{ category: '', name: '', strum: '' }];
         this.padDefsData = [
             { category: '', name: 'empty', piano: '', track: 4 },
             { category: '', name: 'long string1', piano: '2-2-2---------------------------', track: 6 },
@@ -962,13 +963,13 @@ var GenRiff = /** @class */ (function () {
             //console.log(i,progression);
         }
         for (var i_1 = 0; i_1 < this.pianoDefsData.length; i_1++) {
-            this.rhythmDefsData.push(this.pianoDefsData[i_1]);
+            this.pianoStrumOverDefsData.push(this.pianoDefsData[i_1]);
         }
         for (var i_2 = 0; i_2 < this.strumDefs.length; i_2++) {
-            this.rhythmDefsData.push(this.strumDefs[i_2]);
+            this.pianoStrumOverDefsData.push(this.strumDefs[i_2]);
         }
         for (var i_3 = 0; i_3 < this.overdriveDefsData.length; i_3++) {
-            this.rhythmDefsData.push(this.overdriveDefsData[i_3]);
+            this.pianoStrumOverDefsData.push(this.overdriveDefsData[i_3]);
         }
         //console.log(this.rhythmDefsData);
     }
@@ -1527,7 +1528,7 @@ var GenRiff = /** @class */ (function () {
         var tracksData = [];
         var bassPattern = this.bassDefs[bassN];
         tracksData = tracksData.concat(this.composeFullLine(prog.chords, bassPattern, true));
-        var rhythm = this.composeRhythm(prog.chords, this.rhythmDefsData[rhythmN]);
+        var rhythm = this.composeRhythm(prog.chords, this.pianoStrumOverDefsData[rhythmN]);
         tracksData = tracksData.concat(rhythm);
         var pad = this.padDefsData[padN];
         tracksData = tracksData.concat(this.composePianoBeat(prog.chords, pad));

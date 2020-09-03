@@ -113,9 +113,10 @@ class GenRiff {
 	];
 	pianoDefsData: PianoPatternDefinition[] = [
 		{ category: '', name: 'route66', piano: '..2-----2-2-......2-----2-2-......2-----2-2-......2---2-..2-..2-', track: 4 }
-		, { category: '', name: 'slade', piano: '2...2...2...2.1-', track: 4 }
+		, { category: '', name: 'slade', piano: '2-..2-..2-..2-1-', track: 4 }
 		, { category: '', name: 'chicago', piano: '2-..2-..2--2--2-..2-.2-.2-.2-.2-', track: 4 }
 		, { category: '', name: 'sandstorm', piano: '2-22-22-2-22-221', track: 4 }
+		, { category: '', name: 'abba', piano: '.2..2-.2-.2--...', track: 4 }
 	];
 	overdriveDefsData: MelodyPatternDefinition[] = [
 		{ category: '', name: 'kickstart 1', chord: 'Am', len16: 8 * 4, encoded: '000041540000041c40040021540040021c400630215400830215400a30215400c00215400c0021c400e3021540103021540123021540140021540140021c401630215401830215401a00410401a00415401e00213401e0021a40' }
@@ -125,7 +126,7 @@ class GenRiff {
 		, { category: '', name: 'gypsyroad2', chord: 'Am', len16: 8 * 4, encoded: '000021c40020021840043021540060041540060041c400a30215400c00415400c0041c40100021040120021540140021840160041c401600415401a30215401c0041c401c0041540' }
 		, { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' }
 	];
-	rhythmDefsData: (StrumPatternDefinition | PianoPatternDefinition | MelodyPatternDefinition)[] = [{ category: '', name: '', strum: '' }];
+	pianoStrumOverDefsData: (StrumPatternDefinition | PianoPatternDefinition | MelodyPatternDefinition)[] = [{ category: '', name: '', strum: '' }];
 	padDefsData: PianoPatternDefinition[] = [
 		{ category: '', name: 'empty', piano: '', track: 4 }
 		, { category: '', name: 'long string1', piano: '2-2-2---------------------------', track: 6 }
@@ -993,13 +994,13 @@ class GenRiff {
 			//console.log(i,progression);
 		}
 		for (let i = 0; i < this.pianoDefsData.length; i++) {
-			this.rhythmDefsData.push(this.pianoDefsData[i]);
+			this.pianoStrumOverDefsData.push(this.pianoDefsData[i]);
 		}
 		for (let i = 0; i < this.strumDefs.length; i++) {
-			this.rhythmDefsData.push(this.strumDefs[i]);
+			this.pianoStrumOverDefsData.push(this.strumDefs[i]);
 		}
 		for (let i = 0; i < this.overdriveDefsData.length; i++) {
-			this.rhythmDefsData.push(this.overdriveDefsData[i]);
+			this.pianoStrumOverDefsData.push(this.overdriveDefsData[i]);
 		}
 		//console.log(this.rhythmDefsData);
 	}
@@ -1299,7 +1300,7 @@ class GenRiff {
 		let bassPattern: MelodyPatternDefinition = this.bassDefs[bassN];
 		tracksData = tracksData.concat(this.composeFullLine(prog.chords, bassPattern, true));
 
-		let rhythm = this.composeRhythm(prog.chords, this.rhythmDefsData[rhythmN]);
+		let rhythm = this.composeRhythm(prog.chords, this.pianoStrumOverDefsData[rhythmN]);
 		tracksData = tracksData.concat(rhythm);
 
 		let pad: PianoPatternDefinition = this.padDefsData[padN];

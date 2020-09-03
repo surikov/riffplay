@@ -1,6 +1,11 @@
 <html>
 
 <head>
+	<style>
+		#svg1 {
+			width: 2cm;
+		}
+	</style>
 	<script src="https://surikov.github.io/riffplay/riffplay_module.js"></script>
 	<script src="https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
 	<script src="https://surikov.github.io/webaudiofontdata/sound/0300_LesPaul_sf2_file.js"></script>
@@ -32,14 +37,12 @@
 
 	<p>Drum <span id="infoDrum">X</span></p>
 	<p>
-		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderDrum"
-			onChange='parsChanged();'>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderDrum" onChange='parsChanged();'>
 	</p>
 
 	<p>Bass <span id="infoBass">X</span></p>
 	<p>
-		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderBass"
-			onChange='parsChanged();'>
+		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderBass" onChange='parsChanged();'>
 	</p>
 
 	<p>Piano/Strum/Riff rhythm <span id="infoRhythm">X</span></p>
@@ -58,6 +61,21 @@
 		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderMelody"
 			onChange='parsChanged();'>
 	</p>
+	<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" id='svg1'>
+		<g id="icngroup1" transform="skewX(-25) translate(256,0)" inkscape:groupmode="layer" inkscape:label="Layer 1">
+			<rect style="fill:#ffccaa;stroke-width:0.461965" id="rect10" width="512" height="512" x="0" y="0" />
+			<rect ry="0" y="200.24783" x="176.47092" height="271.29977" width="134.40195" id="rect12"
+				style="fill:#aa8800;stroke-width:0.291462" />
+			<rect y="170.66072" x="20.077379" height="112.69376" width="465.91071" id="rect14"
+				style="fill:#916f8a;stroke-width:0.346967" />
+			<ellipse ry="138.71791" rx="156.50574" cy="167.39069" cx="236.17041" id="path10"
+				style="fill:#ff6600;stroke-width:0.395091" />
+		</g>
+		<animateTransform xlink:href="#icngroup1" attributeName="transform" attributeType="XML" type="skewX"
+			values="-1;-0.9;0.9;1;0.9;-0.9;-1" dur="1s" repeatCount="indefinite" />
+		<animateTransform xlink:href="#icngroup1" attributeName="transform" attributeType="XML" type="translateX"
+			values="10;9;-9;-10;-9;9;10" dur="1s" repeatCount="indefinite" additive="sum" />
+	</svg>
 
 	<p><a id='proceduralgeneration' href='javascript:test();'>launch</p>
 	<p><a id='startPlay' href='javascript:startPlay();'>startPlay</p>
@@ -67,54 +85,58 @@
 	<script type='text/javascript'>
 		console.log('init');
 		var genRiff = new GenRiff();
-		
 
-		var progNN=0;
-		var drumNN=0;
-		var bassNN=0;
-		var padNN=0;
-		var rhNN=0;
-		var meloNN=0;
 
-		function updateColors(){
+		var progNN = 0;
+		var drumNN = 0;
+		var bassNN = 0;
+		var padNN = 0;
+		var rhNN = 0;
+		var meloNN = 0;
+
+		function updateColors() {
 			var nn = 1 * document.getElementById('sliderProgression').value;
-			var r=Math.floor(255 * nn / 1000);
-			var color='rgb('+r+',127,127)';
+			var r = Math.floor(255 * nn / 1000);
+			var color = 'rgb(' + r + ',127,127)';
 			document.getElementById("infoProgression").style.color = color;
 			//console.log(color);
 		}
+
 		function setInfo(infoName, valueName, arr) {
 			var sz = arr.length;
 			var nn = 1 * document.getElementById(valueName).value;
-			var r=Math.floor(sz * nn / 1000);
-			document.getElementById(infoName).innerHTML = '' +r+': '+arr[r].category+' / '+arr[r].name;
+			var r = Math.floor(sz * nn / 1000);
+			document.getElementById(infoName).innerHTML = '' + r + ': ' + arr[r].category + ' / ' + arr[r].name;
 			return r;
 		}
 
 		function parsChanged() {
-			progNN=setInfo('infoProgression', 'sliderProgression', genRiff.progressions);
-			drumNN=setInfo('infoDrum', 'sliderDrum', genRiff.drumsDefs);
-			bassNN=setInfo('infoBass', 'sliderBass', genRiff.bassDefs);
-			rhNN=setInfo('infoRhythm', 'sliderRhythm', genRiff.rhythmDefsData);
-			padNN=setInfo('infoPad', 'sliderPad', genRiff.padDefsData);
-			meloNN=setInfo('infoMelody', 'sliderMelody', genRiff.melodyDefsData);
+			progNN = setInfo('infoProgression', 'sliderProgression', genRiff.progressions);
+			drumNN = setInfo('infoDrum', 'sliderDrum', genRiff.drumsDefs);
+			bassNN = setInfo('infoBass', 'sliderBass', genRiff.bassDefs);
+			rhNN = setInfo('infoRhythm', 'sliderRhythm', genRiff.pianoStrumOverDefsData);
+			padNN = setInfo('infoPad', 'sliderPad', genRiff.padDefsData);
+			meloNN = setInfo('infoMelody', 'sliderMelody', genRiff.melodyDefsData);
 			updateColors();
-			genRiff.playInfo = genRiff.generateAll(progNN, drumNN, bassNN, rhNN, padNN,meloNN);
+			genRiff.playInfo = genRiff.generateAll(progNN, drumNN, bassNN, rhNN, padNN, meloNN);
 		}
-		function startPlay(){
+
+		function startPlay() {
 			genRiff.initAudio();
-			genRiff.startPlay(progNN, drumNN, bassNN, rhNN, padNN,meloNN);
+			genRiff.startPlay(progNN, drumNN, bassNN, rhNN, padNN, meloNN);
 			return null;
 		}
-		function pausePlay(){
-			
+
+		function pausePlay() {
+
 			genRiff.pausePlay();
 			return null;
 		}
+
 		function test() {
 			parsChanged();
 			//console.log(genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN,meloNN));
-			var urlprj=genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN,meloNN);
+			var urlprj = genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN, meloNN);
 			console.log(urlprj);
 			window.open(urlprj);
 			return null;
