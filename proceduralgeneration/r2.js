@@ -104,12 +104,16 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'route66', chord: 'A', len16: 8 * 2, encoded: '005020940025020940045020d40065020d400850210400a50210400c50212400e5021040' }
         ];
         this.strumDefs = [
-            { category: '', name: 'accent1', strum: 'VAX............AVAX...........A-VAX............AVAX.V-V-V-V-V-A-' },
+            { category: '', name: 'accent1', strum: 'VAX...........A-VAX...........A-VAX...........A-VAX.V-V-V-V-V-A-' },
+            { category: '', name: 'accent2', strum: 'V-V-V-..A-A-....' },
             { category: '', name: 'strum1', strum: 'V---V.A-V.A-V-A.' },
-            { category: '', name: 'strum2', strum: 'V---A-V---A-V-A-' }
+            { category: '', name: 'strum2', strum: 'V---A-V---A-V-A-' },
+            { category: '', name: 'strum3', strum: 'V-X-X-A---V-A-V-' }
             //, { category: '', name: 'accent2', strum: 'V---A-V---A-V-A-' }
             ,
-            { category: '', name: 'disco strum', strum: 'VAVX..V-' }
+            { category: '', name: 'disco strum', strum: 'VAVX..V-' },
+            { category: '', name: 'litlebig', strum: 'V---V---V-XAV---' },
+            { category: '', name: 'strum4', strum: 'V...V...V...V-A-' }
             //, { category: '', name: 'wanderwall', strum: 'V-V-V.VAVAV-V-VAVAV-V-VA-A-AVAVA' }
             //, { category: '', name: 'wanderwall2', strum: 'V-V-X.VAVAX-X-VAVAV-V-VA-A-AVAVA' }
         ];
@@ -133,16 +137,16 @@ var GenRiff = /** @class */ (function () {
         this.padDefsData = [
             { category: '', name: 'empty', piano: '', track: 4 },
             { category: '', name: 'long string1', piano: '2-------------------------------', track: 6 },
-            { category: '', name: 'long organ1', piano: '2-------------------------------', track: 2 },
             { category: '', name: 'long string2', piano: '1-------2-----------------------', track: 6 },
-            { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 2 },
             { category: '', name: 'long string3', piano: '2-------1-------2---------------', track: 6 },
-            { category: '', name: 'long organ3', piano: '2-------1-------2---------------', track: 2 },
             { category: '', name: 'long string4', piano: '2-----------------------1-------', track: 6 },
-            { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 2 },
             { category: '', name: 'long string5', piano: '2-------1-------', track: 6 },
-            { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 },
             { category: '', name: 'long string6', piano: '1-------2-------', track: 6 },
+            { category: '', name: 'long organ1', piano: '2-------------------------------', track: 2 },
+            { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 2 },
+            { category: '', name: 'long organ3', piano: '2-------1-------2---------------', track: 2 },
+            { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 2 },
+            { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 },
             { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
         ];
         this.melodyDefsData = [
