@@ -106,14 +106,13 @@ var GenRiff = /** @class */ (function () {
         this.strumDefs = [
             { category: '', name: 'accent1', strum: 'VAX...........A-VAX...........A-VAX...........A-VAX.V-V-V-V-V-A-' },
             { category: '', name: 'accent2', strum: 'V-V-V-..A-A-....' },
+            { category: '', name: 'litlebig', strum: 'V---V---V-XAV---' },
+            { category: '', name: 'strum4', strum: 'V...V...V...V-A-' },
             { category: '', name: 'strum1', strum: 'V---V.A-V.A-V-A.' },
             { category: '', name: 'strum2', strum: 'V---A-V---A-V-A-' },
             { category: '', name: 'strum3', strum: 'V-X-X-A---V-A-V-' }
             //, { category: '', name: 'accent2', strum: 'V---A-V---A-V-A-' }
-            ,
-            { category: '', name: 'disco strum', strum: 'VAVX..V-' },
-            { category: '', name: 'litlebig', strum: 'V---V---V-XAV---' },
-            { category: '', name: 'strum4', strum: 'V...V...V...V-A-' }
+            //, { category: '', name: 'disco strum', strum: 'VAVX..V-' }
             //, { category: '', name: 'wanderwall', strum: 'V-V-V.VAVAV-V-VAVAV-V-VA-A-AVAVA' }
             //, { category: '', name: 'wanderwall2', strum: 'V-V-X.VAVAX-X-VAVAV-V-VA-A-AVAVA' }
         ];
@@ -1535,7 +1534,7 @@ var GenRiff = /** @class */ (function () {
         insVolumes[this.BassGuitar] = 5;
         insVolumes[this.StringEnsemble] = 4;
         insVolumes[this.SynthBass] = 10;
-        var eqVolumes = [13, 12, 12, 10, 8, 9, 13, 14, 9, 12];
+        var eqVolumes = [12, 12, 10, 8, 11, 9, 13, 14, 9, 12];
         //this.initProgressions();
         var prog = this.progressions[progressionN];
         var drumPat = this.drumsDefs[drumN];
