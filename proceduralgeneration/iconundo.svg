@@ -14,7 +14,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.0 (4035a4f, 2020-05-01)"
-   sodipodi:docname="iconinfo.svg">
+   sodipodi:docname="iconundo.svg">
   <defs
      id="defs2">
     <clipPath
@@ -345,7 +345,7 @@
      inkscape:window-maximized="0"
      inkscape:window-y="23"
      inkscape:window-x="0"
-     inkscape:window-height="954"
+     inkscape:window-height="930"
      inkscape:window-width="1280"
      inkscape:snap-global="false"
      id="base"
@@ -355,7 +355,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="294.62895"
+     inkscape:cx="244.96668"
      inkscape:cy="171.60066"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -395,13 +395,13 @@
        xlink:href="#g27502" />
     <text
        id="text7951"
-       y="305.71423"
-       x="155.71429"
+       y="329.99997"
+       x="112.85714"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#808080;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
-         y="305.71423"
-         x="155.71429"
+         y="329.99997"
+         x="112.85714"
          id="tspan7949"
-         sodipodi:role="line">Info</tspan></text>
+         sodipodi:role="line">Undo</tspan></text>
   </g>
 </svg>

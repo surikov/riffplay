@@ -53,12 +53,12 @@
 	<p>
 		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderPad" onChange='parsChanged();'>
 	</p>
-
+<!--
 	<p>Melody <span id="infoMelody">X</span></p>
 	<p>
 		<input style="width: 100%;" type="range" min="0" max="999" value="0" id="sliderMelody" onChange='parsChanged();'>
 	</p>
-	<!--
+	
 	<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" id='svg1'>
 		<g id="icngroup1" transform="skewX(-25) translate(256,0)" inkscape:groupmode="layer" inkscape:label="Layer 1">
 			<rect style="fill:#ffccaa;stroke-width:0.461965" id="rect10" width="512" height="512" x="0" y="0" />
@@ -91,7 +91,7 @@
 		var bassNN = 0;
 		var padNN = 0;
 		var rhNN = 0;
-		var meloNN = 0;
+		//var meloNN = 0;
 
 		function updateColors() {
 			var nn = 1 * document.getElementById('sliderProgression').value;
@@ -106,7 +106,7 @@
 			var nn = 1 * document.getElementById(valueName).value;
 			var r = Math.floor(sz * nn / 1000);
 			document.getElementById(infoName).innerHTML = '' + r + ': ' + arr[r].category + ' / ' + arr[r].name;
-			return r;
+			return nn;
 		}
 
 		function parsChanged() {
@@ -114,10 +114,10 @@
 			drumNN = setInfo('infoDrum', 'sliderDrum', genRiff.drumsDefs);
 			bassNN = setInfo('infoBass', 'sliderBass', genRiff.bassDefs);
 			rhNN = setInfo('infoRhythm', 'sliderRhythm', genRiff.pianoStrumOverDefsData);
-			padNN = setInfo('infoPad', 'sliderPad', genRiff.padDefsData);
-			meloNN = setInfo('infoMelody', 'sliderMelody', genRiff.melodyDefsData);
+			padNN = setInfo('infoPad', 'sliderPad', genRiff.padMelodyDefsData);
+			//meloNN = setInfo('infoMelody', 'sliderMelody', genRiff.melodyDefsData);
 			updateColors();
-			genRiff.playInfo = genRiff.generateAll(progNN, drumNN, bassNN, rhNN, padNN, meloNN);
+			genRiff.playInfo = genRiff.generateAll(progNN, drumNN, bassNN, rhNN, padNN);
 			if (preProgNN != progNN) {
 				genRiff.pausePlay();
 				genRiff.nextBeat = 0;
@@ -128,7 +128,7 @@
 
 		function startPlay() {
 			genRiff.initAudio();
-			genRiff.startPlay(progNN, drumNN, bassNN, rhNN, padNN, meloNN);
+			genRiff.startPlay(progNN, drumNN, bassNN, rhNN, padNN);
 			return null;
 		}
 
@@ -141,7 +141,7 @@
 		function test() {
 			parsChanged();
 			//console.log(genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN,meloNN));
-			var urlprj = genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN, meloNN);
+			var urlprj = genRiff.generate(progNN, drumNN, bassNN, rhNN, padNN);
 			console.log(urlprj);
 			window.open(urlprj);
 			return null;
@@ -158,7 +158,7 @@
 			if (Math.random() > 0.5) {
 				document.getElementById('sliderPad').value = Math.floor(1000 * Math.random());
 			}
-			document.getElementById('sliderMelody').value = 0;//Math.floor(1000 * Math.random());
+			//document.getElementById('sliderMelody').value = 0;//Math.floor(1000 * Math.random());
 			parsChanged();
 			genRiff.pausePlay();
 			//genRiff.nextBeat = 0;

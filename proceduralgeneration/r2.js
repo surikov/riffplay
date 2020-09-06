@@ -89,10 +89,14 @@ var GenRiff = /** @class */ (function () {
         this.bassDefs = [
             { category: '', name: 'octave1', chord: 'Am', len16: 8 * 4, encoded: '0050209400250215400450209400650215400850209400a50215400c50209400e50215401050209401250215401450209401650215401850209401a50215401c50109401d50115401e50109401f5011540' },
             { category: '', name: 'octave2', chord: 'Am', len16: 8 * 2, encoded: '0050109400150209400250115400350215400450109400550209400650115400750215400850109400950209400a50115400b50215400c50109400d50209400e50115400f5021540' },
+            { category: '', name: 'octaveII', chord: 'Am', len16: 8 * 4, encoded: '0050209400250115400450209400650115400850209400a50115400c50209400e50115401050209401250115401450209401650115401850209401a50115401c50109401d50104401e50109401f5011040' },
+            { category: '', name: 'strange', chord: 'Am', len16: 8 * 2, encoded: '0050209400250115400350115400450209400650115400750115400850209400a50115400b50115400c50209400e50115400f5011040' },
+            { category: '', name: 'octave32 off', chord: 'Am', len16: 8 * 2, encoded: '0050109400250209400450109400650209400850109400a50209400c50109400e5010c400f5010940' },
             { category: '', name: 'octave3 off', chord: 'Am', len16: 8 * 8, encoded: '0250209400650209400a50109400b50109400e50209401250209401650209401a50109401b5010c401e50209402250209402650209402a50109402b50109402e5020940325010940335010c403650209403a50109403b5010c403e5020940' },
             { category: '', name: 'octave4 terc', chord: 'Bm', len16: 8 * 2, encoded: '005020b40025021740045020b40065020e40085020b400a50217400c5020b400e5021240' },
             { category: '', name: 'tonic1', chord: 'Am', len16: 8 * 4, encoded: '0050209400250209400450209400650209400850209400a50209400c50209400e5020940105020940125020940145020940165020940185020c401a50209401c5020c401e5020940' },
             { category: '', name: 'tonik2', chord: 'Am', len16: 8 * 2, encoded: '005020940025020940045020940065020c400850209400a50209400c50209400e5020740' },
+            { category: '', name: 'manuchao', chord: 'Am', len16: 8 * 2, encoded: '005040940045020c400650209400850210400a5020e400c5041040' },
             { category: '', name: 'rich1', chord: 'Am', len16: 8 * 8, encoded: '0050409400650209400850204400c50209401050409401650209401850204401c5020940205040940265020940285020c402a50209402c5020e402e5021040305040940365020940385020c403a50209403c50210403e5020940' },
             { category: '', name: 'rich2', chord: 'Am', len16: 8 * 2, encoded: '005040940045020c40075010940085010c400a50110400c50209400e5020940' },
             { category: '', name: 'rich3 kvint', chord: 'Am', len16: 8 * 4, encoded: '0050409400450404400850409400c50404401050409401450404401850209401a50204401c50205401e5020740' },
@@ -125,15 +129,16 @@ var GenRiff = /** @class */ (function () {
         ];
         this.overdriveDefsData = [
             { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' },
-            { category: '', name: 'kickstart2', chord: 'Am', len16: 8 * 8, encoded: '0000e15400000e1c400e30210401000e1c401001010401e00221401e00215401e0021c40200021540200022140200021c40223021540240021c40240022140263021540280021c402800221402a30215402c30215402e3021540303021540323021540340021c40340022140363021540380021c403800221403a00410403a0041c403e3021340' },
-            { category: '', name: 'gypsyroad', chord: 'Am', len16: 8 * 4, encoded: '000021840020021740043021540060041540060041c400a30215400c00415400c0041c40100021340120021540140021740160041c401600415401a30215401c0041c401c0041540' },
+            { category: '', name: 'kickstart2', chord: 'Am', len16: 8 * 8, encoded: '0000e15400000e1c400e30210401000e1c401001010401e00221401e00215401e0021c40200021540200022140200021c40223021540240021c40240022140263021540280021c402800221402a30215402c30215402e3021540303021540323021540340021c40340022140363021540380021c403800221403a00410403a0041c403e3021340' }
+            //, { category: '', name: 'gypsyroad', chord: 'Am', len16: 8 * 4, encoded: '000021840020021740043021540060041540060041c400a30215400c00415400c0041c40100021340120021540140021740160041c401600415401a30215401c0041c401c0041540' }
+            ,
             { category: '', name: 'sadbutrue', chord: 'Am', len16: 8 * 16, encoded: '000061540000061c400630215400830215400a00215400a0021c400c30215400e3021540100061540100061c401630215401830215401a30218401c30218401e00218401e0021c40200061540200061c402630215402830215402a00215402a0021c402c30215402e3021540300061540300061c403630215403830215403a30218403c30218403e00218403e0021c40400061540400061c404630215404830215404a00215404c30215404e3021540500061540500061c405630215405830215405a30218405c30218405e00218405e0021c40600061540600061c406630215406830215406a30218406c30218406e3021840700061840700061c407630215407830215407a30215407c30215407e00215407e0021c40' },
             { category: '', name: 'kickstart 1', chord: 'Am', len16: 8 * 4, encoded: '000041540000041c40040021540040021c400630215400830215400a30215400c00215400c0021c400e3021540103021540123021540140021540140021c401630215401830215401a00410401a00415401e00213401e0021a40' },
             { category: '', name: 'gypsyroad2', chord: 'Am', len16: 8 * 4, encoded: '000021c40020021840043021540060041540060041c400a30215400c00415400c0041c40100021040120021540140021840160041c401600415401a30215401c0041c401c0041540' },
             { category: '', name: 'volya', chord: 'Am', len16: 8 * 8, encoded: '000021540000021c400230215400430215400630215400830215400a30215400c00218400c0021f400e0021c400e0022340100021540100021c401230215401430215401630215401830215401a30215401c00210401c00217401e00211401e0021840200021540200021c402230215402430215402630215402830215402a30215402c00218402c0021f402e0021c402e0022340300021540300021c40323021540343021540360021540360021c403830215403a00215403a0021c403c30215403e0021c403e0022340' }
         ];
         this.pianoStrumOverDefsData = [{ category: '', name: '', strum: '' }];
-        this.padDefsData = [
+        this.padDefsData2 = [
             { category: '', name: 'empty', piano: '', track: 4 },
             { category: '', name: 'long string1', piano: '2-------------------------------', track: 6 },
             { category: '', name: 'long string2', piano: '1-------2-----------------------', track: 6 },
@@ -148,8 +153,7 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 },
             { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
         ];
-        this.melodyDefsData = [
-            { category: '', name: 'empty', chord: 'E', len16: 8 * 0, encoded: '' },
+        this.melodyDefsData2 = [
             { category: '', name: 'laser dance', chord: 'Cm', len16: 8 * 2, encoded: '007010c40017021340037010c40047021140067010c40077020f40097010c400a70213400c70211400e7021340' },
             { category: '', name: 'living video', chord: 'Am', len16: 8 * 4, encoded: '0070421400470221400670223400870228400a70321400e70423401270221401470223401670224401870228401a70224401c70323401e7022140' },
             { category: '', name: 'disco', chord: 'Cm', len16: 8 * 8, encoded: '007041f40047041b40087041b400c7021a400e70218401070818401c70213401e7021640207041b402470418402870418402c7021b402e70213403070813403c7020f403e7021340' }
@@ -159,7 +163,12 @@ var GenRiff = /** @class */ (function () {
             //, { category: '', name: 'gypsyroad', chord: 'Am', len16: 8 * 4, encoded: '000021840020021740043021540060041540060041c400a30215400c00415400c0041c40100021340120021540140021740160041c401600415401a30215401c0041c401c0041540' }
             //, { category: '', name: 'gypsyroad2', chord: 'Am', len16: 8 * 4, encoded: '000021c40020021840043021540060041540060041c400a30215400c00415400c0041c40100021040120021540140021840160041c401600415401a30215401c0041c401c0041540' }
             //, { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' }
+            ,
+            { category: '', name: 'cgerry', chord: 'C', len16: 8 * 8, encoded: '107011a40127011a40147011d40167011d40187011c401a7011c401b70118401d70118401f7011840207011a40227011a40247011d40267011d40287011c402a7011c402b70118402d70118402f7011840' },
+            { category: '', name: 'abba', chord: 'C', len16: 8 * 8, encoded: '2b70124402c70324402f7012340307032140337011f403470c1f40' },
+            { category: '', name: 'fable', chord: 'Am', len16: 8 * 16, encoded: '002041c40042021a40062041c400a2061840102041c40142021a40162041c401a2061840202041c40242021a40262041c402a20618403820218403a2021a403c2021c403e20221404020418404820218404a2021a404c2021c404e20621405820217405a20218405c2021a405e20621406e2021c407020218407220615407820418407c2041c40' }
         ];
+        this.padMelodyDefsData = [];
         this.chordfretsData = [
             { name: "A#", pitch: 9, frets: [-1, 1, 3, 3, 3, 1] },
             { name: "A69", pitch: 9, frets: [-1, 0, 4, 4, 2, 2] },
@@ -986,6 +995,12 @@ var GenRiff = /** @class */ (function () {
         for (var i_3 = 0; i_3 < this.overdriveDefsData.length; i_3++) {
             this.pianoStrumOverDefsData.push(this.overdriveDefsData[i_3]);
         }
+        for (var i_4 = 0; i_4 < this.padDefsData2.length; i_4++) {
+            this.padMelodyDefsData.push(this.padDefsData2[i_4]);
+        }
+        for (var i_5 = 0; i_5 < this.melodyDefsData2.length; i_5++) {
+            this.padMelodyDefsData.push(this.melodyDefsData2[i_5]);
+        }
         //console.log(this.rhythmDefsData);
     }
     GenRiff.prototype.parseMelody = function (encoded) {
@@ -1283,11 +1298,11 @@ var GenRiff = /** @class */ (function () {
         var endbeatdrum = b;
         var step = 0;
         var beats = [];
-        for (var i_4 = 0; i_4 < progression.chords.length * 8; i_4++) {
-            if (i_4 < progression.chords.length * 8 - pattern.end.len16) {
+        for (var i_6 = 0; i_6 < progression.chords.length * 8; i_6++) {
+            if (i_6 < progression.chords.length * 8 - pattern.end.len16) {
                 for (var k = 0; k < startbeatdrum.length; k++) {
                     if (startbeatdrum[k].beat == step) {
-                        beats.push({ drum: startbeatdrum[k].drum, beat: i_4 });
+                        beats.push({ drum: startbeatdrum[k].drum, beat: i_6 });
                     }
                 }
                 step++;
@@ -1296,10 +1311,10 @@ var GenRiff = /** @class */ (function () {
                 }
             }
             else {
-                var r = i_4 - (progression.chords.length * 8 - pattern.end.len16);
+                var r = i_6 - (progression.chords.length * 8 - pattern.end.len16);
                 for (var k = 0; k < endbeatdrum.length; k++) {
                     if (endbeatdrum[k].beat == r) {
-                        beats.push({ drum: endbeatdrum[k].drum, beat: i_4 });
+                        beats.push({ drum: endbeatdrum[k].drum, beat: i_6 });
                     }
                 }
             }
@@ -1443,6 +1458,16 @@ var GenRiff = /** @class */ (function () {
         }
         return beats;
     };
+    GenRiff.prototype.composePadMelody = function (chords, pattern) {
+        var p = pattern;
+        if (p.piano) {
+            return this.composePianoBeat(chords, p);
+        }
+        else {
+            var m = pattern;
+            return this.composeFullLine(chords, m, false);
+        }
+    };
     GenRiff.prototype.composeRhythm = function (chords, pattern) {
         var p = pattern;
         if (p.piano) {
@@ -1520,20 +1545,26 @@ var GenRiff = /** @class */ (function () {
         //console.log(r,drums);
         return r;
     };
-    GenRiff.prototype.generateAll = function (progressionN, drumN, bassN, rhythmN, padN, melodyN) {
-        console.log('generateAll', progressionN, drumN, bassN, rhythmN, padN, melodyN);
+    GenRiff.prototype.generateAll = function (_progressionN, _drumN, _bassN, _rhythmN, _padN) {
+        console.log('generateAll', _progressionN, _drumN, _bassN, _rhythmN, _padN);
+        var progressionN = Math.floor(this.progressions.length * _progressionN / 1000);
+        var drumN = Math.floor(this.drumsDefs.length * _drumN / 1000);
+        var bassN = Math.floor(this.bassDefs.length * _bassN / 1000);
+        var rhythmN = Math.floor(this.pianoStrumOverDefsData.length * _rhythmN / 1000);
+        var padN = Math.floor(this.padMelodyDefsData.length * _padN / 1000);
+        console.log(progressionN, drumN, bassN, rhythmN, padN);
         this.selectedProgression = this.progressions[progressionN];
-        var tempo = 120;
-        var drumVolumes = [4, 4, 6, 4, 6, 3, 6, 4];
+        var tempo = 130;
+        var drumVolumes = [5, 4, 6, 4, 6, 3, 6, 4];
         var insVolumes = [3, 3, 4, 3, 4, 7, 5, 7];
         insVolumes[this.DistortionGuitar] = 4;
         insVolumes[this.AcousticGuitar] = 5;
         insVolumes[this.PercussiveOrgan] = 5;
         insVolumes[this.PalmMuteGuitar] = 4;
         insVolumes[this.AcousticPiano] = 6;
-        insVolumes[this.BassGuitar] = 5;
+        insVolumes[this.BassGuitar] = 6;
         insVolumes[this.StringEnsemble] = 4;
-        insVolumes[this.SynthBass] = 10;
+        insVolumes[this.SynthBass] = 6;
         var eqVolumes = [12, 12, 10, 8, 11, 9, 13, 14, 9, 12];
         //this.initProgressions();
         var prog = this.progressions[progressionN];
@@ -1545,10 +1576,11 @@ var GenRiff = /** @class */ (function () {
         tracksData = tracksData.concat(this.composeFullLine(prog.chords, bassPattern, true));
         var rhythm = this.composeRhythm(prog.chords, this.pianoStrumOverDefsData[rhythmN]);
         tracksData = tracksData.concat(rhythm);
-        var pad = this.padDefsData[padN];
-        tracksData = tracksData.concat(this.composePianoBeat(prog.chords, pad));
-        var melody = this.melodyDefsData[melodyN];
-        tracksData = tracksData.concat(this.composeFullLine(prog.chords, melody, false));
+        var pad = this.padMelodyDefsData[padN];
+        tracksData = tracksData.concat(this.composePadMelody(prog.chords, pad));
+        //tracksData = tracksData.concat(this.composePianoBeat(prog.chords, pad));
+        //let melody: MelodyPatternDefinition = this.melodyDefsData[melodyN];
+        //tracksData = tracksData.concat(this.composeFullLine(prog.chords, melody, false));
         /*
         let strumPattern: StrumPatternDefinition = this.strumDefs[4];
         tracksData = tracksData.concat(this.composeGuitarStrums(prog.chords, strumPattern));
@@ -1564,8 +1596,8 @@ var GenRiff = /** @class */ (function () {
         };
         return r;
     };
-    GenRiff.prototype.generate = function (progressionN, drumN, bassN, rhythmN, padN, melodyN) {
-        var r = this.generateAll(progressionN, drumN, bassN, rhythmN, padN, melodyN);
+    GenRiff.prototype.generate = function (progressionN, drumN, bassN, rhythmN, padN) {
+        var r = this.generateAll(progressionN, drumN, bassN, rhythmN, padN);
         var url = window.encodeRiffURL(r.tempo, r.drumData, r.tracksData, r.drumVolumes, r.insVolumes, r.eqVolumes);
         return url;
     };
@@ -1737,14 +1769,14 @@ var GenRiff = /** @class */ (function () {
             this.reverberator.output.release.setValueAtTime(0.25, 0.0001);
         }
     };
-    GenRiff.prototype.startPlay = function (progressionN, drumN, bassN, rhythmN, padN, melodyN) {
+    GenRiff.prototype.startPlay = function (progressionN, drumN, bassN, rhythmN, padN) {
         console.log('startPlay');
         if (this.onAir) {
             //
         }
         else {
             //this.initAudio();
-            this.playInfo = this.generateAll(progressionN, drumN, bassN, rhythmN, padN, melodyN);
+            this.playInfo = this.generateAll(progressionN, drumN, bassN, rhythmN, padN);
             this.nextWhen = this.audioContext.currentTime + 0.1;
             this.nextBeat = 0;
             console.log('equalizer', this.playInfo.eqVolumes);
