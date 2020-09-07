@@ -15,9 +15,10 @@
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
+			background-position: center;
 			font-family: 'Oswald', sans-serif;
 			color: #ffffff;
-
+			user-select: none;
 		}
 
 		#editDiv {
@@ -84,8 +85,8 @@
 			padding-top: 0.5cm;
 			padding-bottom: 0cm;
 			margin: 0.0cm;
-			width: 1.5cm;
-			height: 1.5cm;
+			width: 2.5cm;
+			height: 2.5cm;
 		}
 
 		#diceStart {
@@ -98,17 +99,13 @@
 			height: 2.5cm;
 		}
 
-
 		.progSlider {
 			-webkit-appearance: none;
 			width: 100%;
-			height: 0.1cm;
+			height: 0.025cm;
 			border-radius: 5px;
 			background: linear-gradient(90deg, rgba(128, 128, 255, 1) 0%, rgba(0, 255, 255, 1) 50%, rgba(255, 128, 0, 1) 100%);
 			outline: none;
-			opacity2: 0.7;
-			-webkit-transition2: .2s;
-			transition2: opacity .2s;
 			margin: 0px;
 			padding: 0px;
 		}
@@ -149,6 +146,10 @@
 			flex-wrap: wrap;
 			justify-content: center;
 		}
+
+		#roundDrums {
+			transform-origin: 50% 50%;
+		}
 	</style>
 </head>
 
@@ -187,6 +188,14 @@
 			<p>123-1</p>
 		</div>
 		<div id='diceDiv'>
+			<!-- <svg version="1.1" class='diceButton' id='svgdrums' viewBox="0 0 512 512" height="512" width="512">
+				
+				<g id='roundDrums'>
+					<circle cx="256" cy="256" r="248" style="fill:none;stroke:#00ffff;stroke-width:16;" />
+					<rect y="256" x="8" height="16" width="256" style="fill:#00ffff;stroke-width:0;" />
+					<text style="font-size:96px;fill:#00ffff;stroke:none;" x="47.71637" y="240.6649">Drums</text>
+				</g>
+			</svg>-->
 			<div id='startGenRow'>
 				<img src='icondice.svg' id='diceStart' />
 			</div>
@@ -198,7 +207,15 @@
 			</div>
 			<div id='genControlsRow'>
 				<div id='drumBassPart'>
-					<img class='diceButton' src='icondrum.svg' /><img class='diceButton' src='iconbass.svg' />
+					<svg version="1.1" class='diceButton' id='svgdrums' viewBox="0 0 512 512" height="512" width="512">
+
+						<g id='roundDrums'>
+							<circle cx="256" cy="256" r="248" style="fill:none;stroke:#00ffff;stroke-width:16;" />
+							<rect y="256" x="8" height="16" width="256" style="fill:#00ffff;stroke-width:0;" />
+							<text style="font-size:96px;fill:#00ffff;stroke:none;" x="47.71637"
+								y="240.6649">Drums</text>
+						</g>
+					</svg><img class='diceButton' src='iconbass.svg' />
 				</div>
 				<div id='riffAuxPart'>
 					<img class='diceButton' src='iconriff.svg' /><img class='diceButton' src='iconaux.svg' />
@@ -210,6 +227,86 @@
 
 	<script type='text/javascript'>
 		console.log('init');
+
+		function inputval(c, r) {
+			let me = this;
+			this.value = 0;
+			this.rotation = r;
+			this.component = c;
+			this.startY = 0;
+			this.startValue = 0;
+			//this.lastY = 0;
+			//this.started = false;
+			this.setValue = function (n) {
+				console.log('setValue', n);
+				this.value = n;
+				//this.component.style.transform = "rotate(" + n * 360 / 1000 + "deg)";
+				this.rotation.style.transform = "rotate(" + n * 360 / 1000 + "deg)";
+			}
+			this.click = function () {
+				console.log('click');
+			}
+			this.rakeMouseUp = function (mouseEvent) {
+				//if (this.started) {
+				mouseEvent.preventDefault();
+				var dY = mouseEvent.clientY - this.startY;
+				window.removeEventListener('mousemove', this.bMove, true);
+				window.removeEventListener('mouseup', this.bUp, true);
+				//this.started = false;
+				console.log('up', dY);
+				//}
+				if (Math.abs(dY) < 10) {
+					this.click();
+				}
+			};
+			this.rakeMouseMove = function (mouseEvent) {
+				//if (this.started) {
+				mouseEvent.preventDefault();
+				var dY = mouseEvent.clientY - this.startY;
+				console.log('move', dY);
+				//this.lastY = mouseEvent.clientY;
+
+				this.setValue(this.startValue - dY /2);
+				//}
+			};
+			this.cmousedown = function (mouseEvent) {
+				console.log('cmousedown', mouseEvent);
+				mouseEvent.preventDefault();
+				this.startY = mouseEvent.clientY;
+				//this.lastY = mouseEvent.clientY;
+				//this.started = true;
+				window.addEventListener('mouseup', this.bUp, false);
+				window.addEventListener('mousemove', this.bMove, true);
+				this.startValue = this.value;
+			}
+			this.ctouchstart = function (touchEvent) {
+				console.log('ctouchstart', touchEvent);
+				//this.started = true;
+			}
+			this.ctouchmove = function (touchEvent) {
+				//if (this.started) {
+				console.log('ctouchmove', touchEvent);
+				//}
+			}
+			this.ctouchend = function (touchEvent) {
+				//if (this.started) {
+				console.log('ctouchend', touchEvent);
+				//this.started = false;
+				//}
+			}
+			this.bUp = this.rakeMouseUp.bind(me);
+			this.bMove = this.rakeMouseMove.bind(me);
+			//window.addEventListener('mouseup', this.rakeMouseUp.bind(this), false);
+			//this.component.addEventListener('mousemove', this.rakeMouseMove.bind(this), true);
+			c.addEventListener('mousedown', cmousedown.bind(this), false);
+			c.addEventListener("touchstart", ctouchstart.bind(this), false);
+			c.addEventListener("touchmove", ctouchmove.bind(this), false);
+			c.addEventListener("touchend", ctouchend.bind(this), false);
+			return this;
+		}
+
+		var dr = inputval(document.getElementById('svgdrums'), document.getElementById('roundDrums'));
+		//dr.setValue(777);
 	</script>
 </body>
 
