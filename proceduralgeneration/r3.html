@@ -1,10 +1,10 @@
-
 <html>
 
 <head>
 	<title>RockDice</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<meta name="viewport"
+		content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 	<link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
 	<style>
 		body {
@@ -18,21 +18,6 @@
 			font-family: 'Oswald', sans-serif;
 			color: #ffffff;
 
-		}
-
-		table {
-			padding: 0cm;
-			margin: 0cm;
-		}
-
-		tr {
-			padding: 0cm;
-			margin: 0cm;
-		}
-
-		td {
-			padding: 0cm;
-			margin: 0cm;
 		}
 
 		#editDiv {
@@ -60,11 +45,17 @@
 
 			align-items: center;
 			display: flex;
+			flex-direction: column;
+		}
+
+		.menuStub {
+			height: 1.7cm;
+			width: 100%;
 		}
 
 		.menuDiv {
 			overflow: hidden;
-			background-color: #111;
+			background-color: #223;
 			position: fixed;
 			bottom: 0;
 			width: 100%;
@@ -79,99 +70,81 @@
 
 		.menuButton {
 			padding-left: 0.1cm;
-			padding-right: 01.cm;
+			padding-right: 0.1cm;
 			padding-top: 0cm;
 			padding-bottom: 0cm;
-			margin: 0cm;
-			width: 1cm;
-			height: 1cm;
-		}
-
-		.diceButton {
-			padding: 0.1cm;
 			margin: 0cm;
 			width: 1.5cm;
 			height: 1.5cm;
 		}
 
-		.diceArrow {
-			padding-left: 0.1cm;
-			padding-right: 0.1cm;
-			padding-top: 0cm;
-			padding-bottom: 0cm;
+		.diceButton {
+			padding: 0.1cm;
+			margin: 0.0cm;
+			width: 1.5cm;
+			height: 1.5cm;
+		}
+
+		#diceStart {
+			padding-left: 0cm;
+			padding-right: 0cm;
+			padding-top: 1.5cm;
+			padding-bottom: 0.5cm;
 			margin: 0cm;
-			width: 1.0cm;
-			height: 1.0cm;
+			width: 2.5cm;
+			height: 2.5cm;
 		}
 
-		.diceStart {
-			padding-left: 0.1cm;
-			padding-right: 0.1cm;
-			padding-top: 0cm;
-			padding-bottom: 1cm;
-			margin: 0cm;
-			width: 2.0cm;
-			height: 2.0cm;
-		}
 
-		.alignright {
-			text-align: right;
-		}
-
-		.aligncenter {
-			text-align: center;
-			width: 100%;
-		}
-
-		.flexGrow1 {
-			flex-grow: 1;
-		}
-
-		.flexGrow999 {
-			flex-grow: 999;
-			justify-content: center;
-			display: flex;
-			align-items: center;
-		}
-
-		.flexRow {
-
-			display: flex;
-			flex-direction: row;
-		}
-
-		.fontXsmall {
-			font-size: x-small;
-		}
-
-		.proslider {
+		.progSlider {
 			-webkit-appearance: none;
 			width: 100%;
-			height: 1px;
+			height: 0.1cm;
 			border-radius: 5px;
-			background: #ccc;
+			background: linear-gradient(90deg, rgba(128, 128, 255, 1) 0%, rgba(0, 255, 255, 1) 50%, rgba(255, 128, 0, 1) 100%);
 			outline: none;
-			opacity: 0.7;
-			-webkit-transition: .2s;
-			transition: opacity .2s;
+			opacity2: 0.7;
+			-webkit-transition2: .2s;
+			transition2: opacity .2s;
+			margin: 0px;
+			padding: 0px;
 		}
 
-		.proslider::-webkit-slider-thumb {
+		.progSlider::-webkit-slider-thumb {
 			-webkit-appearance: none;
 			appearance: none;
 			width: 0.25cm;
 			height: 0.25cm;
 			border-radius: 50%;
-			background: #ccc;
+			background: #fff;
 			cursor: pointer;
 		}
 
-		.proslider::-moz-range-thumb {
+		.progSlider::-moz-range-thumb {
 			width: 0.25cm;
 			height: 0.25cm;
 			border-radius: 50%;
-			background: #ccc;
+			background: #fff;
 			cursor: pointer;
+		}
+
+		#progSliderRow {
+			width: 100%;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-top: 0px;
+			padding-bottom: 0.5cm;
+
+		}
+
+		#genControlsRow {
+			padding: 0.0cm;
+			margin: 0.0cm;
+			align-items: center;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
 		}
 	</style>
 </head>
@@ -181,8 +154,6 @@
 		<div class="menuDiv">
 			<img class='menubutton' src='iconplay.svg' />
 			<img class='menubutton' src='iconshare.svg' />
-			<img class='menubutton' src='iconedit.svg' />
-			<img class='menubutton' src='iconinfo.svg' />
 			<img class='menubutton' src='iconundo.svg' />
 		</div>
 		<div id='editDiv'>
@@ -213,47 +184,29 @@
 			<p>123-1</p>
 		</div>
 		<div id='diceDiv'>
-			<table width='100%'>
-				<tr>
-					<td colspan="2" class='aligncenter'><img class='diceStart' src='icondice.svg' /></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<div class='aligncenter fontXsmall'>
-							Cm7-Adim-E#-Bb
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<div class='flexRow'>
-							<div class='flexGrow1'>
-								<img class='diceArrow' src='iconleft.svg' />
-							</div>
-							<div class='flexGrow999'>
-								<input type="range" min="0" max="999" value="50" class="proslider">
-							</div>
-							<div class='flexGrow1'>
-								<img class='diceArrow' src='iconright.svg' />
-							</div>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td width='50%' class='alignright'><img class='diceButton' src='icondrum.svg' /></td>
-					<td width='50%'><img class='diceButton' src='iconbass.svg' /></td>
-				</tr>
-				<tr>
-					<td width='50%' class='alignright'><img class='diceButton' src='iconriff.svg' /></td>
-					<td width='50%'><img class='diceButton' src='iconaux.svg' /></td>
-				</tr>
-			</table>
+			<div id='startGenRow'>
+				<img src='icondice.svg' id='diceStart' />
+			</div>
+			<div id='progNameRow'>
+				Cm7-Adim-E#-Bb
+			</div>
+			<div id='progSliderRow'>
+				<input type="range" min="0" max="999" value="50" class="progSlider">
+			</div>
+			<div id='genControlsRow'>
+				<div id='drumBassPart'>
+					<img class='diceButton' src='icondrum.svg' /><img class='diceButton' src='iconbass.svg' />
+				</div>
+				<div id='riffAuxPart'>
+					<img class='diceButton' src='iconriff.svg' /><img class='diceButton' src='iconaux.svg' />
+				</div>
+			</div>
+			<div class='menuStub'>&nbsp;</div>
 		</div>
 	</div>
 
 	<script type='text/javascript'>
 		console.log('init');
-
 	</script>
 </body>
 

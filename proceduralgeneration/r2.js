@@ -114,7 +114,8 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'strum4', strum: 'V...V...V...V-A-' },
             { category: '', name: 'strum1', strum: 'V---V.A-V.A-V-A.' },
             { category: '', name: 'strum2', strum: 'V---A-V---A-V-A-' },
-            { category: '', name: 'strum3', strum: 'V-X-X-A---V-A-V-' }
+            { category: '', name: 'strum3', strum: 'V-X-X-A---V-A-V-' },
+            { category: '', name: 'strum5', strum: 'V---V-A---V-A---' }
             //, { category: '', name: 'accent2', strum: 'V---A-V---A-V-A-' }
             //, { category: '', name: 'disco strum', strum: 'VAVX..V-' }
             //, { category: '', name: 'wanderwall', strum: 'V-V-V.VAVAV-V-VAVAV-V-VA-A-AVAVA' }
@@ -125,7 +126,8 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'slade', piano: '2-..2-..2-..2-1-', track: 4 },
             { category: '', name: 'chicago', piano: '2-..2-..2--2--2-..2-.2-.2-.2-.2-', track: 4 },
             { category: '', name: 'sandstorm', piano: '2-22-22-2-22-221', track: 4 },
-            { category: '', name: 'abba', piano: '.2..2-.2-.2--...', track: 4 }
+            { category: '', name: 'abba', piano: '.2..2-.2-.2--...', track: 4 },
+            { category: '', name: 'bronskibit', piano: '2-..1-2-..1-2-..', track: 4 }
         ];
         this.overdriveDefsData = [
             { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' },
