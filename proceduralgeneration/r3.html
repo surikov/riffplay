@@ -58,7 +58,7 @@
 			position: fixed;
 			width: 100%;
 			height: 100%;
-			z-index: 2;
+			z-index: 3;
 			justify-content: center;
 
 			align-items: center;
@@ -73,11 +73,11 @@
 
 		.menuDiv {
 			overflow: hidden;
-			background-color: #223;
+			background-color: #556;
 			position: fixed;
 			bottom: 0;
 			width: 100%;
-			z-index: 3;
+			z-index: 4;
 			-webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
 			-moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
 			box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
@@ -87,8 +87,8 @@
 		}
 
 		.menuButton {
-			padding-left: 0.1cm;
-			padding-right: 0.1cm;
+			padding-left: 0.0cm;
+			padding-right: 0.0cm;
 			padding-top: 0cm;
 			padding-bottom: 0cm;
 			margin: 0cm;
@@ -179,6 +179,20 @@
 		#roundPad {
 			transform-origin: 50% 50%;
 		}
+
+		#eqbars {
+			padding: 0cm;
+			margin: 0cm;
+			overflow: hidden;
+			position: fixed;
+			width: 100%;
+			height: 3cm;
+			z-index: 2;
+		}
+		#svgBars {
+			width: 100%;
+			height: 3cm;
+		}
 	</style>
 </head>
 
@@ -187,50 +201,36 @@
 		<div class="menuDiv">
 			<svg version="1.1" id='menuPlayButton' viewBox="0 0 512 512" class='menuButton' onclick="clickPlay();">
 				<g>
-					<circle cx="256" cy="256" r="248" style="fill:none;stroke:#666;stroke-width:16;" />
-					<text style="font-size:150px;fill:#666;stroke:none;" x="140" y="330" id='playButtonText'>Play</text>
+					<circle cx="256" cy="256" r="180" style="fill:none;stroke:#fff;stroke-width:16;" />
+					<text style="font-size:120px;fill:#fff;stroke:none;" x="160" y="300" id='playButtonText'>Play</text>
 				</g>
 			</svg><svg version="1.1" id='menuShareButton' viewBox="0 0 512 512" class='menuButton'
 				onclick="promptShare();">
 				<g>
-					<circle cx="256" cy="256" r="248" style="fill:none;stroke:#666;stroke-width:16;" />
-					<text style="font-size:150px;fill:#666;stroke:none;" x="100" y="330">Share</text>
-				</g>
-			</svg><svg version="1.1" id='menuUndoButton' viewBox="0 0 512 512" class='menuButton' onclick="unDoLast();">
-				<g>
-					<circle cx="256" cy="256" r="248" style="fill:none;stroke:#666;stroke-width:16;" />
-					<text style="font-size:150px;fill:#666;stroke:none;" x="110" y="330">Undo</text>
+					<circle cx="256" cy="256" r="180" style="fill:none;stroke:#fff;stroke-width:16;" />
+					<text style="font-size:120px;fill:#fff;stroke:none;" x="130" y="300">Share</text>
 				</g>
 			</svg>
 		</div>
-		<div id='editDiv'>
-			<p>123-1</p>
-			<p>123-2</p>
-			<p>123-3</p>
-			<p>123-4</p>
-			<p>123-5</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123</p>
-			<p>123-5</p>
-			<p>123-4</p>
-			<p>123-3</p>
-			<p>123-2</p>
-			<p>123-1</p>
+		<div id='eqbars'>
+			<svg version="1.1" id='svgBars' viewBox="0 0 20 20" preserveAspectRatio="none">
+				<g style="fill:#9cf;stroke-width:0;" id='barGroups'>
+					<!--<rect y="0" x="0" height="25" width="1" />
+					<rect y="0" x="10" height="25" width="1" />
+					<rect y="0" x="20" height="50" width="1" />
+					<rect y="0" x="30" height="100" width="1" />
+					<rect y="0" x="40" height="25" width="1" />
+					<rect y="0" x="50" height="50" width="1" />
+					<rect y="0" x="60" height="100" width="1" />
+					<rect y="0" x="70" height="25" width="1" />
+					<rect y="0" x="80" height="50" width="1" />
+					<rect y="0" x="90" height="100" width="1" />-->
+				</g>
+			</svg>
 		</div>
 		<div id='diceDiv'>
+
+
 			<!-- <svg version="1.1" class='diceButton' id='svgdrums' viewBox="0 0 512 512" height="512" width="512">
 				
 				<g id='roundDrums'>
@@ -248,17 +248,15 @@
 					</g>
 				</svg>
 			</div>
-			<div id='progNameRow'>
-				Cm7-Adim-E#-Bb
-			</div>
+			<div id='progNameRow'>AAA</div>
 			<div id='progSliderRow'>
 				<input type="range" min="0" max="999" value="0" class="progSlider" id='sliderProgression'
-					onChange='progChanged();'>
+					onChange='parsChanged();'>
 			</div>
 			<div id='genControlsRow'>
 				<div id='drumBassPart'>
 					<svg version="1.1" class='diceButton' id='svgdrums' viewBox="0 0 512 512" height="512" width="512">
-						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#666666;stroke-width:4;" />
+						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#556;stroke-width:4;" />
 						<g id='roundDrums'>
 							<circle cx="256" cy="256" r="220" style="fill:none;stroke:#ffffff;stroke-width:16;" />
 							<rect y="256" x="32" height="16" width="220" style="fill:#ffffff;stroke-width:0;" />
@@ -266,7 +264,7 @@
 						</g>
 					</svg><svg version="1.1" class='diceButton' id='svgbass' viewBox="0 0 512 512" height="512"
 						width="512">
-						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#666666;stroke-width:4;" />
+						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#556;stroke-width:4;" />
 						<g id='roundBass'>
 							<circle cx="256" cy="256" r="220" style="fill:none;stroke:#ffffff;stroke-width:16;" />
 							<rect y="256" x="32" height="16" width="220" style="fill:#ffffff;stroke-width:0;" />
@@ -276,7 +274,7 @@
 				</div>
 				<div id='riffAuxPart'>
 					<svg version="1.1" class='diceButton' id='svglead' viewBox="0 0 512 512" height="512" width="512">
-						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#666666;stroke-width:4;" />
+						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#556;stroke-width:4;" />
 						<g id='roundLead'>
 							<circle cx="256" cy="256" r="220" style="fill:none;stroke:#ffffff;stroke-width:16;" />
 							<rect y="256" x="32" height="16" width="220" style="fill:#ffffff;stroke-width:0;" />
@@ -284,7 +282,7 @@
 						</g>
 					</svg><svg version="1.1" class='diceButton' id='svgpad' viewBox="0 0 512 512" height="512"
 						width="512">
-						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#666666;stroke-width:4;" />
+						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#556;stroke-width:4;" />
 						<g id='roundPad'>
 							<circle cx="256" cy="256" r="220" style="fill:none;stroke:#ffffff;stroke-width:16;" />
 							<rect y="256" x="32" height="16" width="220" style="fill:#ffffff;stroke-width:0;" />
@@ -309,23 +307,17 @@
 
 		}
 
-		function unDoLast() {
 
-		}
 
-		function progChanged() {
-			//console.log('progChanged');
-			parsChanged();
-		}
 
 		function chords2title(chords) {
 			var title = '';
 			var dlmtr = '';
 			for (var i = 0; i < chords.length; i = i + 2) {
 				title = title + dlmtr;
-				title = title+chords[i];
-				if(chords[i]!=chords[i+1]){
-					title = title+chords[i+1];
+				title = title + chords[i];
+				if (chords[i] != chords[i + 1]) {
+					title = title + chords[i + 1];
 				}
 				dlmtr = '-';
 			}
@@ -333,9 +325,11 @@
 		}
 
 		function parsChanged() {
+			genRiff.initAudio();
 			readChanged();
 			startPlay();
 		}
+
 		function readChanged() {
 			var sz = genRiff.progressions.length;
 			var nn = 1 * document.getElementById('sliderProgression').value;
@@ -353,7 +347,7 @@
 				genRiff.player.cancelQueue(genRiff.audioContext);
 			}
 			preProgNN = progNN;
-			
+
 		}
 
 		function clickPlay() {
@@ -404,12 +398,16 @@
 			this.rotation = rocomp;
 			this.component = maincomp;
 			this.startY = 0;
+			this.delta = 0;
 			this.startValue = 0;
-			this.noClick = false;
+			//this.noClick = false;
 			this.setValue = function (n) {
+				var o = this.value;
 				this.value = n;
 				this.rotation.style.transform = "rotate(" + n * 360 / (332 * 4) + "deg)";
-				this.change(this.value);
+				if (o != n) {
+					this.change(this.value);
+				}
 			}
 			this.cmousedown = function (mouseEvent) {
 				mouseEvent.preventDefault();
@@ -417,48 +415,62 @@
 				window.addEventListener('mouseup', this.bUp, false);
 				window.addEventListener('mousemove', this.bMove, true);
 				this.startValue = this.value;
-				this.noClick = false;
+				//this.noClick = false;
+
+				this.delta = 0;
 			}
 			this.rakeMouseUp = function (mouseEvent) {
 				mouseEvent.preventDefault();
 				window.removeEventListener('mousemove', this.bMove, true);
 				window.removeEventListener('mouseup', this.bUp, true);
-				if (!this.noClick) {
+				//if (!this.noClick) {
+				//	this.click();
+				//}
+				if (this.delta < 10) {
 					this.click();
 				}
 			};
 			this.rakeMouseMove = function (mouseEvent) {
 				mouseEvent.preventDefault();
 				var dY = mouseEvent.clientY - this.startY;
+				this.delta = Math.abs(dY);
 				var newVal = Math.floor(this.startValue - dY / 1);
 				if (newVal >= 0 && newVal < 1000) {
 					this.setValue(this.startValue - dY / 1);
 				}
-				if (Math.abs(dY) > 10) {
-					this.noClick = true;
-				}
+				//if (Math.abs(dY) > 10) {
+				//	this.noClick = true;
+				//}
 			};
 
 			this.ctouchstart = function (touchEvent) {
 				touchEvent.preventDefault();
 				this.startY = touchEvent.touches[0].clientY;
 				this.startValue = this.value;
-				this.noClick = false;
+				//this.noClick = false;
+				this.delta = 0;
 			}
 			this.ctouchmove = function (touchEvent) {
 				touchEvent.preventDefault();
 				var dY = touchEvent.touches[0].clientY - this.startY;
+				this.delta = Math.abs(dY);
 				var newVal = Math.floor(this.startValue - dY / 1);
 				if (newVal >= 0 && newVal < 1000) {
 					this.setValue(this.startValue - dY / 1);
 				}
-				if (Math.abs(dY) > 10) {
-					this.noClick = true;
-				}
+				//if (Math.abs(dY) > 10) {
+				//	this.noClick = true;
+				//}
+				/*if (Math.abs(dY) < 10) {
+					this.click();
+				}*/
 			}
 			this.ctouchend = function (touchEvent) {
 				touchEvent.preventDefault();
-				if (!this.noClick) {
+				//if (!this.noClick) {
+				//	this.click();
+				//}
+				if (this.delta < 10) {
 					this.click();
 				}
 			}
@@ -475,27 +487,53 @@
 			dr.setValue(Math.floor(Math.random() * 1000));
 			parsChanged();
 		}, function (nn) {
-			parsChanged();
+			//console.log(genRiff.onAir,ds.value);
+			if (genRiff.onAir)
+				parsChanged();
 		});
 		var bs = new inputval(document.getElementById('svgbass'), document.getElementById('roundBass'), function () {
 			bs.setValue(Math.floor(Math.random() * 1000));
 			parsChanged();
 		}, function (nn) {
-			parsChanged();
+			if (genRiff.onAir)
+				parsChanged();
 		});
 		var ld = new inputval(document.getElementById('svglead'), document.getElementById('roundLead'), function () {
 			ld.setValue(Math.floor(Math.random() * 1000));
 			parsChanged();
 		}, function (nn) {
-			parsChanged();
+			if (genRiff.onAir)
+				parsChanged();
 		});
 		var pd = new inputval(document.getElementById('svgpad'), document.getElementById('roundPad'), function () {
 			pd.setValue(Math.floor(Math.random() * 1000));
 			parsChanged();
 		}, function (nn) {
-			parsChanged();
+			if (genRiff.onAir)
+				parsChanged();
 		});
 		readChanged();
+
+		/*var barGroups=document.getElementById('barGroups');
+		var sz=barGroups.children.length;
+		for(var i=0;i<sz;i++){
+			var rr=barGroups.children[i];
+			//console.log(i,rr);
+			//console.dir(rr);
+			//rr.height=1+i;
+			rr.setAttribute("height", ''+i+"px");
+		}*/
+		//console.log(barGroups.children.length,barGroups.children[0]);
+		var svgns = "http://www.w3.org/2000/svg";
+		var barGroups = document.getElementById('barGroups');
+		for (var i = 0; i < 20; i++) {
+			var rect = document.createElementNS(svgns, 'rect');
+			rect.setAttributeNS(null, 'x', i + 'px');
+			rect.setAttributeNS(null, 'y', 0 + 'px');
+			rect.setAttributeNS(null, 'height', '1px');
+			rect.setAttributeNS(null, 'width', '1px');
+			barGroups.appendChild(rect);
+		}
 	</script>
 </body>
 

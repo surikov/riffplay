@@ -1686,8 +1686,30 @@ var GenRiff = /** @class */ (function () {
             if (this.tickerStep >= this.tickerDelay) {
                 this.tickerStep = 0;
             }
+            this.updateAnalyzer();
         }
         window.requestAnimationFrame(this.tick.bind(this));
+    };
+    GenRiff.prototype.updateAnalyzer = function () {
+        var bufferLength = this.analyser.frequencyBinCount;
+        if (!(this.preArray))
+            this.preArray = new Uint8Array(bufferLength);
+        var dataArray = new Uint8Array(bufferLength);
+        this.analyser.getByteTimeDomainData(dataArray);
+        //console.log(bufferLength,dataArray);*/
+        //this.canvasContext.fillStyle = 'green'; 
+        //this.canvasContext.fillRect(10, 10, 100, 100);
+        var barcount = 20;
+        for (var i = 0; i < barcount; i++) {
+            var rr = this.barGroups.children[i];
+            var idx = Math.floor(i * bufferLength / barcount);
+            var newValue = Math.floor(dataArray[idx]);
+            var oldValue = Math.floor(1 * this.preArray[idx]);
+            if (newValue != oldValue) {
+                rr.setAttribute("height", '' + (oldValue / 20) + "px");
+            }
+            this.preArray[idx] = (newValue + oldValue) / 2;
+        }
     };
     //startTicks(){
     //setInterval(()=>{startTicks}, 100);
@@ -1698,12 +1720,21 @@ var GenRiff = /** @class */ (function () {
             //console.log('skip initAudio');
         }
         else {
+            //let canvas = document.getElementById('canvasBars') as any; 
+            //this.canvasContext = canvas.getContext('2d');
+            this.barGroups = document.getElementById('barGroups');
             this.audioContext = new AudioContext();
             this.player = new WebAudioFontPlayer();
+            this.analyser = this.audioContext.createAnalyser();
+            this.analyser.fftSize = 256;
+            //this.analyser.smoothingTimeConstant = 0.99;
+            //this.analyser.fftSize = 2048;
             //console.log(this.player);
             this.master = new WebAudioFontChannel(this.audioContext);
             this.reverberator = new WebAudioFontReverberator(this.audioContext);
+            //this.reverberator.output.connect(this.audioContext.destination);
             this.reverberator.output.connect(this.audioContext.destination);
+            this.reverberator.output.connect(this.analyser);
             this.master.output.connect(this.reverberator.input);
             for (var i = 0; i < 8; i++) {
                 this.trackInfo[i].audioNode = this.audioContext.createGain();
