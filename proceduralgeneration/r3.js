@@ -763,7 +763,8 @@ var GenRiff = /** @class */ (function () {
             //
             ,
             { category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' },
-            { category: 'sad', name: '', chords: 'Gm-Cm-F-Bb-Eb-Adim-D-Gm' }
+            { category: 'sad', name: '', chords: 'Gm-Cm-F-Bb-Eb-Adim-D-Gm' },
+            { category: 'epic', name: '', chords: 'Dm-Bb-C-Gm-Bb-F-Gm-Dm' }
             ///////////////////////
             ,
             { category: 'jazz', name: '', chords: 'Am-G-D' },
@@ -837,7 +838,6 @@ var GenRiff = /** @class */ (function () {
             { category: 'epic', name: '', chords: 'Am-Em-G-D-Am-Cmaj7-G-D' },
             { category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' },
             { category: 'major', name: '', chords: 'D-A-Bm-F#m-G-D-G-A' },
-            { category: 'epic', name: '', chords: 'Dm-Bb-C-Gm-Bb-F-Gm-Dm' },
             { category: 'epic', name: '', chords: 'E-C-D-Em-Em-G-Am-Bm' },
             { category: 'major', name: '', chords: 'F-Bb-Edim-Am-Dm-Gm-C-F' },
             { category: 'major', name: '', chords: 'G-D-Em-Bm-C-G-C-D' }
