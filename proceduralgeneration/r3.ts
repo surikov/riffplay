@@ -821,11 +821,9 @@ class GenRiff {
 		, { category: 'triumphant', name: '', chords: 'C-Ab-Bb-C' }
 		, { category: 'blues', name: '', chords: 'Am-G-D-F' }
 		, { category: 'epic', name: '', chords: 'C-G-Am-F' }
-		
 		, { category: 'epic', name: '', chords: 'C-Fm-Bb7-C' }
 		, { category: 'nice', name: '', chords: 'C-F-G-Am' }
 		, { category: 'happy', name: '', chords: 'C-Am-F-G' }
-		, { category: 'major', name: '', chords: 'D-G-D-A-D' }
 		, { category: 'major', name: '', chords: 'F-C-Dm-Bb' }
 		, { category: 'major', name: '', chords: 'G-C-D-C' }
 		, { category: 'major', name: '', chords: 'G-C-F-C' }
@@ -835,7 +833,6 @@ class GenRiff {
 		,{ category: 'epic', name: '', chords: 'Cm-Ab-Eb-Bb' }
 		, { category: 'major', name: '', chords: 'C-Dm-F-G' }
 		, { category: 'major', name: '', chords: 'F-Am-G-D' }
-		
 		, { category: 'major', name: '', chords: 'C-Am-Em-F' }
 		, { category: 'major', name: '', chords: 'G-D-Em-C' }
 		, { category: 'major', name: '', chords: 'C-F-C-G' }
@@ -845,6 +842,7 @@ class GenRiff {
 		, { category: 'major', name: '', chords: 'D-C-G-D' }
 		, { category: 'major', name: '', chords: 'E-B-C#m-A' }
 		//
+		, { category: 'major', name: '', chords: 'D-G-D-A-D' }
 		, { category: 'epic', name: '', chords: 'F-Am-F-G-C' }
 		, { category: 'major', name: '', chords: 'C-G-F-G-C' }
 		//
