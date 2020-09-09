@@ -199,6 +199,7 @@ class GenRiff {
 	padMelodyDefsData: (PianoPatternDefinition | MelodyPatternDefinition)[] = [];
 	chordfretsData: FretKeys[] = [
 		{ name: "A#", pitch: 9, frets: [-1, 1, 3, 3, 3, 1] },
+		{ name: "Bb", pitch: 9, frets: [-1, 1, 3, 3, 3, 1] },
 		{ name: "A69", pitch: 9, frets: [-1, 0, 4, 4, 2, 2] },
 		{ name: "A6", pitch: 9, frets: [-1, 0, 2, 2, 2, 2] },
 		{ name: "A11", pitch: 9, frets: [-1, 0, 0, 0, 2, 0] },
@@ -740,7 +741,7 @@ class GenRiff {
 	progressionsList: ProgDescr[] = [
 		//{ category: 'test', name: '', chords: 'C-Ab-Bb-C' },
 
-	
+
 
 		//
 		{ category: 'sad', name: '', chords: 'Fmaj7-A' }
@@ -762,9 +763,9 @@ class GenRiff {
 		, { category: 'sad', name: '', chords: 'G-C-D-Em' }
 		, { category: 'sad', name: '', chords: 'Bm-A-G-F#' }
 		, { category: 'sad', name: '', chords: 'Em-G-C-Am' }
-		,{ category: 'sad', name: '', chords: 'Am-D9-Fm-C' }
+		, { category: 'sad', name: '', chords: 'Am-D9-Fm-C' }
 		, { category: 'sad', name: '', chords: 'Em-D-C-B' }
-		,{ category: 'sad', name: '', chords: 'C-D7-G7-C' }
+		, { category: 'sad', name: '', chords: 'C-D7-G7-C' }
 		, { category: 'sad', name: '', chords: 'Em-B-G-Em' }
 		, { category: 'sad', name: '', chords: 'Am-F-C-G' }
 		, { category: 'sad', name: '', chords: 'Am-Dm-Fm-C' }
@@ -775,7 +776,7 @@ class GenRiff {
 		, { category: 'sad', name: '', chords: 'Am7-F7-G-Em7' }
 		, { category: 'nice sad', name: '', chords: 'Am7-Em7-Dsus4-Dm7' }
 		, { category: 'sad', name: '', chords: 'Am-D7-E7-Am' }
-		,{ category: 'sad', name: '', chords: 'C-D7-Fm-C' }
+		, { category: 'sad', name: '', chords: 'C-D7-Fm-C' }
 		, { category: 'sad', name: '', chords: 'Em-D-C-D' }
 		, { category: 'wanderwall', name: '', chords: 'Em-G-Dsus4-A7sus4' }
 		//
@@ -830,7 +831,7 @@ class GenRiff {
 		, { category: 'major', name: '', chords: 'F-G-Am-Em' }
 		, { category: 'major', name: '', chords: 'D-A-C-G' }
 		, { category: 'major', name: '', chords: 'C-F-G-F' }
-		,{ category: 'epic', name: '', chords: 'Cm-Ab-Eb-Bb' }
+		, { category: 'epic', name: '', chords: 'Cm-Ab-Eb-Bb' }
 		, { category: 'major', name: '', chords: 'C-Dm-F-G' }
 		, { category: 'major', name: '', chords: 'F-Am-G-D' }
 		, { category: 'major', name: '', chords: 'C-Am-Em-F' }
@@ -838,7 +839,7 @@ class GenRiff {
 		, { category: 'major', name: '', chords: 'C-F-C-G' }
 		, { category: 'major', name: '', chords: 'C-F-Dm-G' }
 		, { category: 'major', name: '', chords: 'G-Em-C-D' }
-		,{ category: 'epic', name: '', chords: 'Fm-Db-Ab-Eb' }
+		, { category: 'epic', name: '', chords: 'Fm-Db-Ab-Eb' }
 		, { category: 'major', name: '', chords: 'D-C-G-D' }
 		, { category: 'major', name: '', chords: 'E-B-C#m-A' }
 		//
@@ -852,10 +853,10 @@ class GenRiff {
 		, { category: 'major', name: '', chords: 'F-Bb-Edim-Am-Dm-Gm-C-F' }
 		, { category: 'major', name: '', chords: 'G-D-Em-Bm-C-G-C-D' }
 		, { category: 'major', name: '', chords: 'D-A-Bm-F#m-G-D-G-A' }
-		,{ category: 'epic', name: '', chords: 'Dm-Bb-C-Gm-Bb-F-Gm-Dm' }
-		,{ category: 'epic', name: '', chords: 'Am-Em-G-D-Am-Cmaj7-G-D' }
+		, { category: 'epic', name: '', chords: 'Dm-Bb-C-Gm-Bb-F-Gm-Dm' }
+		, { category: 'epic', name: '', chords: 'Am-Em-G-D-Am-Cmaj7-G-D' }
 		, { category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' }
-		,{ category: 'epic', name: '', chords: 'E-C-D-Em-Em-G-Am-Bm' }
+		, { category: 'epic', name: '', chords: 'E-C-D-Em-Em-G-Am-Bm' }
 	];
 	parseMelody(encoded: string): ToneStep[] {
 		//console.log(encoded);

@@ -172,6 +172,7 @@ var GenRiff = /** @class */ (function () {
         this.padMelodyDefsData = [];
         this.chordfretsData = [
             { name: "A#", pitch: 9, frets: [-1, 1, 3, 3, 3, 1] },
+            { name: "Bb", pitch: 9, frets: [-1, 1, 3, 3, 3, 1] },
             { name: "A69", pitch: 9, frets: [-1, 0, 4, 4, 2, 2] },
             { name: "A6", pitch: 9, frets: [-1, 0, 2, 2, 2, 2] },
             { name: "A11", pitch: 9, frets: [-1, 0, 0, 0, 2, 0] },
