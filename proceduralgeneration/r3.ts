@@ -682,7 +682,8 @@ class GenRiff {
 		{ name: "Gmmaj7", pitch: 7, frets: [3, 1, 0, 0, 3, 2] },
 		{ name: "Gsus2", pitch: 7, frets: [3, 0, 0, 0, 3, 3] },
 		{ name: "Gmmaj9", pitch: 7, frets: [3, 0, 0, 3, 3, 2] },
-		{ name: "Gsus4", pitch: 7, frets: [3, 3, 0, 0, 1, 3] }
+		{ name: "Gsus4", pitch: 7, frets: [3, 3, 0, 0, 1, 3] },
+		{ name: "G#m", pitch: 6, frets: [4, 6, 6, 4, 4, 4] }
 	];
 	chordPitchesData: ChordPitches[] = [
 		{ name: '', pitches: [4, 7] },
@@ -741,10 +742,12 @@ class GenRiff {
 	progressionsList: ProgDescr[] = [
 		//{ category: 'test', name: '', chords: 'C-Ab-Bb-C' },
 		//
+		 //{ category: 'sad', name: '', chords: 'D-C-Bb-F' }
 		{ category: 'sad', name: '', chords: 'Fmaj7-A' }
 		//
 		, { category: 'sad', name: '', chords: 'Am-B-Gm' }
 		, { category: 'sad', name: '', chords: 'Am-Dm-E' }
+		,{ category: 'blus', name: '', chords: 'C#m-E-B-A' }
 		//
 		, { category: 'sad', name: '', chords: 'Am-C-Dm-Em' }
 		, { category: 'sad', name: '', chords: 'Am-D7-E7-Am' }
@@ -786,6 +789,7 @@ class GenRiff {
 		, { category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' }
 		//
 		, { category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' }
+		,{ category: 'sad', name: '', chords: 'Am-F-E7-Am-Dm7-Gsus4-F-E7' }
 		, { category: 'sad', name: '', chords: 'Gm-Cm-F-Bb-Eb-Adim-D-Gm' }
 		, { category: 'epic', name: '', chords: 'Dm-Bb-C-Gm-Bb-F-Gm-Dm' }
 		///////////////////////
@@ -802,8 +806,11 @@ class GenRiff {
 		, { category: 'jazz', name: '', chords: 'Cmaj7-Gm7-C7-Fmaj7' }
 		, { category: 'jazz', name: '', chords: 'D7-G7-C7-F7' }
 		, { category: 'jazz', name: '', chords: 'Dm7-G7-Cmaj7-C6' }
+		,{ category: 'pop', name: '', chords: 'F#m7-B7-E-A' }
 		//
 		, { category: 'jazz', name: '', chords: 'Cmaj7-D7-Dm7-G7-Cmaj7' }
+		,{ category: 'rock', name: '', chords: 'Em-G-D-C-A' }
+		,{ category: 'rem', name: '', chords: 'F-Em-Am-G-Am' }
 		//
 		, { category: 'jazz', name: '', chords: 'Cmaj7-Am7-Dm7-G7-Em7-A7-Dm7-G7' }
 		//
@@ -813,7 +820,9 @@ class GenRiff {
 		, { category: 'major', name: '', chords: 'Am-D-G' }
 		, { category: 'major', name: '', chords: 'C-Am-F' }
 		, { category: 'major', name: '', chords: 'C-F-G' }
+		,{ category: 'lnrdsklrd', name: '', chords: 'D-C-G' }
 		, { category: 'nice', name: '', chords: 'F-Am-G' }
+		,{ category: 'blus', name: '', chords: 'F-Bb-C' }
 		, { category: 'major', name: '', chords: 'G-C-D' }
 		//
 		, { category: 'blues', name: '', chords: 'Am-G-D-F' }
@@ -830,6 +839,8 @@ class GenRiff {
 		, { category: 'epic', name: '', chords: 'Cm-Ab-Eb-Bb' }
 		, { category: 'major', name: '', chords: 'D-A-C-G' }
 		, { category: 'major', name: '', chords: 'D-C-G-D' }
+		,{ category: 'korn', name: '', chords: 'D-C-Bb-F' }
+		,{ category: 'u2', name: '', chords: 'D-G-Bm-A' }
 		, { category: 'major', name: '', chords: 'E-B-C#m-A' }
 		, { category: 'major', name: '', chords: 'E-G-A-G' }
 		, { category: 'major', name: '', chords: 'F-Am-G-D' }
@@ -842,7 +853,9 @@ class GenRiff {
 		, { category: 'major', name: '', chords: 'G-Em-C-D' }
 		//
 		, { category: 'major', name: '', chords: 'C-G-F-G-C' }
+		,{ category: 'rok', name: '', chords: 'D-F-G-C-G' }
 		, { category: 'major', name: '', chords: 'D-G-D-A-D' }
+		,{ category: 'rhchpbridg', name: '', chords: 'E-B-C#m-G#m-A' }
 		, { category: 'epic', name: '', chords: 'F-Am-F-G-C' }
 		//
 		, { category: 'major', name: '', chords: 'A-E-F#m-D-A-E' }
