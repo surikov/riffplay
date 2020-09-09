@@ -72,17 +72,17 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'bigroom', start: { len16: 8 * 2, encoded: '00110111201121114010411080448144' }, end: { len16: 8 * 2, encoded: '00110111201121114010411180518155' } },
             { category: '', name: 'bigroom2', start: { len16: 8 * 2, encoded: '001101152011211540104110a044a144' }, end: { len16: 8 * 2, encoded: '001101f5201121f54010a044a144' } },
             { category: '', name: 'simpledance2', start: { len16: 8 * 2, encoded: '0011011120402104401041106002a044a144' }, end: { len16: 8 * 2, encoded: '0011011120402155401060026155a044a144' } },
-            { category: '', name: 'rock3 half slow', start: { len16: 8 * 4, encoded: '004101400241034441014301c011c111c211c311' }, end: { len16: 8 * 2, encoded: '0041010441d1c011c111' } },
-            { category: '', name: 'rock1-', start: { len16: 8 * 4, encoded: '000501040245034440104110421043108015815582158355a040a240' }, end: { len16: 8 * 2, encoded: '0005011121404010410f61208055' } },
-            { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 8 * 2, encoded: '008901994010412280cca001a111c050' } },
             { category: '', name: 'rap', start: { len16: 8 * 2, encoded: '008101454010411080558155' }, end: { len16: 8 * 2, encoded: '00810105401041d080558104a101c150' } },
             { category: '', name: 'prodigy', start: { len16: 8 * 2, encoded: '000501444090411280fe81fea001a101' }, end: { len16: 8 * 2, encoded: '0005010521404090419080fe81aea001a151' } },
             { category: '', name: 'funk1+', start: { len16: 8 * 4, encoded: '000101250205030440b0419242b04392805d8153825d8353a104a304' }, end: { len16: 8 * 2, encoded: '000521404090411b61248055' } },
+            { category: '', name: 'rock3 half slow', start: { len16: 8 * 4, encoded: '004101400241034441014301c011c111c211c311' }, end: { len16: 8 * 2, encoded: '0041010441d1c011c111' } },
+            { category: '', name: 'rock1-', start: { len16: 8 * 4, encoded: '000501040245034440104110421043108015815582158355a040a240' }, end: { len16: 8 * 2, encoded: '0005011121404010410f61208055' } },
             { category: '', name: 'simpleride', start: { len16: 8 * 2, encoded: '0001010140104110c055c155' }, end: { len16: 8 * 2, encoded: '0089011040104165c055c105e110' } },
             { category: '', name: 'simplerock2', start: { len16: 8 * 2, encoded: '0001010540104110a011a111' }, end: { len16: 8 * 2, encoded: '0089010440104175a011a111' } },
             { category: '', name: 'hard rock', start: { len16: 8 * 4, encoded: '00050105020503454010411042104310c055c155c255c355' }, end: { len16: 8 * 2, encoded: '0005010c21c0401060406133c014' } },
             { category: '', name: 'rock2', start: { len16: 8 * 2, encoded: '0001014540904110a011a111' }, end: { len16: 8 * 2, encoded: '000101112120401041cca011a101' } },
             { category: '', name: 'punk tom', start: { len16: 8 * 4, encoded: '000101050201030504010505060107052054215522552355245525552655275540104110421043184410451046104730e001' }, end: { len16: 8 * 2, encoded: '00110111205421556080614ce001' } },
+            { category: '', name: 'alatriplet', start: { len16: 8 * 2, encoded: '008901494010411080cc811ca001a141c050' }, end: { len16: 8 * 2, encoded: '008901994010412280cca001a111c050' } },
             { category: '', name: 'punk speed', start: { len16: 8 * 2, encoded: '0031012940444144c055c155' }, end: { len16: 8 * 2, encoded: '0033010921a0404441146140c055c115' } },
             { category: '', name: 'power metal', start: { len16: 8 * 4, encoded: '00440144024603464011411142114311a010a111a211a311e001' }, end: { len16: 8 * 2, encoded: '00820108405d4157e041' } }
         ];
@@ -122,12 +122,12 @@ var GenRiff = /** @class */ (function () {
             //, { category: '', name: 'wanderwall2', strum: 'V-V-X.VAVAX-X-VAVAV-V-VA-A-AVAVA' }
         ];
         this.pianoDefsData = [
-            { category: '', name: 'route66', piano: '..2-----2-2-......2-----2-2-......2-----2-2-......2---2-..2-..2-', track: 4 },
             { category: '', name: 'slade', piano: '2-..2-..2-..2-1-', track: 4 },
-            { category: '', name: 'chicago', piano: '2-..2-..2--2--2-..2-.2-.2-.2-.2-', track: 4 },
-            { category: '', name: 'sandstorm', piano: '2-22-22-2-22-221', track: 4 },
+            { category: '', name: 'route66', piano: '..2-----2-2-......2-----2-2-......2-----2-2-......2---2-..2-..2-', track: 4 },
             { category: '', name: 'abba', piano: '.2..2-.2-.2--...', track: 4 },
-            { category: '', name: 'bronskibit', piano: '2-..1-2-..1-2-..', track: 4 }
+            { category: '', name: 'bronskibit', piano: '2-..1-2-..1-2-..', track: 4 },
+            { category: '', name: 'chicago', piano: '2-..2-..2--2--2-..2-.2-.2-.2-.2-', track: 4 },
+            { category: '', name: 'sandstorm', piano: '2-22-22-2-22-221', track: 4 }
         ];
         this.overdriveDefsData = [
             { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' },
@@ -156,19 +156,18 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
         ];
         this.melodyDefsData2 = [
-            { category: '', name: 'laser dance', chord: 'Cm', len16: 8 * 2, encoded: '007010c40017021340037010c40047021140067010c40077020f40097010c400a70213400c70211400e7021340' },
-            { category: '', name: 'living video', chord: 'Am', len16: 8 * 4, encoded: '0070421400470221400670223400870228400a70321400e70423401270221401470223401670224401870228401a70224401c70323401e7022140' },
-            { category: '', name: 'disco', chord: 'Cm', len16: 8 * 8, encoded: '007041f40047041b40087041b400c7021a400e70218401070818401c70213401e7021640207041b402470418402870418402c7021b402e70213403070813403c7020f403e7021340' }
+            { category: '', name: 'laser dance', chord: 'Cm', len16: 8 * 2, encoded: '007010c40017021340037010c40047021140067010c40077020f40097010c400a70213400c70211400e7021340' }
+            //, { category: '', name: 'living video', chord: 'Am', len16: 8 * 4, encoded: '0070421400470221400670223400870228400a70321400e70423401270221401470223401670224401870228401a70224401c70323401e7022140' }
+            //, { category: '', name: 'disco', chord: 'Cm', len16: 8 * 8, encoded: '007041f40047041b40087041b400c7021a400e70218401070818401c70213401e7021640207041b402470418402870418402c7021b402e70213403070813403c7020f403e7021340' }
             //, { category: '', name: 'kickstart 1', chord: 'Am', len16: 8 * 4, encoded: '000041540000041c40040021540040021c400630215400830215400a30215400c00215400c0021c400e3021540103021540123021540140021540140021c401630215401830215401a00410401a00415401e00213401e0021a40' }
             //, { category: '', name: 'kickstart2', chord: 'Am', len16: 8 * 8, encoded: '0000e15400000e1c400e30210401000e1c401001010401e00221401e00215401e0021c40200021540200022140200021c40223021540240021c40240022140263021540280021c402800221402a30215402c30215402e3021540303021540323021540340021c40340022140363021540380021c403800221403a00410403a0041c403e3021340' }
             //, { category: '', name: 'sadbutrue', chord: 'Am', len16: 8 * 16, encoded: '000061540000061c400630215400830215400a00215400a0021c400c30215400e3021540100061540100061c401630215401830215401a30218401c30218401e00218401e0021c40200061540200061c402630215402830215402a00215402a0021c402c30215402e3021540300061540300061c403630215403830215403a30218403c30218403e00218403e0021c40400061540400061c404630215404830215404a00215404c30215404e3021540500061540500061c405630215405830215405a30218405c30218405e00218405e0021c40600061540600061c406630215406830215406a30218406c30218406e3021840700061840700061c407630215407830215407a30215407c30215407e00215407e0021c40' }
             //, { category: '', name: 'gypsyroad', chord: 'Am', len16: 8 * 4, encoded: '000021840020021740043021540060041540060041c400a30215400c00415400c0041c40100021340120021540140021740160041c401600415401a30215401c0041c401c0041540' }
             //, { category: '', name: 'gypsyroad2', chord: 'Am', len16: 8 * 4, encoded: '000021c40020021840043021540060041540060041c400a30215400c00415400c0041c40100021040120021540140021840160041c401600415401a30215401c0041c401c0041540' }
             //, { category: '', name: 'long', chord: 'Am', len16: 8 * 8, encoded: '0000c15400000c1c400c30215400e30215401000c15401000c1c401c30215401e30215402000c15402000c1c402c30215402e3021540300021540300021c40323021540343021540360021540360021c403830215403a30215403c00215403c0021c403e3021540' }
-            ,
-            { category: '', name: 'cgerry', chord: 'C', len16: 8 * 8, encoded: '107011a40127011a40147011d40167011d40187011c401a7011c401b70118401d70118401f7011840207011a40227011a40247011d40267011d40287011c402a7011c402b70118402d70118402f7011840' },
-            { category: '', name: 'abba', chord: 'C', len16: 8 * 8, encoded: '2b70124402c70324402f7012340307032140337011f403470c1f40' },
-            { category: '', name: 'fable', chord: 'Am', len16: 8 * 16, encoded: '002041c40042021a40062041c400a2061840102041c40142021a40162041c401a2061840202041c40242021a40262041c402a20618403820218403a2021a403c2021c403e20221404020418404820218404a2021a404c2021c404e20621405820217405a20218405c2021a405e20621406e2021c407020218407220615407820418407c2041c40' }
+            //, { category: '', name: 'cgerry', chord: 'C', len16: 8 * 8, encoded: '107011a40127011a40147011d40167011d40187011c401a7011c401b70118401d70118401f7011840207011a40227011a40247011d40267011d40287011c402a7011c402b70118402d70118402f7011840' }
+            //, { category: '', name: 'abba', chord: 'C', len16: 8 * 8, encoded: '2b70124402c70324402f7012340307032140337011f403470c1f40' }
+            //, { category: '', name: 'fable', chord: 'Am', len16: 8 * 16, encoded: '002041c40042021a40062041c400a2061840102041c40142021a40162041c401a2061840202041c40242021a40262041c402a20618403820218403a2021a403c2021c403e20221404020418404820218404a2021a404c2021c404e20621405820217405a20218405c2021a405e20621406e2021c407020218407220615407820418407c2041c40' }
         ];
         this.padMelodyDefsData = [];
         this.chordfretsData = [
@@ -413,6 +412,7 @@ var GenRiff = /** @class */ (function () {
             { name: "C#mmaj9", pitch: 1, frets: [-1, 4, 1, 1, 1, 0] },
             { name: "C#sus2", pitch: 1, frets: [4, 4, 6, 6, 4, 4] },
             { name: "C#sus4", pitch: 1, frets: [-1, 4, 4, 1, 2, -1] },
+            { name: "Db", pitch: 1, frets: [-1, 4, 3, 1, 2, 1] },
             { name: "D6sus4", pitch: 2, frets: [-1, -1, 0, 2, 0, 3] },
             { name: "D11", pitch: 2, frets: [-1, -1, 0, 0, 1, 2] },
             { name: "D69", pitch: 2, frets: [-1, 5, 4, 2, 0, 0] },
@@ -710,91 +710,136 @@ var GenRiff = /** @class */ (function () {
             { name: 'sus4', pitches: [5, 7] }
         ];
         this.progressionsList = [
-            //{ category: 'test', name: '', chords: 'A#-A#' },
-            { category: 'test-------------------------', name: '', chords: 'C-Bb7-Abmaj7-F' }
+            //{ category: 'test', name: '', chords: 'C-Ab-Bb-C' },
+            //
+            { category: 'sad', name: '', chords: 'Fmaj7-A' }
             //
             ,
-            { category: 'sad', name: '', chords: 'Fmaj7-A' }
-            //,{ category: 'major', name: '', chords: 'C-D-E-F-G-A-B' }
+            { category: 'sad', name: '', chords: 'Am-Dm-E' },
+            { category: 'sad', name: '', chords: 'Am-B-Gm' }
+            //
             ,
+            { category: 'sad', name: '', chords: 'Em-B-C-Am' },
+            { category: 'sad', name: '', chords: 'Em-C-G-D' },
             { category: 'sad', name: '', chords: 'Am-C-Dm-Em' },
-            { category: 'sad', name: '', chords: 'F-Em-Am-G-Am' },
+            { category: 'sad', name: '', chords: 'Am-G-Dm7' },
+            { category: 'sad', name: '', chords: 'Am-Dm-F-G' },
+            { category: 'sad', name: '', chords: 'Am-G-Em-F' },
+            { category: 'sad', name: '', chords: 'Dm-Am-C-G' },
+            { category: 'sad', name: '', chords: 'Am-Em-G-Dm' },
             { category: 'sad', name: '', chords: 'Am-G-F-E7' },
             { category: 'sad', name: '', chords: 'E-G-A-G' },
             { category: 'sad', name: '', chords: 'C-E-Am7-F' },
             { category: 'sad', name: '', chords: 'G-C-D-Em' },
             { category: 'sad', name: '', chords: 'Bm-A-G-F#' },
             { category: 'sad', name: '', chords: 'Em-G-C-Am' },
-            { category: 'sad', name: '', chords: 'Am-C-D-Am-C-Am' },
+            { category: 'sad', name: '', chords: 'Am-D9-Fm-C' },
             { category: 'sad', name: '', chords: 'Em-D-C-B' },
+            { category: 'sad', name: '', chords: 'C-D7-G7-C' },
             { category: 'sad', name: '', chords: 'Em-B-G-Em' },
             { category: 'sad', name: '', chords: 'Am-F-C-G' },
             { category: 'sad', name: '', chords: 'Am-Dm-Fm-C' },
             { category: 'sad', name: '', chords: 'C-Am-Dm-G' },
             { category: 'sad', name: '', chords: 'Am-F-Em-Am' },
-            { category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' },
-            { category: 'sad', name: '', chords: 'Am-B-Gm' },
             { category: 'sad', name: '', chords: 'F-Em7-Am-G' },
-            { category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' },
-            { category: 'sad', name: '', chords: 'Am-F7-G-Em-F-G' },
             { category: 'sad', name: '', chords: 'Dm-F-Am-G' },
-            { category: 'sad', name: '', chords: 'Am-G-C-F-E-E7' },
-            { category: 'sad', name: '', chords: 'Am-Dsus4-Dm-F-G-Dm7' },
             { category: 'sad', name: '', chords: 'Am7-F7-G-Em7' },
-            { category: 'sad', name: '', chords: 'C-Am-F-G' },
+            { category: 'nice sad', name: '', chords: 'Am7-Em7-Dsus4-Dm7' },
             { category: 'sad', name: '', chords: 'Am-D7-E7-Am' },
-            { category: 'test', name: '', chords: 'Em-D-C-D' },
+            { category: 'sad', name: '', chords: 'C-D7-Fm-C' },
+            { category: 'sad', name: '', chords: 'Em-D-C-D' },
+            { category: 'wanderwall', name: '', chords: 'Em-G-Dsus4-A7sus4' }
+            //
+            ,
+            { category: 'sad', name: '', chords: 'F-Em-Am-G-Am' },
+            { category: 'sad', name: '', chords: 'Dm-Gm-Dm-A-Dm' }
+            //
+            ,
+            { category: 'sad', name: '', chords: 'Am-Dsus4-Dm-F-G-Dm7' },
+            { category: 'sad', name: '', chords: 'Am-F7-G-Em-F-G' },
+            { category: 'sad', name: '', chords: 'Am-G-C-F-E-E7' },
+            { category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' },
+            { category: 'sad', name: '', chords: 'Am-C-D-Am-C-Am' }
+            //
+            ,
+            { category: 'sad', name: '', chords: 'Gm-Cm-F-Bb-Eb-Adim-D-Gm' },
+            { category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' }
+            ///////////////////////
+            ,
+            { category: 'jazz', name: '', chords: 'Am-G-D' },
+            { category: 'jazz', name: '', chords: 'C-Gm-Dm' },
+            { category: 'jazz', name: '', chords: 'Dm7-G7-Cmaj7' },
+            { category: 'jazz', name: '', chords: 'Cmaj7-Cm7-F7' }
+            //
+            ,
             { category: 'jazz', name: '', chords: 'Am-F7-D7-E7' },
             { category: 'jazz', name: '', chords: 'Cm7-Ab7-G7' },
             { category: 'jazz', name: '', chords: 'D7-G7-C7-F7' },
-            { category: 'jazz', name: '', chords: 'Cmaj7-C7-Fmaj7-Fm7-Em7-A7-Dm7-G7-Cmaj7' },
             { category: 'jazz', name: '', chords: 'Cmaj7-Gm7-C7-Fmaj7' },
-            { category: 'jazz', name: '', chords: 'Cmaj7-D7-Dm7-G7-Cmaj7' },
-            { category: 'jazz', name: '', chords: 'Dm7-G7-Cmaj7' },
-            { category: 'jazz', name: '', chords: 'Cmaj7-Cm7-F7' },
-            { category: 'jazz', name: '', chords: 'Cmaj7-Am7-Dm7-G7-Em7-A7-Dm7-G7' },
             { category: 'jazz', name: '', chords: 'Dm7-G7-Cmaj7-C6' },
             { category: 'jazz', name: '', chords: 'C-D7-F-C' },
             { category: 'jazz', name: '', chords: 'C-F-G-G7' },
-            { category: 'jazz', name: '', chords: 'C-Am-E-G' },
-            { category: 'jazz', name: '', chords: 'C-Gm-Dm' },
-            { category: 'jazz', name: '', chords: 'Am-G-D' },
-            { category: 'wanderwall', name: '', chords: 'Em-G-Dsus4-A7sus4' }
-            //, { category: 'blus', name: '', chords: '-' }
+            { category: 'jazz', name: '', chords: 'C-Am-E-G' }
+            //
             ,
-            { category: 'blues', name: '', chords: 'Am-G-D-F' },
-            { category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' },
-            { category: 'epic', name: '', chords: 'C-G-Am-F' },
-            { category: 'nice', name: '', chords: 'Am-Dm-F-G' },
-            { category: 'nice', name: '', chords: 'Am-G-Em-F' },
+            { category: 'jazz', name: '', chords: 'Cmaj7-D7-Dm7-G7-Cmaj7' }
+            //
+            ,
+            { category: 'jazz', name: '', chords: 'Cmaj7-Am7-Dm7-G7-Em7-A7-Dm7-G7' }
+            //
+            ,
+            { category: 'jazz', name: '', chords: 'Cmaj7-C7-Fmaj7-Fm7-Em7-A7-Dm7-G7-Cmaj7' }
+            ///////////////////////////
+            ,
             { category: 'nice', name: '', chords: 'F-Am-G' },
-            { category: 'nice', name: '', chords: 'Am-G-Dm7' },
-            { category: 'nice', name: '', chords: 'Dm-Am-C-G' },
-            { category: 'nice', name: '', chords: 'Am-Em-G-Dm' },
+            { category: 'major', name: '', chords: 'C-F-G' },
+            { category: 'major', name: '', chords: 'Am-D-G' },
+            { category: 'major', name: '', chords: 'C-Am-F' },
+            { category: 'major', name: '', chords: 'A-D-E' },
+            { category: 'major', name: '', chords: 'G-C-D' }
+            //
+            ,
+            { category: 'triumphant', name: '', chords: 'C-Ab-Bb-C' },
+            { category: 'blues', name: '', chords: 'Am-G-D-F' },
+            { category: 'epic', name: '', chords: 'C-G-Am-F' },
+            { category: 'epic', name: '', chords: 'C-Fm-Bb7-C' },
             { category: 'nice', name: '', chords: 'C-F-G-Am' },
-            { category: 'nice', name: '', chords: 'Am7-Em7-Dsus4-Dm7' },
+            { category: 'happy', name: '', chords: 'C-Am-F-G' },
+            { category: 'major', name: '', chords: 'D-G-D-A-D' },
+            { category: 'major', name: '', chords: 'F-C-Dm-Bb' },
             { category: 'major', name: '', chords: 'G-C-D-C' },
             { category: 'major', name: '', chords: 'G-C-F-C' },
             { category: 'major', name: '', chords: 'F-G-Am-Em' },
-            { category: 'major', name: '', chords: 'C-Dm-Am7-F-G-C' },
-            { category: 'major', name: '', chords: 'C-Am-F' },
             { category: 'major', name: '', chords: 'D-A-C-G' },
             { category: 'major', name: '', chords: 'C-F-G-F' },
+            { category: 'epic', name: '', chords: 'Cm-Ab-Eb-Bb' },
             { category: 'major', name: '', chords: 'C-Dm-F-G' },
             { category: 'major', name: '', chords: 'F-Am-G-D' },
-            { category: 'major', name: '', chords: 'C-G-F-G-C' },
             { category: 'major', name: '', chords: 'C-Am-Em-F' },
-            { category: 'major', name: '', chords: 'G-C-D' },
             { category: 'major', name: '', chords: 'G-D-Em-C' },
-            { category: 'major', name: '', chords: 'Am-D-G' },
             { category: 'major', name: '', chords: 'C-F-C-G' },
-            { category: 'major', name: '', chords: 'D-A-Bm-F#m-G-D-G-A' },
-            { category: 'major', name: '', chords: 'A-E-F#m-D-A-E' },
             { category: 'major', name: '', chords: 'C-F-Dm-G' },
-            { category: 'major', name: '', chords: 'C-F-G' },
             { category: 'major', name: '', chords: 'G-Em-C-D' },
+            { category: 'epic', name: '', chords: 'Fm-Db-Ab-Eb' },
+            { category: 'major', name: '', chords: 'D-C-G-D' },
+            { category: 'major', name: '', chords: 'E-B-C#m-A' }
+            //
+            ,
+            { category: 'epic', name: '', chords: 'F-Am-F-G-C' },
+            { category: 'major', name: '', chords: 'C-G-F-G-C' }
+            //
+            ,
+            { category: 'major', name: '', chords: 'C-Dm-Am7-F-G-C' },
+            { category: 'major', name: '', chords: 'A-E-F#m-D-A-E' }
+            //
+            ,
+            { category: 'major', name: '', chords: 'F-Bb-Edim-Am-Dm-Gm-C-F' },
             { category: 'major', name: '', chords: 'G-D-Em-Bm-C-G-C-D' },
-            { category: 'major', name: '', chords: 'D-C-G-D' }
+            { category: 'major', name: '', chords: 'D-A-Bm-F#m-G-D-G-A' },
+            { category: 'epic', name: '', chords: 'Dm-Bb-C-Gm-Bb-F-Gm-Dm' },
+            { category: 'epic', name: '', chords: 'Am-Em-G-D-Am-Cmaj7-G-D' },
+            { category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' },
+            { category: 'epic', name: '', chords: 'E-C-D-Em-Em-G-Am-Bm' }
         ];
         //analyser: AnalyserNode;
         this.drumInfo = [{
