@@ -1405,7 +1405,7 @@ class GenRiff {
 	}
 	master: any;
 	reverberator: any;
-	analyser: AnalyserNode;
+	//analyser: AnalyserNode;
 	drumInfo = [{
 		sound: (window as any)._drum_35_0_Chaos_sf2_file,
 		pitch: 36, //36
@@ -1672,18 +1672,18 @@ class GenRiff {
 			if (this.tickerStep >= this.tickerDelay) {
 				this.tickerStep = 0;
 			}
-			this.updateAnalyzer();
+			//this.updateAnalyzer();
 		}
 		window.requestAnimationFrame(this.tick.bind(this));
 	}
-	barGroups: any;
-	preArray: Uint8Array;
-	updateAnalyzer() {
+	//barGroups: any;
+	//preArray: Uint8Array;
+	/*updateAnalyzer() {
 		var bufferLength = this.analyser.frequencyBinCount;
 		if (!(this.preArray)) this.preArray = new Uint8Array(bufferLength);
 		var dataArray = new Uint8Array(bufferLength);
 		this.analyser.getByteTimeDomainData(dataArray);
-		//console.log(bufferLength,dataArray);*/
+		//console.log(bufferLength,dataArray);
 		//this.canvasContext.fillStyle = 'green'; 
 		//this.canvasContext.fillRect(10, 10, 100, 100);
 		var barcount=20;
@@ -1697,7 +1697,7 @@ class GenRiff {
 			}
 			this.preArray[idx] = (newValue + oldValue) / 2;
 		}
-	}
+	}*/
 	//startTicks(){
 	//setInterval(()=>{startTicks}, 100);
 	//window.requestAnimationFrame(this.tick.bind(this));
@@ -1709,19 +1709,22 @@ class GenRiff {
 		} else {
 			//let canvas = document.getElementById('canvasBars') as any; 
 			//this.canvasContext = canvas.getContext('2d');
-			this.barGroups = document.getElementById('barGroups');
-			this.audioContext = new AudioContext();
+			//this.barGroups = document.getElementById('barGroups');
+			var win=(window as any);
+			var AudioContextFunc = win.AudioContext || win.webkitAudioContext;
+			this.audioContext = new AudioContextFunc();
+			//this.audioContext = new AudioContext();
 			this.player = new WebAudioFontPlayer();
-			this.analyser = this.audioContext.createAnalyser();
-			this.analyser.fftSize = 256;
+			//this.analyser = this.audioContext.createAnalyser();
+			//this.analyser.fftSize = 256;
 			//this.analyser.smoothingTimeConstant = 0.99;
 			//this.analyser.fftSize = 2048;
 			//console.log(this.player);
 			this.master = new WebAudioFontChannel(this.audioContext);
 			this.reverberator = new WebAudioFontReverberator(this.audioContext);
-			//this.reverberator.output.connect(this.audioContext.destination);
 			this.reverberator.output.connect(this.audioContext.destination);
-			this.reverberator.output.connect(this.analyser);
+			//this.reverberator.output.connect(this.audioContext.destination);
+			//this.reverberator.output.connect(this.analyser);
 
 			this.master.output.connect(this.reverberator.input);
 			for (var i = 0; i < 8; i++) {

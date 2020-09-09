@@ -87,13 +87,12 @@
 		}
 
 		.menuButton {
-			padding-left: 0.0cm;
-			padding-right: 0.0cm;
-			padding-top: 0cm;
-			padding-bottom: 0cm;
+			padding: 0.1cm;
 			margin: 0cm;
-			width: 1.5cm;
-			height: 1.5cm;
+			width: 1.0cm;
+			height: 1.0cm;
+			border: none;
+			outline: none;
 		}
 
 		.diceButton {
@@ -114,6 +113,8 @@
 			margin: 0cm;
 			width: 2.5cm;
 			height: 2.5cm;
+			border: none;
+			outline: none;
 		}
 
 		.progSlider {
@@ -199,6 +200,11 @@
 <body>
 	<div id='mainDiv'>
 		<div class="menuDiv">
+			<input type="image" src='buttonPlay.png' id='menuPlayButton' class='menuButton' onclick='clickPlay();'/>
+			<input type="image" src='buttonShare.png' class='menuButton' onclick='clickPlay();'/>
+			<input type="image" src='buttonEdit.png' class='menuButton' onclick='clickPlay();'/>
+			<input type="image" src='buttonHelp.png' class='menuButton' onclick='clickPlay();'/>
+<!--
 			<svg version="1.1" id='menuPlayButton' viewBox="0 0 512 512" class='menuButton' onclick="clickPlay();">
 				<g>
 					<circle cx="256" cy="256" r="180" style="fill:none;stroke:#fff;stroke-width:16;" />
@@ -211,23 +217,14 @@
 					<text style="font-size:120px;fill:#fff;stroke:none;" x="130" y="300">Share</text>
 				</g>
 			</svg>
+		-->
 		</div>
-		<div id='eqbars'>
+		<!--<div id='eqbars'>
 			<svg version="1.1" id='svgBars' viewBox="0 0 20 20" preserveAspectRatio="none">
 				<g style="fill:#9cf;stroke-width:0;" id='barGroups'>
-					<!--<rect y="0" x="0" height="25" width="1" />
-					<rect y="0" x="10" height="25" width="1" />
-					<rect y="0" x="20" height="50" width="1" />
-					<rect y="0" x="30" height="100" width="1" />
-					<rect y="0" x="40" height="25" width="1" />
-					<rect y="0" x="50" height="50" width="1" />
-					<rect y="0" x="60" height="100" width="1" />
-					<rect y="0" x="70" height="25" width="1" />
-					<rect y="0" x="80" height="50" width="1" />
-					<rect y="0" x="90" height="100" width="1" />-->
 				</g>
 			</svg>
-		</div>
+		</div>-->
 		<div id='diceDiv'>
 
 
@@ -240,6 +237,8 @@
 				</g>
 			</svg>-->
 			<div id='startGenRow'>
+				<input type="image" src='buttonDice.png' id='diceStart' onclick='playRandom();'/>
+				<!--
 				<svg version="1.1" id='diceStart' viewBox="0 0 512 512" height="512" width="512"
 					onclick='playRandom();'>
 					<g>
@@ -247,6 +246,7 @@
 						<text style="font-size:128px;fill:#ffffff;stroke:none;" x="50" y="300">Random!</text>
 					</g>
 				</svg>
+			-->
 			</div>
 			<div id='progNameRow'>AAA</div>
 			<div id='progSliderRow'>
@@ -364,14 +364,17 @@
 			genRiff.initAudio();
 			//genRiff.player.cancelQueue(genRiff.audioContext);
 			genRiff.startPlay(progNN, dr.value, bs.value, ld.value, pd.value);
-			document.getElementById('playButtonText').textContent = 'Stop';
+			//document.getElementById('playButtonText').textContent = 'Stop';
+			document.getElementById('menuPlayButton').src = 'buttonPause.png';
+			
 
 			return null;
 		}
 
 		function pausePlay() {
 			genRiff.pausePlay();
-			document.getElementById('playButtonText').textContent = 'Play';
+			//document.getElementById('playButtonText').textContent = 'Play';
+			document.getElementById('menuPlayButton').src = 'buttonPlay.png';
 			return null;
 		}
 
@@ -524,7 +527,7 @@
 			rr.setAttribute("height", ''+i+"px");
 		}*/
 		//console.log(barGroups.children.length,barGroups.children[0]);
-		var svgns = "http://www.w3.org/2000/svg";
+		/*var svgns = "http://www.w3.org/2000/svg";
 		var barGroups = document.getElementById('barGroups');
 		for (var i = 0; i < 20; i++) {
 			var rect = document.createElementNS(svgns, 'rect');
@@ -533,7 +536,7 @@
 			rect.setAttributeNS(null, 'height', '1px');
 			rect.setAttributeNS(null, 'width', '0.95px');
 			barGroups.appendChild(rect);
-		}
+		}*/
 	</script>
 </body>
 
