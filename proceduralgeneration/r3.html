@@ -338,7 +338,7 @@
 
 			progNN = nn;
 			//updateColors();
-			document.getElementById('progNameRow').innerHTML = chords2title(genRiff.progressions[r].chords);
+			document.getElementById('progNameRow').innerHTML = chords2title(genRiff.progressions[r].chords)+' ' +genRiff.progressions[r].category;
 			//console.log(genRiff.progressions[r]);
 			genRiff.playInfo = genRiff.generateAll(progNN, dr.value, bs.value, ld.value, pd.value);
 			if (preProgNN != progNN) {
