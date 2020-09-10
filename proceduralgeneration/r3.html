@@ -72,7 +72,7 @@
 
 		.menuDiv {
 			overflow: hidden;
-			background-color: #556;
+			background-color: #223;
 			position: fixed;
 			bottom: 0;
 			width: 100%;
@@ -203,11 +203,13 @@
 <body>
 	<div id='mainDiv'>
 		<div class="menuDiv">
-			<input type="image" src='buttonPlay.png' id='menuPlayButton' class='menuButton' onclick='clickPlay();' />
-			<input type="image" src='buttonShare.png' class='menuButton' onclick='clickPlay();' />
-			<input type="image" src='buttonEdit.png' class='menuButton' onclick='clickPlay();' />
-			<input type="image" src='buttonHelp.png' class='menuButton' onclick='clickPlay();' />
+			<input type="image" src='buttonPlay.svg' id='menuPlayButton' class='menuButton' onclick='clickPlay();' />
+			
+			<input type="image" src='buttonEdit.svg' class='menuButton' onclick='clickPlay();' />
+			<input type="image" src='buttonShare.svg' class='menuButton' onclick='clickPlay();' />
 			<!--
+			<input type="image" src='buttonHelp.png' class='menuButton' onclick='clickPlay();' />
+			
 			<svg version="1.1" id='menuPlayButton' viewBox="0 0 512 512" class='menuButton' onclick="clickPlay();">
 				<g>
 					<circle cx="256" cy="256" r="180" style="fill:none;stroke:#fff;stroke-width:16;" />
@@ -365,7 +367,7 @@
 			//genRiff.player.cancelQueue(genRiff.audioContext);
 			genRiff.startPlay(progNN, dr.value, bs.value, ld.value, pd.value);
 			//document.getElementById('playButtonText').textContent = 'Stop';
-			document.getElementById('menuPlayButton').src = 'buttonPause.png';
+			document.getElementById('menuPlayButton').src = 'buttonPause.svg';
 
 
 			return null;

@@ -156,7 +156,7 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 },
             { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
         ];
-        this.melodyDefsData2 = [
+        this._melodyDefsData2 = [
             { category: '', name: 'laser dance', chord: 'Cm', len16: 8 * 2, encoded: '007010c40017021340037010c40047021140067010c40077020f40097010c400a70213400c70211400e7021340' }
             //, { category: '', name: 'living video', chord: 'Am', len16: 8 * 4, encoded: '0070421400470221400670223400870228400a70321400e70423401270221401470223401670224401870228401a70224401c70323401e7022140' }
             //, { category: '', name: 'disco', chord: 'Cm', len16: 8 * 8, encoded: '007041f40047041b40087041b400c7021a400e70218401070818401c70213401e7021640207041b402470418402870418402c7021b402e70213403070813403c7020f403e7021340' }
@@ -169,6 +169,9 @@ var GenRiff = /** @class */ (function () {
             //, { category: '', name: 'cgerry', chord: 'C', len16: 8 * 8, encoded: '107011a40127011a40147011d40167011d40187011c401a7011c401b70118401d70118401f7011840207011a40227011a40247011d40267011d40287011c402a7011c402b70118402d70118402f7011840' }
             //, { category: '', name: 'abba', chord: 'C', len16: 8 * 8, encoded: '2b70124402c70324402f7012340307032140337011f403470c1f40' }
             //, { category: '', name: 'fable', chord: 'Am', len16: 8 * 16, encoded: '002041c40042021a40062041c400a2061840102041c40142021a40162041c401a2061840202041c40242021a40262041c402a20618403820218403a2021a403c2021c403e20221404020418404820218404a2021a404c2021c404e20621405820217405a20218405c2021a405e20621406e2021c407020218407220615407820418407c2041c40' }
+        ];
+        this.arpeggioDefsDats = [
+            { category: '', name: 'test', strings: '3-2-1-2-', track: this.SynthBass, transpose: 12 }
         ];
         this.padMelodyDefsData = [];
         this.chordfretsData = [
@@ -1061,8 +1064,8 @@ var GenRiff = /** @class */ (function () {
         for (var i_4 = 0; i_4 < this.padDefsData2.length; i_4++) {
             this.padMelodyDefsData.push(this.padDefsData2[i_4]);
         }
-        for (var i_5 = 0; i_5 < this.melodyDefsData2.length; i_5++) {
-            this.padMelodyDefsData.push(this.melodyDefsData2[i_5]);
+        for (var i_5 = 0; i_5 < this.arpeggioDefsDats.length; i_5++) {
+            this.padMelodyDefsData.push(this.arpeggioDefsDats[i_5]);
         }
         //console.log(this.rhythmDefsData);
     }
@@ -1415,7 +1418,7 @@ var GenRiff = /** @class */ (function () {
             }
             for (var i = 0; i < durationStrum.length; i++) {
                 var strike = durationStrum[i];
-                var trans = 12 * Number(strike.strumKind);
+                //let trans = 12 * Number(strike.strumKind);
                 //let pitches = pianoKeysByName(strike.chord, chordPitches, trans);
                 var pitches = this.findChordPitches(strike.chord);
                 //console.log(i,strike);
@@ -1488,6 +1491,46 @@ var GenRiff = /** @class */ (function () {
         }
         return beats;
     };
+    GenRiff.prototype.composeArpeggio = function (chords, pattern) {
+        var beats = [];
+        if (pattern.strings) {
+            var step = 0;
+            for (var i = 0; i < chords.length; i++) {
+                for (var k = 0; k < 8; k++) {
+                    var stepVal = pattern.strings.substr(step, 1);
+                    if (stepVal == '-') {
+                        if (beats.length) {
+                            beats[beats.length - 1].length++;
+                        }
+                    }
+                    else {
+                        if (stepVal == '.') {
+                        }
+                        else {
+                            var pitches = this.findChordPitches(chords[i]);
+                            var stringNum = Number(stepVal);
+                            if (stringNum > pitches.length)
+                                stringNum = pitches.length;
+                            var pitch = pitches[pitches.length - stringNum];
+                            //console.log(i*8+k,step,pitch)
+                            beats.push({
+                                track: pattern.track,
+                                beat: i * 8 + k,
+                                length: 1,
+                                shift: 0,
+                                pitch: pitch + pattern.transpose
+                            });
+                        }
+                    }
+                    step++;
+                    if (step >= pattern.strings.length) {
+                        step = 0;
+                    }
+                }
+            }
+        }
+        return beats;
+    };
     GenRiff.prototype.composeFullLine = function (chords, pattern, needRepitch) {
         var beats = [];
         if (pattern.len16) {
@@ -1528,7 +1571,7 @@ var GenRiff = /** @class */ (function () {
         }
         else {
             var m = pattern;
-            return this.composeFullLine(chords, m, false);
+            return this.composeArpeggio(chords, m);
         }
     };
     GenRiff.prototype.composeRhythm = function (chords, pattern) {
