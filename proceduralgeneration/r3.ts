@@ -122,6 +122,8 @@ class GenRiff {
 		, { category: '', name: 'rich5', chord: 'Am', len16: 8 * 2, encoded: '005020940025020940045020940065021040085040c400c50209400e5020740' }
 		, { category: '', name: 'rich6', chord: 'Am', len16: 8 * 2, encoded: '0050209400250209400450205400650207400850209400a50209400c50205400e5020740' }
 		, { category: '', name: 'rich7 disco', chord: 'Am', len16: 8 * 8, encoded: '0050409400450204400650207400850409400c50204400e50207401050409401450204401650207401850409401c50204401e50209402050409402450204402650205402850409402c50204402e50205403050409403450204403650205403850409403c50204403e5020940' }
+
+		, { category: '', name: 'funk', chord: 'Am', len16: 8 * 2, encoded: '005040940045010940065020c400850210400a5020c400c50210400e5020c40' }
 		, { category: '', name: 'route66', chord: 'A', len16: 8 * 2, encoded: '005020940025020940045020d40065020d400850210400a50210400c50212400e5021040' }
 	];
 	strumDefs: StrumPatternDefinition[] = [
@@ -219,7 +221,7 @@ class GenRiff {
 				'........:.......',
 				'o-------:.......'
 			]
-		},{
+		}, {
 			category: '', name: 'test2', track: this.SynthBass, transpose: 0, strings: [
 				'....o---:...o---',
 				'....o---:...o---',
@@ -228,7 +230,7 @@ class GenRiff {
 				'........:.......',
 				'o-------:.......'
 			]
-		},{
+		}, {
 			category: '', name: 'test3', track: this.SynthBass, transpose: 0, strings: [
 				'....o-..:...o-..',
 				'..o-..o-:.o-..o-',
@@ -237,8 +239,16 @@ class GenRiff {
 				'........:.......',
 				'o-------:.......'
 			]
+		}, {
+			category: '', name: 'test4', track: this.SynthBass, transpose: 0, strings: [
+				'----0-----------0-----------0-------0-----------0-----------0---',
+				'--------1-----------1-------------------1-----------1-----------',
+				'------------2-----------2-------------------2-----------2-------',
+				'--------------------------------2-------------------------------',
+				'0---------------------------------------------------------------',
+				'----------------------------------------------------------------'
+			]
 		}
-
 
 
 	];
@@ -1341,7 +1351,7 @@ class GenRiff {
 								//
 							} else {
 								let pitches: number[] = this.findChordPitches(chords[chnum]);
-								let stringNum = strnum+1;
+								let stringNum = strnum + 1;
 								if (stringNum > pitches.length) stringNum = pitches.length;
 								let pitch = pitches[pitches.length - stringNum];
 								beats.push({
