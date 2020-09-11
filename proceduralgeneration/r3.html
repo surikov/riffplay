@@ -3,7 +3,8 @@
 <head>
 	<title>RockDice</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<meta name="viewport"
+		content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 	<link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
 	<script src="https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
 	<script src="https://surikov.github.io/webaudiofontdata/sound/0300_LesPaul_sf2_file.js"></script>
@@ -22,6 +23,7 @@
 	<script src="https://surikov.github.io/webaudiofontdata/sound/12846_26_JCLive_sf2_file.js"></script>
 	<script src="https://surikov.github.io/webaudiofontdata/sound/12849_26_JCLive_sf2_file.js"></script>
 	<script src="https://surikov.github.io/webaudiofontdata/sound/12851_26_JCLive_sf2_file.js"></script>
+	<script src="https://surikov.github.io/riffplay/riffplay_module.js"></script>
 	<style>
 		body {
 			padding: 0cm;
@@ -204,58 +206,18 @@
 	<div id='mainDiv'>
 		<div class="menuDiv">
 			<input type="image" src='buttonPlay.svg' id='menuPlayButton' class='menuButton' onclick='clickPlay();' />
-			
+
 			<input type="image" src='buttonEdit.svg' class='menuButton' onclick='clickPlay();' />
-			<input type="image" src='buttonShare.svg' class='menuButton' onclick='clickPlay();' />
-			<!--
-			<input type="image" src='buttonHelp.png' class='menuButton' onclick='clickPlay();' />
-			
-			<svg version="1.1" id='menuPlayButton' viewBox="0 0 512 512" class='menuButton' onclick="clickPlay();">
-				<g>
-					<circle cx="256" cy="256" r="180" style="fill:none;stroke:#fff;stroke-width:16;" />
-					<text style="font-size:120px;fill:#fff;stroke:none;" x="160" y="300" id='playButtonText'>Play</text>
-				</g>
-			</svg><svg version="1.1" id='menuShareButton' viewBox="0 0 512 512" class='menuButton'
-				onclick="promptShare();">
-				<g>
-					<circle cx="256" cy="256" r="180" style="fill:none;stroke:#fff;stroke-width:16;" />
-					<text style="font-size:120px;fill:#fff;stroke:none;" x="130" y="300">Share</text>
-				</g>
-			</svg>
-		-->
+			<input type="image" src='buttonShare.svg' class='menuButton' onclick='promptShare();' />
 		</div>
-		<!--<div id='eqbars'>
-			<svg version="1.1" id='svgBars' viewBox="0 0 20 20" preserveAspectRatio="none">
-				<g style="fill:#9cf;stroke-width:0;" id='barGroups'>
-				</g>
-			</svg>
-		</div>-->
 		<div id='diceDiv'>
-
-
-			<!-- <svg version="1.1" class='diceButton' id='svgdrums' viewBox="0 0 512 512" height="512" width="512">
-				
-				<g id='roundDrums'>
-					<circle cx="256" cy="256" r="248" style="fill:none;stroke:#00ffff;stroke-width:16;" />
-					<rect y="256" x="8" height="16" width="256" style="fill:#00ffff;stroke-width:0;" />
-					<text style="font-size:96px;fill:#00ffff;stroke:none;" x="47.71637" y="240.6649">Drums</text>
-				</g>
-			</svg>-->
 			<div id='startGenRow'>
 				<input type="image" src='buttonDice.svg' id='diceStart' onclick='playRandom();' />
-				<!--
-				<svg version="1.1" id='diceStart' viewBox="0 0 512 512" height="512" width="512"
-					onclick='playRandom();'>
-					<g>
-						<circle cx="256" cy="256" r="248" style="fill:none;stroke:#ffffff;stroke-width:16;" />
-						<text style="font-size:128px;fill:#ffffff;stroke:none;" x="50" y="300">Random!</text>
-					</g>
-				</svg>
-			-->
 			</div>
 			<div id='progNameRow'>AAA</div>
 			<div id='progSliderRow'>
-				<input type="range" min="0" max="999" value="0" class="progSlider" id='sliderProgression' onChange='parsChanged();'>
+				<input type="range" min="0" max="999" value="0" class="progSlider" id='sliderProgression'
+					onChange='parsChanged();'>
 			</div>
 			<div id='genControlsRow'>
 				<div id='drumBassPart'>
@@ -266,7 +228,8 @@
 							<rect y="256" x="32" height="16" width="220" style="fill:#ffffff;stroke-width:0;" />
 							<text style="font-size:72px;fill:#ffffff;stroke:none;" x="72" y="240">drums</text>
 						</g>
-					</svg><svg version="1.1" class='diceButton' id='svgbass' viewBox="0 0 512 512" height="512" width="512">
+					</svg><svg version="1.1" class='diceButton' id='svgbass' viewBox="0 0 512 512" height="512"
+						width="512">
 						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#556;stroke-width:4;" />
 						<g id='roundBass'>
 							<circle cx="256" cy="256" r="220" style="fill:none;stroke:#ffffff;stroke-width:16;" />
@@ -283,7 +246,8 @@
 							<rect y="256" x="32" height="16" width="220" style="fill:#ffffff;stroke-width:0;" />
 							<text style="font-size:72px;fill:#ffffff;stroke:none;" x="72" y="240">lead</text>
 						</g>
-					</svg><svg version="1.1" class='diceButton' id='svgpad' viewBox="0 0 512 512" height="512" width="512">
+					</svg><svg version="1.1" class='diceButton' id='svgpad' viewBox="0 0 512 512" height="512"
+						width="512">
 						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#556;stroke-width:4;" />
 						<g id='roundPad'>
 							<circle cx="256" cy="256" r="220" style="fill:none;stroke:#ffffff;stroke-width:16;" />
@@ -306,11 +270,8 @@
 		var progNN = 0;
 
 		function promptShare() {
-
+			test();
 		}
-
-
-
 
 		function chords2title(chords) {
 			var title = '';
@@ -336,15 +297,11 @@
 			var sz = genRiff.progressions.length;
 			var nn = 1 * document.getElementById('sliderProgression').value;
 			var r = Math.floor(sz * nn / 1000);
-			//document.getElementById(infoName).innerHTML = '' + r + ': ' + genRiff.progressions[r].category + ' / ' + genRiff.progressions[r].name;
-
 			progNN = nn;
-			//updateColors();
-			document.getElementById('progNameRow').innerHTML = chords2title(genRiff.progressions[r].chords)+' ' +genRiff.progressions[r].category;
-			//console.log(genRiff.progressions[r]);
+			document.getElementById('progNameRow').innerHTML = chords2title(genRiff.progressions[r].chords) + ' ' + genRiff
+				.progressions[r].category;
 			genRiff.playInfo = genRiff.generateAll(progNN, dr.value, bs.value, ld.value, pd.value);
 			if (preProgNN != progNN) {
-				//genRiff.pausePlay();
 				genRiff.nextBeat = 0;
 				genRiff.player.cancelQueue(genRiff.audioContext);
 			}
@@ -353,7 +310,6 @@
 		}
 
 		function clickPlay() {
-			//parsChanged();
 			if (genRiff.onAir) {
 				pausePlay();
 			} else {
@@ -362,20 +318,14 @@
 		}
 
 		function startPlay() {
-			//console.log('startPlay', genRiff.onAir);
 			genRiff.initAudio();
-			//genRiff.player.cancelQueue(genRiff.audioContext);
 			genRiff.startPlay(progNN, dr.value, bs.value, ld.value, pd.value);
-			//document.getElementById('playButtonText').textContent = 'Stop';
 			document.getElementById('menuPlayButton').src = 'buttonPause.svg';
-
-
 			return null;
 		}
 
 		function pausePlay() {
 			genRiff.pausePlay();
-			//document.getElementById('playButtonText').textContent = 'Play';
 			document.getElementById('menuPlayButton').src = 'buttonPlay.png';
 			return null;
 		}
@@ -391,8 +341,6 @@
 				pd.setValue(Math.floor(1000 * Math.random()));
 			}
 			parsChanged();
-			//genRiff.pausePlay();
-			//startPlay();
 		}
 
 		function RoundedHandler(maincomp, rocomp, onclick, onchange) {
@@ -405,7 +353,6 @@
 			this.startY = 0;
 			this.delta = 0;
 			this.startValue = 0;
-			//this.noClick = false;
 			this.watchMouse = false;
 			this.setValue = function (n) {
 				var o = this.value;
@@ -418,11 +365,7 @@
 			this.cmousedown = function (mouseEvent) {
 				mouseEvent.preventDefault();
 				this.startY = mouseEvent.clientY;
-				//window.addEventListener('mouseup', this.bUp, false);
-				//window.addEventListener('mousemove', this.bMove, true);
 				this.startValue = this.value;
-				//this.noClick = false;
-				//this.watchMouse = true;
 				this.delta = 0;
 				this.watchMouse = true;
 			}
@@ -430,11 +373,6 @@
 				if (this.watchMouse) {
 					this.watchMouse = false;
 					mouseEvent.preventDefault();
-					//window.removeEventListener('mousemove', this.bMove, true);
-					//window.removeEventListener('mouseup', this.bUp, true);
-					//if (!this.noClick) {
-					//	this.click();
-					//}
 					if (this.delta < 10) {
 						this.click();
 					}
@@ -449,9 +387,6 @@
 					if (newVal >= 0 && newVal < 1000) {
 						this.setValue(this.startValue - dY / 1);
 					}
-					//if (Math.abs(dY) > 10) {
-					//	this.noClick = true;
-					//}
 				}
 			};
 
@@ -459,7 +394,6 @@
 				touchEvent.preventDefault();
 				this.startY = touchEvent.touches[0].clientY;
 				this.startValue = this.value;
-				//this.noClick = false;
 				this.delta = 0;
 			}
 			this.ctouchmove = function (touchEvent) {
@@ -470,24 +404,13 @@
 				if (newVal >= 0 && newVal < 1000) {
 					this.setValue(this.startValue - dY / 1);
 				}
-				//if (Math.abs(dY) > 10) {
-				//	this.noClick = true;
-				//}
-				/*if (Math.abs(dY) < 10) {
-					this.click();
-				}*/
 			}
 			this.ctouchend = function (touchEvent) {
 				touchEvent.preventDefault();
-				//if (!this.noClick) {
-				//	this.click();
-				//}
 				if (this.delta < 10) {
 					this.click();
 				}
 			}
-			//this.bUp = this.onMouseUp.bind(me);
-			//this.bMove = this.onMouseMove.bind(me);
 			window.addEventListener('mouseup', this.onMouseUp.bind(this), false);
 			window.addEventListener('mousemove', this.onMouseMove.bind(this), true);
 			this.component.addEventListener('mousedown', this.cmousedown.bind(this), false);
@@ -501,7 +424,6 @@
 			dr.setValue(Math.floor(Math.random() * 1000));
 			parsChanged();
 		}, function (nn) {
-			//console.log(genRiff.onAir,ds.value);
 			if (genRiff.onAir)
 				parsChanged();
 		});
@@ -528,26 +450,14 @@
 		});
 		readChanged();
 
-		/*var barGroups=document.getElementById('barGroups');
-		var sz=barGroups.children.length;
-		for(var i=0;i<sz;i++){
-			var rr=barGroups.children[i];
-			//console.log(i,rr);
-			//console.dir(rr);
-			//rr.height=1+i;
-			rr.setAttribute("height", ''+i+"px");
-		}*/
-		//console.log(barGroups.children.length,barGroups.children[0]);
-		/*var svgns = "http://www.w3.org/2000/svg";
-		var barGroups = document.getElementById('barGroups');
-		for (var i = 0; i < 20; i++) {
-			var rect = document.createElementNS(svgns, 'rect');
-			rect.setAttributeNS(null, 'x', i + 'px');
-			rect.setAttributeNS(null, 'y', 0 + 'px');
-			rect.setAttributeNS(null, 'height', '1px');
-			rect.setAttributeNS(null, 'width', '0.95px');
-			barGroups.appendChild(rect);
-		}*/
+		function test() {
+			parsChanged();
+			var urlprj = genRiff.generate(progNN, dr.value, bs.value, ld.value, pd.value);
+			console.log(urlprj);
+			//console.log(urlprj);
+			window.open(urlprj);
+			return null;
+		}
 	</script>
 </body>
 

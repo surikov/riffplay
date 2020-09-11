@@ -11,7 +11,7 @@ type FretKeys = { pitch: number, name: string, frets: number[] }
 type PianoPatternDefinition = { category: string, name: string, piano: string, track: number };
 type MelodyPatternDefinition = { category: string, name: string, chord: string, len16: number, encoded: string };
 type StrumPatternDefinition = { category: string, name: string, strum: string };
-type ArpeggioPatternDefinition = { category: string, name: string, strings: string, track: number,transpose:number };
+type ArpeggioPatternDefinition = { category: string, name: string, strings: string[], track: number, transpose: number };
 
 declare function WebAudioFontPlayer(): void;
 declare function WebAudioFontChannel(audioContext: AudioContext): void;
@@ -79,7 +79,7 @@ class GenRiff {
 		{ category: '', name: 'simpledance', start: { len16: 8 * 2, encoded: '0011011180448144' }, end: { len16: 8 * 2, encoded: '001101f980448144' } }
 		, { category: '', name: 'bigroom', start: { len16: 8 * 2, encoded: '00110111201121114010411080448144' }, end: { len16: 8 * 2, encoded: '00110111201121114010411180518155' } }
 		, { category: '', name: 'bigroom2', start: { len16: 8 * 2, encoded: '001101152011211540104110a044a144' }, end: { len16: 8 * 2, encoded: '001101f5201121f54010a044a144' } }
-		
+
 		, { category: '', name: 'simpledance2', start: { len16: 8 * 2, encoded: '0011011120402104401041106002a044a144' }, end: { len16: 8 * 2, encoded: '0011011120402155401060026155a044a144' } }
 		, { category: '', name: 'bigroom3', start: { len16: 8 * 2, encoded: '0011011120112151404841486104802281a2a044a144' }, end: { len16: 8 * 2, encoded: '00110111201121d54048414461e6802281a2a044a144' } }
 
@@ -199,9 +199,48 @@ class GenRiff {
 		//, { category: '', name: 'abba', chord: 'C', len16: 8 * 8, encoded: '2b70124402c70324402f7012340307032140337011f403470c1f40' }
 		//, { category: '', name: 'fable', chord: 'Am', len16: 8 * 16, encoded: '002041c40042021a40062041c400a2061840102041c40142021a40162041c401a2061840202041c40242021a40262041c402a20618403820218403a2021a403c2021c403e20221404020418404820218404a2021a404c2021c404e20621405820217405a20218405c2021a405e20621406e2021c407020218407220615407820418407c2041c40' }
 	];
-	arpeggioDefsDats:ArpeggioPatternDefinition[]=[
+	arpeggioDefsDats: ArpeggioPatternDefinition[] = [
 
-		{ category: '', name: 'test', strings: '3-2-1-2-', track: this.SynthBass,transpose:12 }
+		//{ category: '', name: 'test', strings: '5---4:2---5-3-4---5:1---3---2-5-3-4-', track: this.SynthBass,transpose:0 }
+		/*
+				'........:.......:.......:.......',
+				'........:.......:.......:.......',
+				'........:.......:.......:.......',
+				'........:.......:.......:.......',
+				'........:.......:.......:.......',
+				'........:.......:.......:.......',
+		*/
+		{
+			category: '', name: 'test', track: this.SynthBass, transpose: 0, strings: [
+				'....o---:...o---',
+				'....o---:...o---',
+				'..o-..o-:.o-..o-',
+				'........o-------',
+				'........:.......',
+				'o-------:.......'
+			]
+		},{
+			category: '', name: 'test2', track: this.SynthBass, transpose: 0, strings: [
+				'....o---:...o---',
+				'....o---:...o---',
+				'....o---:...o---',
+				'........o-------',
+				'........:.......',
+				'o-------:.......'
+			]
+		},{
+			category: '', name: 'test3', track: this.SynthBass, transpose: 0, strings: [
+				'....o-..:...o-..',
+				'..o-..o-:.o-..o-',
+				'.o-o-o-o:o-o-o-o',
+				'........o-------',
+				'........:.......',
+				'o-------:.......'
+			]
+		}
+
+
+
 	];
 	padMelodyDefsData: (PianoPatternDefinition | ArpeggioPatternDefinition)[] = [];
 	chordfretsData: FretKeys[] = [
@@ -749,12 +788,12 @@ class GenRiff {
 	progressionsList: ProgDescr[] = [
 		//{ category: 'test', name: '', chords: 'C-Ab-Bb-C' },
 		//
-		 //{ category: 'sad', name: '', chords: 'D-C-Bb-F' }
+		//{ category: 'sad', name: '', chords: 'D-C-Bb-F' }
 		{ category: 'sad', name: '', chords: 'Fmaj7-A' }
 		//
 		, { category: 'sad', name: '', chords: 'Am-B-Gm' }
 		, { category: 'sad', name: '', chords: 'Am-Dm-E' }
-		,{ category: 'blus', name: '', chords: 'C#m-E-B-A' }
+		, { category: 'blus', name: '', chords: 'C#m-E-B-A' }
 		//
 		, { category: 'sad', name: '', chords: 'Am-C-Dm-Em' }
 		, { category: 'sad', name: '', chords: 'Am-D7-E7-Am' }
@@ -796,7 +835,7 @@ class GenRiff {
 		, { category: 'sad', name: '', chords: 'Am-G-Dm-F-G-Am' }
 		//
 		, { category: 'sad', name: '', chords: 'Am-E-Em-D-Dm-Am-Adim-E' }
-		,{ category: 'sad', name: '', chords: 'Am-F-E7-Am-Dm7-Gsus4-F-E7' }
+		, { category: 'sad', name: '', chords: 'Am-F-E7-Am-Dm7-Gsus4-F-E7' }
 		, { category: 'sad', name: '', chords: 'Gm-Cm-F-Bb-Eb-Adim-D-Gm' }
 		, { category: 'epic', name: '', chords: 'Dm-Bb-C-Gm-Bb-F-Gm-Dm' }
 		///////////////////////
@@ -813,11 +852,11 @@ class GenRiff {
 		, { category: 'jazz', name: '', chords: 'Cmaj7-Gm7-C7-Fmaj7' }
 		, { category: 'jazz', name: '', chords: 'D7-G7-C7-F7' }
 		, { category: 'jazz', name: '', chords: 'Dm7-G7-Cmaj7-C6' }
-		,{ category: 'pop', name: '', chords: 'F#m7-B7-E-A' }
+		, { category: 'pop', name: '', chords: 'F#m7-B7-E-A' }
 		//
 		, { category: 'jazz', name: '', chords: 'Cmaj7-D7-Dm7-G7-Cmaj7' }
-		,{ category: 'rock', name: '', chords: 'Em-G-D-C-A' }
-		,{ category: 'rem', name: '', chords: 'F-Em-Am-G-Am' }
+		, { category: 'rock', name: '', chords: 'Em-G-D-C-A' }
+		, { category: 'rem', name: '', chords: 'F-Em-Am-G-Am' }
 		//
 		, { category: 'jazz', name: '', chords: 'Cmaj7-Am7-Dm7-G7-Em7-A7-Dm7-G7' }
 		//
@@ -827,9 +866,9 @@ class GenRiff {
 		, { category: 'major', name: '', chords: 'Am-D-G' }
 		, { category: 'major', name: '', chords: 'C-Am-F' }
 		, { category: 'major', name: '', chords: 'C-F-G' }
-		,{ category: 'lnrdsklrd', name: '', chords: 'D-C-G' }
+		, { category: 'lnrdsklrd', name: '', chords: 'D-C-G' }
 		, { category: 'nice', name: '', chords: 'F-Am-G' }
-		,{ category: 'blus', name: '', chords: 'F-Bb-C' }
+		, { category: 'blus', name: '', chords: 'F-Bb-C' }
 		, { category: 'major', name: '', chords: 'G-C-D' }
 		//
 		, { category: 'blues', name: '', chords: 'Am-G-D-F' }
@@ -846,8 +885,8 @@ class GenRiff {
 		, { category: 'epic', name: '', chords: 'Cm-Ab-Eb-Bb' }
 		, { category: 'major', name: '', chords: 'D-A-C-G' }
 		, { category: 'major', name: '', chords: 'D-C-G-D' }
-		,{ category: 'korn', name: '', chords: 'D-C-Bb-F' }
-		,{ category: 'u2', name: '', chords: 'D-G-Bm-A' }
+		, { category: 'korn', name: '', chords: 'D-C-Bb-F' }
+		, { category: 'u2', name: '', chords: 'D-G-Bm-A' }
 		, { category: 'major', name: '', chords: 'E-B-C#m-A' }
 		, { category: 'major', name: '', chords: 'E-G-A-G' }
 		, { category: 'major', name: '', chords: 'F-Am-G-D' }
@@ -860,9 +899,9 @@ class GenRiff {
 		, { category: 'major', name: '', chords: 'G-Em-C-D' }
 		//
 		, { category: 'major', name: '', chords: 'C-G-F-G-C' }
-		,{ category: 'rok', name: '', chords: 'D-F-G-C-G' }
+		, { category: 'rok', name: '', chords: 'D-F-G-C-G' }
 		, { category: 'major', name: '', chords: 'D-G-D-A-D' }
-		,{ category: 'rhchpbridg', name: '', chords: 'E-B-C#m-G#m-A' }
+		, { category: 'rhchpbridg', name: '', chords: 'E-B-C#m-G#m-A' }
 		, { category: 'epic', name: '', chords: 'F-Am-F-G-C' }
 		//
 		, { category: 'major', name: '', chords: 'A-E-F#m-D-A-E' }
@@ -871,7 +910,7 @@ class GenRiff {
 		, { category: 'epic', name: '', chords: 'Am-Em-G-D-Am-Cmaj7-G-D' }
 		, { category: 'epic', name: '', chords: 'C-G-Am-Em-F-C-F-G' }
 		, { category: 'major', name: '', chords: 'D-A-Bm-F#m-G-D-G-A' }
-		
+
 		, { category: 'epic', name: '', chords: 'E-C-D-Em-Em-G-Am-Bm' }
 		, { category: 'major', name: '', chords: 'F-Bb-Edim-Am-Dm-Gm-C-F' }
 		, { category: 'major', name: '', chords: 'G-D-Em-Bm-C-G-C-D' }
@@ -1279,42 +1318,53 @@ class GenRiff {
 		return beats;
 	}
 	composeArpeggio(chords: string[], pattern: ArpeggioPatternDefinition): ToneStep[] {
-		let beats: ToneStep[] = [];
-		if(pattern.strings){
-			let step = 0;
-			for (let i = 0; i < chords.length; i++) {
-				for (let k = 0; k < 8; k++) {
-					let stepVal:string=pattern.strings.substr(step,1);
-					if(stepVal=='-'){
-						if(beats.length){
-							beats[beats.length-1].length++;
+		let all: ToneStep[] = [];
+		/*console.log(pattern.strings);
+		for (let i = 0; i < chords.length; i++) {
+			console.log(i, chords[i], this.findChordPitches(chords[i]));
+		}*/
+		if (pattern.strings.length) {
+			for (let strnum = 0; strnum < 6; strnum++) {
+				let step = 0;
+				let curstring = pattern.strings[strnum];
+				let beats: ToneStep[] = [];
+				for (let chnum = 0; chnum < chords.length; chnum++) {
+					for (let k8 = 0; k8 < 8; k8++) {
+						let stepVal: string = curstring.substr(step, 1);
+						//console.log(strnum, chnum, step, stepVal);
+						if (stepVal == '-') {
+							if (beats.length > 0) {
+								beats[beats.length - 1].length++;
+							}
+						} else {
+							if (stepVal == '.' || stepVal == ':') {
+								//
+							} else {
+								let pitches: number[] = this.findChordPitches(chords[chnum]);
+								let stringNum = strnum+1;
+								if (stringNum > pitches.length) stringNum = pitches.length;
+								let pitch = pitches[pitches.length - stringNum];
+								beats.push({
+									track: pattern.track,
+									beat: chnum * 8 + k8,
+									length: 1,
+									shift: 0,
+									pitch: pitch + pattern.transpose
+								});
+							}
 						}
-					}else{
-						if(stepVal=='.'){
-
-						}else{
-							let pitches: number[] = this.findChordPitches(chords[i]);
-							let stringNum=Number(stepVal);
-							if(stringNum>pitches.length)stringNum=pitches.length;
-							let pitch=pitches[pitches.length-stringNum];
-							//console.log(i*8+k,step,pitch)
-							beats.push({
-								track: pattern.track,
-								beat: i*8+k,
-								length: 1,
-								shift: 0,
-								pitch: pitch+pattern.transpose
-							});
+						step++;
+						if (step >= curstring.length) {
+							step = 0;
 						}
-					}
-					step++;
-					if (step >= pattern.strings.length) {
-						step = 0;
 					}
 				}
+				//console.log(curstring, beats);
+				all = all.concat(beats);
 			}
 		}
-		return beats;
+
+		return all;
 	}
 	composeFullLine(chords: string[], pattern: MelodyPatternDefinition, needRepitch: boolean): ToneStep[] {
 		let beats: ToneStep[] = [];
@@ -1350,12 +1400,19 @@ class GenRiff {
 		return beats;
 	}
 	composePadMelody(chords: string[], pattern: PianoPatternDefinition | ArpeggioPatternDefinition): ToneStep[] {
-		let p: PianoPatternDefinition = pattern as PianoPatternDefinition;
+		/*let p: PianoPatternDefinition = pattern as PianoPatternDefinition;
 		if (p.piano) {
 			return this.composePianoBeat(chords, p);
 		} else {
 			let m: ArpeggioPatternDefinition = pattern as ArpeggioPatternDefinition;
 			return this.composeArpeggio(chords, m);
+		}*/
+		let m: ArpeggioPatternDefinition = pattern as ArpeggioPatternDefinition;
+		if (m.strings) {
+			return this.composeArpeggio(chords, m);
+		} else {
+			let p: PianoPatternDefinition = pattern as PianoPatternDefinition;
+			return this.composePianoBeat(chords, p);
 		}
 	}
 	composeRhythm(chords: string[], pattern: MelodyPatternDefinition | PianoPatternDefinition | StrumPatternDefinition): ToneStep[] {
@@ -1470,7 +1527,7 @@ class GenRiff {
 		tracksData = tracksData.concat(rhythm);
 
 		let pad = this.padMelodyDefsData[padN];
-
+		//console.log(padN,pad,this.padMelodyDefsData);
 		tracksData = tracksData.concat(this.composePadMelody(prog.chords, pad));
 		//tracksData = tracksData.concat(this.composePianoBeat(prog.chords, pad));
 

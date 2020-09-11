@@ -171,7 +171,43 @@ var GenRiff = /** @class */ (function () {
             //, { category: '', name: 'fable', chord: 'Am', len16: 8 * 16, encoded: '002041c40042021a40062041c400a2061840102041c40142021a40162041c401a2061840202041c40242021a40262041c402a20618403820218403a2021a403c2021c403e20221404020418404820218404a2021a404c2021c404e20621405820217405a20218405c2021a405e20621406e2021c407020218407220615407820418407c2041c40' }
         ];
         this.arpeggioDefsDats = [
-            { category: '', name: 'test', strings: '3-2-1-2-', track: this.SynthBass, transpose: 12 }
+            //{ category: '', name: 'test', strings: '5---4:2---5-3-4---5:1---3---2-5-3-4-', track: this.SynthBass,transpose:0 }
+            /*
+                    '........:.......:.......:.......',
+                    '........:.......:.......:.......',
+                    '........:.......:.......:.......',
+                    '........:.......:.......:.......',
+                    '........:.......:.......:.......',
+                    '........:.......:.......:.......',
+            */
+            {
+                category: '', name: 'test', track: this.SynthBass, transpose: 0, strings: [
+                    '....o---:...o---',
+                    '....o---:...o---',
+                    '..o-..o-:.o-..o-',
+                    '........o-------',
+                    '........:.......',
+                    'o-------:.......'
+                ]
+            }, {
+                category: '', name: 'test2', track: this.SynthBass, transpose: 0, strings: [
+                    '....o---:...o---',
+                    '....o---:...o---',
+                    '....o---:...o---',
+                    '........o-------',
+                    '........:.......',
+                    'o-------:.......'
+                ]
+            }, {
+                category: '', name: 'test3', track: this.SynthBass, transpose: 0, strings: [
+                    '....o-..:...o-..',
+                    '..o-..o-:.o-..o-',
+                    '.o-o-o-o:o-o-o-o',
+                    '........o-------',
+                    '........:.......',
+                    'o-------:.......'
+                ]
+            }
         ];
         this.padMelodyDefsData = [];
         this.chordfretsData = [
@@ -1492,44 +1528,55 @@ var GenRiff = /** @class */ (function () {
         return beats;
     };
     GenRiff.prototype.composeArpeggio = function (chords, pattern) {
-        var beats = [];
-        if (pattern.strings) {
-            var step = 0;
-            for (var i = 0; i < chords.length; i++) {
-                for (var k = 0; k < 8; k++) {
-                    var stepVal = pattern.strings.substr(step, 1);
-                    if (stepVal == '-') {
-                        if (beats.length) {
-                            beats[beats.length - 1].length++;
-                        }
-                    }
-                    else {
-                        if (stepVal == '.') {
+        var all = [];
+        /*console.log(pattern.strings);
+        for (let i = 0; i < chords.length; i++) {
+            console.log(i, chords[i], this.findChordPitches(chords[i]));
+        }*/
+        if (pattern.strings.length) {
+            for (var strnum = 0; strnum < 6; strnum++) {
+                var step = 0;
+                var curstring = pattern.strings[strnum];
+                var beats = [];
+                for (var chnum = 0; chnum < chords.length; chnum++) {
+                    for (var k8 = 0; k8 < 8; k8++) {
+                        var stepVal = curstring.substr(step, 1);
+                        //console.log(strnum, chnum, step, stepVal);
+                        if (stepVal == '-') {
+                            if (beats.length > 0) {
+                                beats[beats.length - 1].length++;
+                            }
                         }
                         else {
-                            var pitches = this.findChordPitches(chords[i]);
-                            var stringNum = Number(stepVal);
-                            if (stringNum > pitches.length)
-                                stringNum = pitches.length;
-                            var pitch = pitches[pitches.length - stringNum];
-                            //console.log(i*8+k,step,pitch)
-                            beats.push({
-                                track: pattern.track,
-                                beat: i * 8 + k,
-                                length: 1,
-                                shift: 0,
-                                pitch: pitch + pattern.transpose
-                            });
+                            if (stepVal == '.' || stepVal == ':') {
+                                //
+                            }
+                            else {
+                                var pitches = this.findChordPitches(chords[chnum]);
+                                var stringNum = strnum + 1;
+                                if (stringNum > pitches.length)
+                                    stringNum = pitches.length;
+                                var pitch = pitches[pitches.length - stringNum];
+                                beats.push({
+                                    track: pattern.track,
+                                    beat: chnum * 8 + k8,
+                                    length: 1,
+                                    shift: 0,
+                                    pitch: pitch + pattern.transpose
+                                });
+                            }
+                        }
+                        step++;
+                        if (step >= curstring.length) {
+                            step = 0;
                         }
                     }
-                    step++;
-                    if (step >= pattern.strings.length) {
-                        step = 0;
-                    }
                 }
+                //console.log(curstring, beats);
+                all = all.concat(beats);
             }
         }
-        return beats;
+        return all;
     };
     GenRiff.prototype.composeFullLine = function (chords, pattern, needRepitch) {
         var beats = [];
@@ -1565,13 +1612,20 @@ var GenRiff = /** @class */ (function () {
         return beats;
     };
     GenRiff.prototype.composePadMelody = function (chords, pattern) {
-        var p = pattern;
+        /*let p: PianoPatternDefinition = pattern as PianoPatternDefinition;
         if (p.piano) {
             return this.composePianoBeat(chords, p);
+        } else {
+            let m: ArpeggioPatternDefinition = pattern as ArpeggioPatternDefinition;
+            return this.composeArpeggio(chords, m);
+        }*/
+        var m = pattern;
+        if (m.strings) {
+            return this.composeArpeggio(chords, m);
         }
         else {
-            var m = pattern;
-            return this.composeArpeggio(chords, m);
+            var p = pattern;
+            return this.composePianoBeat(chords, p);
         }
     };
     GenRiff.prototype.composeRhythm = function (chords, pattern) {
@@ -1683,6 +1737,7 @@ var GenRiff = /** @class */ (function () {
         var rhythm = this.composeRhythm(prog.chords, this.pianoStrumOverDefsData[rhythmN]);
         tracksData = tracksData.concat(rhythm);
         var pad = this.padMelodyDefsData[padN];
+        //console.log(padN,pad,this.padMelodyDefsData);
         tracksData = tracksData.concat(this.composePadMelody(prog.chords, pad));
         //tracksData = tracksData.concat(this.composePianoBeat(prog.chords, pad));
         //let melody: MelodyPatternDefinition = this.melodyDefsData[melodyN];
