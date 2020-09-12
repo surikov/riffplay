@@ -32,7 +32,8 @@
 		body {
 			padding: 0cm;
 			margin: 0cm;
-			background-image: url('bg.jpg');
+			background-image2: url('bg.jpg');
+			background-image2: url('80th.gif');
 			background-color: #330033;
 			background-repeat: no-repeat;
 			background-attachment: fixed;
@@ -42,7 +43,43 @@
 			color: #ffffff;
 			user-select: none;
 		}
-
+		#playDiv {
+			padding: 0cm;
+			margin: 0cm;
+			background-image: url('80th.gif');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+			background-position: center;
+			overflow: hidden;
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			z-index: 2;
+			display: none;
+			top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+		}
+		#pauseDiv {
+			padding: 0cm;
+			margin: 0cm;
+			background-image: url('80th.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+			background-position: center;
+			overflow: hidden;
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+			top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+		}
 		#editDiv {
 			padding: 0cm;
 			margin: 0cm;
@@ -51,19 +88,19 @@
 			position: fixed;
 			width: 100%;
 			height: 100%;
-			z-index: 1;
+			z-index: 3;
 			display: none;
 		}
 
 		#diceDiv {
 			padding: 0cm;
 			margin: 0cm;
-			background-color: rgba(0, 0, 0, 0.75);
+			background-color2: rgba(0, 0, 0, 0.75);
 			overflow: hidden;
 			position: fixed;
 			width: 100%;
 			height: 100%;
-			z-index: 3;
+			z-index: 4;
 			justify-content: center;
 
 			align-items: center;
@@ -82,7 +119,7 @@
 			position: fixed;
 			bottom: 0;
 			width: 100%;
-			z-index: 4;
+			z-index: 5;
 			-webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
 			-moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
 			box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
@@ -196,7 +233,7 @@
 			position: fixed;
 			width: 100%;
 			height: 3cm;
-			z-index: 2;
+			z-index: 6;
 		}
 
 		#svgBars {
@@ -208,6 +245,8 @@
 
 <body>
 	<div id='mainDiv'>
+		<div id="playDiv">&nbsp;</div>
+		<div id="pauseDiv">&nbsp;</div>
 		<div class="menuDiv">
 			<input type="image" src='buttonPlay.svg' id='menuPlayButton' class='menuButton' onclick='clickPlay();' />
 
@@ -325,12 +364,14 @@
 			genRiff.initAudio();
 			genRiff.startPlay(progNN, dr.value, bs.value, ld.value, pd.value);
 			document.getElementById('menuPlayButton').src = 'buttonPause.svg';
+			document.getElementById('playDiv').style.display = 'block';
 			return null;
 		}
 
 		function pausePlay() {
 			genRiff.pausePlay();
 			document.getElementById('menuPlayButton').src = 'buttonPlay.png';
+			document.getElementById('playDiv').style.display = 'none';
 			return null;
 		}
 

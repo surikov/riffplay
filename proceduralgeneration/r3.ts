@@ -175,6 +175,7 @@ class GenRiff {
 		, { category: '', name: 'long string4', piano: '2-----------------------1-------', track: 6 }
 		, { category: '', name: 'long string5', piano: '2-------1-------', track: 6 }
 		, { category: '', name: 'long string6', piano: '1-------2-------', track: 6 }
+
 		, { category: '', name: 'long organ1', piano: '2-------------------------------', track: 2 }
 		, { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 2 }
 		, { category: '', name: 'long organ3', piano: '2-------1-------2---------------', track: 2 }
@@ -182,11 +183,15 @@ class GenRiff {
 		, { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 }
 		, { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
 
-		, { category: '', name: 'long organ1', piano: '2-------------------------------', track: 7 }
-		, { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 7 }
-		, { category: '', name: 'long organ3', piano: '2-------1-----------------------', track: 7 }
-		, { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 7 }
-		, { category: '', name: 'long organ5', piano: '1---------------', track: 7 }
+		
+		//, { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 7 }
+		//, { category: '', name: 'long organ3', piano: '2-------1-----------------------', track: 7 }
+		//, { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 7 }
+		//, { category: '', name: 'choir2', piano: '2-------........', track: 7 }
+		, { category: '', name: 'choir3', piano: '........2-------', track: 7 }
+		, { category: '', name: 'choir4', piano: '2-------....2---', track: 7 }
+		, { category: '', name: 'choir5', piano: '2-------................2-------', track: 7 }
+		, { category: '', name: 'choir1', piano: '2-------------------------------', track: 7 }
 		//, { category: '', name: 'long organ6', piano: '1-------2-------', track: 7 }
 	];
 	_melodyDefsData2: MelodyPatternDefinition[] = [
@@ -1521,7 +1526,7 @@ class GenRiff {
 		insVolumes[this.AcousticPiano] = 6;
 		insVolumes[this.BassGuitar] = 6;
 		insVolumes[this.StringEnsemble] = 4;
-		insVolumes[this.SynthBass] = 4;
+		insVolumes[this.SynthBass] = 3;
 		var eqVolumes = [12, 12, 10, 8, 11, 9, 13, 14, 9, 12];
 		//this.initProgressions();
 		let prog = this.progressions[progressionN];

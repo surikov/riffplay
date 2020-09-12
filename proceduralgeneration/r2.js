@@ -1,3 +1,4 @@
+"use strict";
 console.log('r2.01');
 var GenRiff = /** @class */ (function () {
     function GenRiff() {
