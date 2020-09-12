@@ -176,16 +176,18 @@ class GenRiff {
 		, { category: '', name: 'long string5', piano: '2-------1-------', track: 6 }
 		, { category: '', name: 'long string6', piano: '1-------2-------', track: 6 }
 		, { category: '', name: 'long organ1', piano: '2-------------------------------', track: 2 }
-
 		, { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 2 }
-
 		, { category: '', name: 'long organ3', piano: '2-------1-------2---------------', track: 2 }
-
 		, { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 2 }
-
 		, { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 }
-
 		, { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
+
+		, { category: '', name: 'long organ1', piano: '2-------------------------------', track: 7 }
+		, { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 7 }
+		, { category: '', name: 'long organ3', piano: '2-------1-----------------------', track: 7 }
+		, { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 7 }
+		, { category: '', name: 'long organ5', piano: '1---------------', track: 7 }
+		//, { category: '', name: 'long organ6', piano: '1-------2-------', track: 7 }
 	];
 	_melodyDefsData2: MelodyPatternDefinition[] = [
 		{ category: '', name: 'laser dance', chord: 'Cm', len16: 8 * 2, encoded: '007010c40017021340037010c40047021140067010c40077020f40097010c400a70213400c70211400e7021340' }
@@ -212,7 +214,7 @@ class GenRiff {
 				'........:.......:.......:.......',
 				'........:.......:.......:.......',
 		*/
-		{
+/*		{
 			category: '', name: 'test', track: this.SynthBass, transpose: 0, strings: [
 				'....o---:...o---',
 				'....o---:...o---',
@@ -249,7 +251,7 @@ class GenRiff {
 				'----------------------------------------------------------------'
 			]
 		}
-
+*/
 
 	];
 	padMelodyDefsData: (PianoPatternDefinition | ArpeggioPatternDefinition)[] = [];
@@ -1513,13 +1515,13 @@ class GenRiff {
 		var drumVolumes = [5, 4, 6, 4, 6, 3, 6, 4];
 		var insVolumes = [3, 3, 4, 3, 4, 7, 5, 7];
 		insVolumes[this.DistortionGuitar] = 4;
-		insVolumes[this.AcousticGuitar] = 5;
+		insVolumes[this.AcousticGuitar] = 6;
 		insVolumes[this.PercussiveOrgan] = 5;
 		insVolumes[this.PalmMuteGuitar] = 4;
 		insVolumes[this.AcousticPiano] = 6;
 		insVolumes[this.BassGuitar] = 6;
 		insVolumes[this.StringEnsemble] = 4;
-		insVolumes[this.SynthBass] = 6;
+		insVolumes[this.SynthBass] = 4;
 		var eqVolumes = [12, 12, 10, 8, 11, 9, 13, 14, 9, 12];
 		//this.initProgressions();
 		let prog = this.progressions[progressionN];
@@ -1641,7 +1643,8 @@ class GenRiff {
 		//shadow: 'rgba(255,204,187,0.4)',
 		title: 'Синтезатор',
 		order: 2,
-		sound: (window as any)._tone_0390_GeneralUserGS_sf2_file,
+		//sound: (window as any)._tone_0390_GeneralUserGS_sf2_file,
+		sound: (window as any)._tone_0520_FluidR3_GM_sf2_file,
 		volume: 70,//sureNumeric(readObjectFromlocalStorage('track7'), 0, 70, 100),
 		nn: 7,
 		octave: 3,
@@ -1900,6 +1903,7 @@ class GenRiff {
 				this.player.adjustPreset(this.audioContext, this.drumInfo[i].sound);
 			}
 			for (var i = 0; i < this.trackInfo.length; i++) {
+				//console.log(i,this.trackInfo[i]);
 				this.player.adjustPreset(this.audioContext, this.trackInfo[i].sound);
 			}
 			//this.startTicks();

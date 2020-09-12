@@ -155,7 +155,13 @@ var GenRiff = /** @class */ (function () {
             { category: '', name: 'long organ3', piano: '2-------1-------2---------------', track: 2 },
             { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 2 },
             { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 },
-            { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
+            { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 },
+            { category: '', name: 'long organ1', piano: '2-------------------------------', track: 7 },
+            { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 7 },
+            { category: '', name: 'long organ3', piano: '2-------1-----------------------', track: 7 },
+            { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 7 },
+            { category: '', name: 'long organ5', piano: '1---------------', track: 7 }
+            //, { category: '', name: 'long organ6', piano: '1-------2-------', track: 7 }
         ];
         this._melodyDefsData2 = [
             { category: '', name: 'laser dance', chord: 'Cm', len16: 8 * 2, encoded: '007010c40017021340037010c40047021140067010c40077020f40097010c400a70213400c70211400e7021340' }
@@ -172,52 +178,53 @@ var GenRiff = /** @class */ (function () {
             //, { category: '', name: 'fable', chord: 'Am', len16: 8 * 16, encoded: '002041c40042021a40062041c400a2061840102041c40142021a40162041c401a2061840202041c40242021a40262041c402a20618403820218403a2021a403c2021c403e20221404020418404820218404a2021a404c2021c404e20621405820217405a20218405c2021a405e20621406e2021c407020218407220615407820418407c2041c40' }
         ];
         this.arpeggioDefsDats = [
-            //{ category: '', name: 'test', strings: '5---4:2---5-3-4---5:1---3---2-5-3-4-', track: this.SynthBass,transpose:0 }
-            /*
-                    '........:.......:.......:.......',
-                    '........:.......:.......:.......',
-                    '........:.......:.......:.......',
-                    '........:.......:.......:.......',
-                    '........:.......:.......:.......',
-                    '........:.......:.......:.......',
-            */
-            {
-                category: '', name: 'test', track: this.SynthBass, transpose: 0, strings: [
-                    '....o---:...o---',
-                    '....o---:...o---',
-                    '..o-..o-:.o-..o-',
-                    '........o-------',
-                    '........:.......',
-                    'o-------:.......'
-                ]
-            }, {
-                category: '', name: 'test2', track: this.SynthBass, transpose: 0, strings: [
-                    '....o---:...o---',
-                    '....o---:...o---',
-                    '....o---:...o---',
-                    '........o-------',
-                    '........:.......',
-                    'o-------:.......'
-                ]
-            }, {
-                category: '', name: 'test3', track: this.SynthBass, transpose: 0, strings: [
-                    '....o-..:...o-..',
-                    '..o-..o-:.o-..o-',
-                    '.o-o-o-o:o-o-o-o',
-                    '........o-------',
-                    '........:.......',
-                    'o-------:.......'
-                ]
-            }, {
-                category: '', name: 'test4', track: this.SynthBass, transpose: 0, strings: [
-                    '----0-----------0-----------0-------0-----------0-----------0---',
-                    '--------1-----------1-------------------1-----------1-----------',
-                    '------------2-----------2-------------------2-----------2-------',
-                    '--------------------------------2-------------------------------',
-                    '0---------------------------------------------------------------',
-                    '----------------------------------------------------------------'
-                ]
-            }
+        //{ category: '', name: 'test', strings: '5---4:2---5-3-4---5:1---3---2-5-3-4-', track: this.SynthBass,transpose:0 }
+        /*
+                '........:.......:.......:.......',
+                '........:.......:.......:.......',
+                '........:.......:.......:.......',
+                '........:.......:.......:.......',
+                '........:.......:.......:.......',
+                '........:.......:.......:.......',
+        */
+        /*		{
+                    category: '', name: 'test', track: this.SynthBass, transpose: 0, strings: [
+                        '....o---:...o---',
+                        '....o---:...o---',
+                        '..o-..o-:.o-..o-',
+                        '........o-------',
+                        '........:.......',
+                        'o-------:.......'
+                    ]
+                }, {
+                    category: '', name: 'test2', track: this.SynthBass, transpose: 0, strings: [
+                        '....o---:...o---',
+                        '....o---:...o---',
+                        '....o---:...o---',
+                        '........o-------',
+                        '........:.......',
+                        'o-------:.......'
+                    ]
+                }, {
+                    category: '', name: 'test3', track: this.SynthBass, transpose: 0, strings: [
+                        '....o-..:...o-..',
+                        '..o-..o-:.o-..o-',
+                        '.o-o-o-o:o-o-o-o',
+                        '........o-------',
+                        '........:.......',
+                        'o-------:.......'
+                    ]
+                }, {
+                    category: '', name: 'test4', track: this.SynthBass, transpose: 0, strings: [
+                        '----0-----------0-----------0-------0-----------0-----------0---',
+                        '--------1-----------1-------------------1-----------1-----------',
+                        '------------2-----------2-------------------2-----------2-------',
+                        '--------------------------------2-------------------------------',
+                        '0---------------------------------------------------------------',
+                        '----------------------------------------------------------------'
+                    ]
+                }
+        */
         ];
         this.padMelodyDefsData = [];
         this.chordfretsData = [
@@ -978,7 +985,8 @@ var GenRiff = /** @class */ (function () {
                 //shadow: 'rgba(255,204,187,0.4)',
                 title: 'Синтезатор',
                 order: 2,
-                sound: window._tone_0390_GeneralUserGS_sf2_file,
+                //sound: (window as any)._tone_0390_GeneralUserGS_sf2_file,
+                sound: window._tone_0520_FluidR3_GM_sf2_file,
                 volume: 70,
                 nn: 7,
                 octave: 3,
@@ -1728,13 +1736,13 @@ var GenRiff = /** @class */ (function () {
         var drumVolumes = [5, 4, 6, 4, 6, 3, 6, 4];
         var insVolumes = [3, 3, 4, 3, 4, 7, 5, 7];
         insVolumes[this.DistortionGuitar] = 4;
-        insVolumes[this.AcousticGuitar] = 5;
+        insVolumes[this.AcousticGuitar] = 6;
         insVolumes[this.PercussiveOrgan] = 5;
         insVolumes[this.PalmMuteGuitar] = 4;
         insVolumes[this.AcousticPiano] = 6;
         insVolumes[this.BassGuitar] = 6;
         insVolumes[this.StringEnsemble] = 4;
-        insVolumes[this.SynthBass] = 6;
+        insVolumes[this.SynthBass] = 4;
         var eqVolumes = [12, 12, 10, 8, 11, 9, 13, 14, 9, 12];
         //this.initProgressions();
         var prog = this.progressions[progressionN];
@@ -1919,6 +1927,7 @@ var GenRiff = /** @class */ (function () {
                 this.player.adjustPreset(this.audioContext, this.drumInfo[i].sound);
             }
             for (var i = 0; i < this.trackInfo.length; i++) {
+                //console.log(i,this.trackInfo[i]);
                 this.player.adjustPreset(this.audioContext, this.trackInfo[i].sound);
             }
             //this.startTicks();
