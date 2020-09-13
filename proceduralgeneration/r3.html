@@ -48,6 +48,7 @@
 			padding: 0cm;
 			margin: 0cm;
 			background-image: url('80th2.gif');
+			background-image2: url('wavebg.gif');
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
@@ -68,6 +69,7 @@
 			padding: 0cm;
 			margin: 0cm;
 			background-image: url('80th2.jpg');
+			background-image2: url('wavebg.jpg');
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
@@ -86,7 +88,7 @@
 		#editDiv {
 			padding: 0cm;
 			margin: 0cm;
-			background-color: rgba(255, 0, 0, 0.5);
+			background-color2: rgba(255, 0, 0, 0.005);
 			overflow: hidden;
 			position: fixed;
 			width: 100%;
@@ -341,8 +343,8 @@
 			var nn = 1 * document.getElementById('sliderProgression').value;
 			var r = Math.floor(sz * nn / 1000);
 			progNN = nn;
-			document.getElementById('progNameRow').innerHTML = chords2title(genRiff.progressions[r].chords) + ' ' + genRiff
-				.progressions[r].category;
+			document.getElementById('progNameRow').innerHTML = chords2title(genRiff.progressions[r].chords)
+				+ ' ' + genRiff.progressions[r].name;
 			genRiff.playInfo = genRiff.generateAll(progNN, dr.value, bs.value, ld.value, pd.value);
 			if (preProgNN != progNN) {
 				genRiff.nextBeat = 0;

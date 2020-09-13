@@ -1103,10 +1103,20 @@ var GenRiff = /** @class */ (function () {
             var chordRow = this.progressionsList[i];
             var arr = chordRow.chords.split('-');
             var chords = this.repeatChords(arr, 0);
-            var progression = { category: chordRow.category, name: chordRow.category + ': ' + chords, chords: chords };
+            var progression = {
+                category: chordRow.category,
+                name: chordRow.name //chordRow.category + ': ' + chords
+                ,
+                chords: chords
+            };
             this.progressions.push(progression);
             chords = this.repeatChords(arr, 1);
-            progression = { category: chordRow.category, name: chordRow.category + ': ' + chords, chords: chords };
+            progression = {
+                category: chordRow.category,
+                name: chordRow.name //chordRow.category + ': ' + chords
+                ,
+                chords: chords
+            };
             this.progressions.push(progression);
             //console.log(i,progression);
         }

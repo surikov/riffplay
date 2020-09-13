@@ -183,7 +183,7 @@ class GenRiff {
 		, { category: '', name: 'long organ5', piano: '2-------1-------', track: 2 }
 		, { category: '', name: 'long organ6', piano: '1-------2-------', track: 2 }
 
-		
+
 		//, { category: '', name: 'long organ2', piano: '1-------2-----------------------', track: 7 }
 		//, { category: '', name: 'long organ3', piano: '2-------1-----------------------', track: 7 }
 		//, { category: '', name: 'long organ4', piano: '2-----------------------1-------', track: 7 }
@@ -219,44 +219,44 @@ class GenRiff {
 				'........:.......:.......:.......',
 				'........:.......:.......:.......',
 		*/
-/*		{
-			category: '', name: 'test', track: this.SynthBass, transpose: 0, strings: [
-				'....o---:...o---',
-				'....o---:...o---',
-				'..o-..o-:.o-..o-',
-				'........o-------',
-				'........:.......',
-				'o-------:.......'
-			]
-		}, {
-			category: '', name: 'test2', track: this.SynthBass, transpose: 0, strings: [
-				'....o---:...o---',
-				'....o---:...o---',
-				'....o---:...o---',
-				'........o-------',
-				'........:.......',
-				'o-------:.......'
-			]
-		}, {
-			category: '', name: 'test3', track: this.SynthBass, transpose: 0, strings: [
-				'....o-..:...o-..',
-				'..o-..o-:.o-..o-',
-				'.o-o-o-o:o-o-o-o',
-				'........o-------',
-				'........:.......',
-				'o-------:.......'
-			]
-		}, {
-			category: '', name: 'test4', track: this.SynthBass, transpose: 0, strings: [
-				'----0-----------0-----------0-------0-----------0-----------0---',
-				'--------1-----------1-------------------1-----------1-----------',
-				'------------2-----------2-------------------2-----------2-------',
-				'--------------------------------2-------------------------------',
-				'0---------------------------------------------------------------',
-				'----------------------------------------------------------------'
-			]
-		}
-*/
+		/*		{
+					category: '', name: 'test', track: this.SynthBass, transpose: 0, strings: [
+						'....o---:...o---',
+						'....o---:...o---',
+						'..o-..o-:.o-..o-',
+						'........o-------',
+						'........:.......',
+						'o-------:.......'
+					]
+				}, {
+					category: '', name: 'test2', track: this.SynthBass, transpose: 0, strings: [
+						'....o---:...o---',
+						'....o---:...o---',
+						'....o---:...o---',
+						'........o-------',
+						'........:.......',
+						'o-------:.......'
+					]
+				}, {
+					category: '', name: 'test3', track: this.SynthBass, transpose: 0, strings: [
+						'....o-..:...o-..',
+						'..o-..o-:.o-..o-',
+						'.o-o-o-o:o-o-o-o',
+						'........o-------',
+						'........:.......',
+						'o-------:.......'
+					]
+				}, {
+					category: '', name: 'test4', track: this.SynthBass, transpose: 0, strings: [
+						'----0-----------0-----------0-------0-----------0-----------0---',
+						'--------1-----------1-------------------1-----------1-----------',
+						'------------2-----------2-------------------2-----------2-------',
+						'--------------------------------2-------------------------------',
+						'0---------------------------------------------------------------',
+						'----------------------------------------------------------------'
+					]
+				}
+		*/
 
 	];
 	padMelodyDefsData: (PianoPatternDefinition | ArpeggioPatternDefinition)[] = [];
@@ -1149,10 +1149,18 @@ class GenRiff {
 			let chordRow = this.progressionsList[i];
 			var arr: string[] = chordRow.chords.split('-');
 			var chords: string[] = this.repeatChords(arr, 0);
-			let progression: Progression816 = { category: chordRow.category, name: chordRow.category + ': ' + chords, chords: chords };
+			let progression: Progression816 = {
+				category: chordRow.category
+				, name: chordRow.name//chordRow.category + ': ' + chords
+				, chords: chords
+			};
 			this.progressions.push(progression);
 			chords = this.repeatChords(arr, 1);
-			progression = { category: chordRow.category, name: chordRow.category + ': ' + chords, chords: chords };
+			progression = {
+				category: chordRow.category
+				, name: chordRow.name//chordRow.category + ': ' + chords
+				, chords: chords
+			};
 			this.progressions.push(progression);
 			//console.log(i,progression);
 		}
