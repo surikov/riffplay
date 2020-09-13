@@ -3,8 +3,7 @@
 <head>
 	<title>RockDice</title>
 	<meta charset="utf-8">
-	<meta name="viewport"
-		content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 	<link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
 	<script src="https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
 	<script src="https://surikov.github.io/webaudiofontdata/sound/0300_LesPaul_sf2_file.js"></script>
@@ -28,6 +27,7 @@
 	<script src="https://surikov.github.io/webaudiofontdata/sound/12849_26_JCLive_sf2_file.js"></script>
 	<script src="https://surikov.github.io/webaudiofontdata/sound/12851_26_JCLive_sf2_file.js"></script>
 	<script src="https://surikov.github.io/riffplay/riffplay_module.js"></script>
+	<!-- https://gph.is/g/aQN6g6b -->
 	<style>
 		body {
 			padding: 0cm;
@@ -43,6 +43,7 @@
 			color: #ffffff;
 			user-select: none;
 		}
+
 		#playDiv {
 			padding: 0cm;
 			margin: 0cm;
@@ -58,10 +59,11 @@
 			z-index: 2;
 			display: none;
 			top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
 		}
+
 		#pauseDiv {
 			padding: 0cm;
 			margin: 0cm;
@@ -76,10 +78,11 @@
 			height: 100%;
 			z-index: 1;
 			top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
 		}
+
 		#editDiv {
 			padding: 0cm;
 			margin: 0cm;
@@ -259,8 +262,7 @@
 			</div>
 			<div id='progNameRow'>AAA</div>
 			<div id='progSliderRow'>
-				<input type="range" min="0" max="999" value="0" class="progSlider" id='sliderProgression'
-					onChange='parsChanged();'>
+				<input type="range" min="0" max="999" value="0" class="progSlider" id='sliderProgression' onChange='parsChanged();'>
 			</div>
 			<div id='genControlsRow'>
 				<div id='drumBassPart'>
@@ -271,8 +273,7 @@
 							<rect y="256" x="32" height="16" width="220" style="fill:#ffffff;stroke-width:0;" />
 							<text style="font-size:72px;fill:#ffffff;stroke:none;" x="72" y="240">drums</text>
 						</g>
-					</svg><svg version="1.1" class='diceButton' id='svgbass' viewBox="0 0 512 512" height="512"
-						width="512">
+					</svg><svg version="1.1" class='diceButton' id='svgbass' viewBox="0 0 512 512" height="512" width="512">
 						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#fff;stroke-width:4;" />
 						<g id='roundBass'>
 							<circle cx="256" cy="256" r="220" style="fill:none;stroke:#ffffff;stroke-width:16;" />
@@ -289,8 +290,7 @@
 							<rect y="256" x="32" height="16" width="220" style="fill:#ffffff;stroke-width:0;" />
 							<text style="font-size:72px;fill:#ffffff;stroke:none;" x="72" y="240">lead</text>
 						</g>
-					</svg><svg version="1.1" class='diceButton' id='svgpad' viewBox="0 0 512 512" height="512"
-						width="512">
+					</svg><svg version="1.1" class='diceButton' id='svgpad' viewBox="0 0 512 512" height="512" width="512">
 						<path d=" M 8 256 A 248 248 200 1 1 256 504" style="fill:none;stroke:#fff;stroke-width:4;" />
 						<g id='roundPad'>
 							<circle cx="256" cy="256" r="220" style="fill:none;stroke:#ffffff;stroke-width:16;" />
@@ -380,10 +380,18 @@
 			document.getElementById('sliderProgression').value = Math.floor(1000 * Math.random());
 			dr.setValue(Math.floor(1000 * Math.random()));
 			bs.setValue(Math.floor(1000 * Math.random()));
-			ld.setValue(Math.floor(1000 * Math.random()));
+			//ld.setValue(Math.floor(1000 * Math.random()));
+			ld.setValue(0);
 			pd.setValue(0);
-			if (Math.random() > 0.5) {
+			if (Math.random() < 0.25) {
 				pd.setValue(Math.floor(1000 * Math.random()));
+			} else {
+				if (Math.random() < 0.50) {
+					ld.setValue(Math.floor(1000 * Math.random()));
+				} else {
+					pd.setValue(Math.floor(1000 * Math.random()));
+					ld.setValue(Math.floor(1000 * Math.random()));
+				}
 			}
 			parsChanged();
 		}
