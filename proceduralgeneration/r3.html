@@ -100,7 +100,7 @@
 		#diceDiv {
 			padding: 0cm;
 			margin: 0cm;
-			background-color: rgba(0, 0, 0, 0.8);
+			background-color: rgba(0, 0, 0, 0.9);
 			overflow: hidden;
 			position: fixed;
 			width: 100%;
@@ -325,9 +325,9 @@
 				title = title + dlmtr;
 				title = title + chords[i];
 				if (chords[i] != chords[i + 1]) {
-					title = title + chords[i + 1];
+					title = title +'-'+ chords[i + 1];
 				}
-				dlmtr = '-';
+				dlmtr = ', ';
 			}
 			return title;
 		}
