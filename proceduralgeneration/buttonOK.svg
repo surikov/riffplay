@@ -13,8 +13,8 @@
    viewBox="0 0 512 512"
    version="1.1"
    id="svg8"
-   inkscape:version="1.0 (4035a4f, 2020-05-01)"
-   sodipodi:docname="iconaux.svg">
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="buttonOK.svg">
   <defs
      id="defs2">
     <clipPath
@@ -342,11 +342,6 @@
     </clipPath>
   </defs>
   <sodipodi:namedview
-     inkscape:window-maximized="0"
-     inkscape:window-y="23"
-     inkscape:window-x="0"
-     inkscape:window-height="930"
-     inkscape:window-width="1280"
      inkscape:snap-global="false"
      id="base"
      pagecolor="#ffffff"
@@ -355,13 +350,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="244.96668"
-     inkscape:cy="171.60066"
+     inkscape:cx="-92.706066"
+     inkscape:cy="225.88637"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
-     units="px" />
+     units="px"
+     inkscape:window-width="1280"
+     inkscape:window-height="954"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -379,12 +379,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline">
-    <circle
-       r="240.93068"
-       cy="256"
-       cx="256"
-       id="path28"
-       style="fill:none;stroke:#808080;stroke-width:16;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <animateTransform
        repeatCount="indefinite"
        dur="1s"
@@ -393,15 +387,33 @@
        attributeType="XML"
        attributeName="transform"
        xlink:href="#g27502" />
-    <text
-       id="text7951"
-       y="289.99997"
-       x="168.57144"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#808080;fill-opacity:1;stroke:none"
-       xml:space="preserve"><tspan
-         y="289.99997"
-         x="168.57144"
-         id="tspan7949"
-         sodipodi:role="line">Aux</tspan></text>
+    <circle
+       cy="256"
+       cx="256"
+       id="path1345"
+       style="fill:none;stroke:#ffffff;stroke-width:16;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       r="248"
+       sodipodi:insensitive="true" />
+    <g
+       style="fill:#ffffff"
+       transform="translate(-71.000009,31.142855)"
+       id="g936">
+      <rect
+         y="-243.98683"
+         x="397.93408"
+         height="212"
+         width="70"
+         id="rect3738"
+         style="fill:#ffffff;stroke:none;stroke-width:16;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         transform="rotate(45)" />
+      <rect
+         style="display:inline;fill:#ffffff;stroke:none;stroke-width:16;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3738-3"
+         width="70"
+         height="212"
+         x="-34.999996"
+         y="255.61732"
+         transform="rotate(-45)" />
+    </g>
   </g>
 </svg>

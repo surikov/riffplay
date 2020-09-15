@@ -8,8 +8,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="iconplay.svg"
-   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   sodipodi:docname="buttonPlus.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
    id="svg8"
    version="1.1"
    viewBox="0 0 512 512"
@@ -342,13 +342,18 @@
     </clipPath>
   </defs>
   <sodipodi:namedview
+     inkscape:window-maximized="0"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:window-height="954"
+     inkscape:window-width="1280"
      units="px"
      showgrid="false"
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
-     inkscape:cy="171.60066"
-     inkscape:cx="-47.513907"
+     inkscape:cy="225.88637"
+     inkscape:cx="-291.99178"
      inkscape:zoom="0.7"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -356,12 +361,7 @@
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:snap-global="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="930"
-     inkscape:window-x="0"
-     inkscape:window-y="23"
-     inkscape:window-maximized="0" />
+     inkscape:snap-global="false" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -370,7 +370,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -379,12 +379,6 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
-    <circle
-       style="fill:none;stroke:#808080;stroke-width:16;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path28"
-       cx="256"
-       cy="256"
-       r="240.93068" />
     <animateTransform
        xlink:href="#g27502"
        attributeName="transform"
@@ -393,15 +387,32 @@
        values="-1;-0.9;0.9;1;0.9;-0.9;-1"
        dur="1s"
        repeatCount="indefinite" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#808080;fill-opacity:1;stroke:none"
-       x="157.14285"
-       y="275.71426"
-       id="text7951"><tspan
-         sodipodi:role="line"
-         id="tspan7949"
-         x="157.14285"
-         y="275.71426">Play</tspan></text>
+    <circle
+       sodipodi:insensitive="true"
+       r="248"
+       style="fill:none;stroke:#ffffff;stroke-width:16;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1345"
+       cx="256"
+       cy="256" />
+    <g
+       id="g107"
+       transform="rotate(90,273.75,237.95206)"
+       style="fill:#ffffff">
+      <rect
+         style="fill:#ffffff;stroke:none;stroke-width:16;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3738"
+         width="70"
+         height="212"
+         x="256.5"
+         y="150" />
+      <rect
+         transform="rotate(-90)"
+         y="185.5"
+         x="-291"
+         height="212"
+         width="70"
+         id="rect3738-3"
+         style="display:inline;fill:#ffffff;stroke:none;stroke-width:16;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
   </g>
 </svg>

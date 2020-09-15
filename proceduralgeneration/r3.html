@@ -3,10 +3,7 @@
 <head>
 	<title>RockDice</title>
 	<meta charset="utf-8">
-	<meta 
-	name="viewport" 
-	content="initial-scale=1.0, width=device-width, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no" 
-	/>
+	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no" />
 	<link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
 	<script src="https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
 	<script src="https://surikov.github.io/webaudiofontdata/sound/0300_LesPaul_sf2_file.js"></script>
@@ -88,16 +85,22 @@
 			bottom: 0;
 		}
 
-		#editDiv____ {
-			padding: 0cm;
-			margin: 0cm;
-			background-color2: rgba(255, 0, 0, 0.005);
-			overflow: hidden;
+		#settingDiv {
+			background-color: rgba(0, 0, 0, 0.97);
+			z-index: 6;
 			position: fixed;
-			width: 100%;
+			overflow: auto;
 			height: 100%;
-			z-index: 3;
+			width: 100%;
 			display: none;
+		}
+
+		#settingDiv p {
+			text-align: center;
+		}
+
+		#progListDiv {
+			padding: 0cm;
 		}
 
 		#diceDiv {
@@ -120,7 +123,18 @@
 			height: 1.7cm;
 			width: 100%;
 		}
-
+		.closeSettingDiv{
+			overflow: hidden;
+			position: fixed;
+			top: 0;
+			right: 0;
+			z-index: 7;
+			padding-left: 0cm;
+			padding-right: 0.25cm;
+			padding-top: 0.1cm;
+			padding-bottom: 0.5cm;
+			display: flex;
+		}
 		.menuDiv {
 			overflow: hidden;
 			background-color: #006677;
@@ -153,6 +167,7 @@
 			margin: 0.0cm;
 			width: 2.5cm;
 			height: 2.5cm;
+
 		}
 
 		#diceStart {
@@ -253,12 +268,14 @@
 
 <body>
 	<div id='mainDiv'>
+
 		<div id="playDiv">&nbsp;</div>
 		<div id="pauseDiv">&nbsp;</div>
+		
 		<div class="menuDiv">
 			<input type="image" src='buttonPlay.svg' id='menuPlayButton' class='menuButton' onclick='clickPlay();' />
 
-			<input type="image" src='buttonEdit.svg' class='menuButton' onclick='clickPlay();' />
+			<input type="image" src='buttonEdit.svg' class='menuButton' onclick='editSetting();' />
 			<input type="image" src='buttonShare.svg' class='menuButton' onclick='promptShare();' />
 		</div>
 		<div id='diceDiv'>
@@ -307,6 +324,15 @@
 			</div>
 			<div class='menuStub'>&nbsp;</div>
 		</div>
+		<div id="settingDiv">
+			<div class="closeSettingDiv">
+				<input type="image" src='buttonClose.svg' class='menuButton' onclick='closeSetting();' />
+			</div>
+			<div id="otherSettingDiv">
+				<p>+ <a onclick='createNewProg();'>New progression</a></p>
+			</div>
+			<div id="progListDiv"></div>
+		</div>
 	</div>
 	<script type='text/javascript' src='r3.js'></script>
 	<script type='text/javascript'>
@@ -321,6 +347,18 @@
 			test();
 		}
 
+		function editSetting() {
+			console.log('editSetting');
+			if (genRiff.onAir) {
+				pausePlay();
+			}
+			document.getElementById('settingDiv').style.display = 'block';
+		}
+
+		function closeSetting(){
+			document.getElementById('settingDiv').style.display = 'none';
+		}
+
 		function chords2title(chords) {
 			var title = '';
 			var dlmtr = '';
@@ -328,7 +366,7 @@
 				title = title + dlmtr;
 				title = title + chords[i];
 				if (chords[i] != chords[i + 1]) {
-					title = title +'-'+ chords[i + 1];
+					title = title + '-' + chords[i + 1];
 				}
 				dlmtr = ', ';
 			}
@@ -346,8 +384,8 @@
 			var nn = 1 * document.getElementById('sliderProgression').value;
 			var r = Math.floor(sz * nn / 1000);
 			progNN = nn;
-			document.getElementById('progNameRow').innerHTML = chords2title(genRiff.progressions[r].chords)
-				+ ' ' + genRiff.progressions[r].name;
+			document.getElementById('progNameRow').innerHTML = chords2title(genRiff.progressions[r].chords) +
+				' ' + genRiff.progressions[r].name;
 			genRiff.playInfo = genRiff.generateAll(progNN, dr.value, bs.value, ld.value, pd.value);
 			if (preProgNN != progNN) {
 				genRiff.nextBeat = 0;
@@ -478,6 +516,32 @@
 			return me;
 		}
 
+		function createNewProg() {
+			console.log('createNewProg');
+		};
+
+		function createProgClick(nn) {
+			return function () {
+				console.log('click', nn);
+			};
+		}
+
+		function fillProgList() {
+			var list = document.getElementById('progListDiv');
+			while (list.firstChild) {
+				list.removeChild(list.firstChild);
+			}
+			//chords2title(genRiff.progressions[r].chords)
+			for (var i = 0; i < genRiff.progressions.length; i++) {
+				var p = document.createElement('p');
+				var a = document.createElement('a');
+				a.textContent = chords2title(genRiff.progressions[i].chords);
+				a.onclick = createProgClick(i);
+				list.appendChild(p);
+				p.appendChild(a);
+			}
+		}
+
 		var dr = new RoundedHandler(document.getElementById('svgdrums'), document.getElementById('roundDrums'), function () {
 			dr.setValue(Math.floor(Math.random() * 1000));
 			parsChanged();
@@ -507,6 +571,7 @@
 				parsChanged();
 		});
 		readChanged();
+		fillProgList();
 
 		function test() {
 			parsChanged();
