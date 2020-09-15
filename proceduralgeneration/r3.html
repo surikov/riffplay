@@ -34,7 +34,7 @@
 			margin: 0cm;
 			background-image2: url('bg.jpg');
 			background-image2: url('80th.gif');
-			background-color: #006677;
+			background-color: #00aabb;
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
@@ -123,21 +123,23 @@
 			height: 1.7cm;
 			width: 100%;
 		}
-		.closeSettingDiv{
+
+		.closeSettingDiv {
 			overflow: hidden;
 			position: fixed;
 			top: 0;
 			right: 0;
 			z-index: 7;
 			padding-left: 0cm;
-			padding-right: 0.25cm;
+			padding-right: 0.5cm;
 			padding-top: 0.1cm;
 			padding-bottom: 0.5cm;
 			display: flex;
 		}
+
 		.menuDiv {
 			overflow: hidden;
-			background-color: #006677;
+			background-color: #00aabb;
 			position: fixed;
 			bottom: 0;
 			width: 100%;
@@ -263,6 +265,18 @@
 			width: 100%;
 			height: 3cm;
 		}
+
+		#progEditField {
+			width: 5cm;
+			height: 1cm;
+			border-radius: 0.5cm;
+			background: #00aabb;
+			border: 0px;
+			color: #fff;
+		}
+		textarea:focus, input:focus{
+    outline: none;
+}
 	</style>
 </head>
 
@@ -271,7 +285,7 @@
 
 		<div id="playDiv">&nbsp;</div>
 		<div id="pauseDiv">&nbsp;</div>
-		
+
 		<div class="menuDiv">
 			<input type="image" src='buttonPlay.svg' id='menuPlayButton' class='menuButton' onclick='clickPlay();' />
 
@@ -329,7 +343,8 @@
 				<input type="image" src='buttonClose.svg' class='menuButton' onclick='closeSetting();' />
 			</div>
 			<div id="otherSettingDiv">
-				<p>+ <a onclick='createNewProg();'>New progression</a></p>
+				<p><input type="text" id='progEditField'  placeholder="New progression"/></p>
+				<p>sel | canc </p>
 			</div>
 			<div id="progListDiv"></div>
 		</div>
@@ -355,7 +370,7 @@
 			document.getElementById('settingDiv').style.display = 'block';
 		}
 
-		function closeSetting(){
+		function closeSetting() {
 			document.getElementById('settingDiv').style.display = 'none';
 		}
 
@@ -413,7 +428,7 @@
 
 		function pausePlay() {
 			genRiff.pausePlay();
-			document.getElementById('menuPlayButton').src = 'buttonPlay.png';
+			document.getElementById('menuPlayButton').src = 'buttonPlay.svg';
 			document.getElementById('playDiv').style.display = 'none';
 			return null;
 		}
