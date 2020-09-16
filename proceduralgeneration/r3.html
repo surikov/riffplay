@@ -32,23 +32,25 @@
 		body {
 			padding: 0cm;
 			margin: 0cm;
-			background-image2: url('bg.jpg');
-			background-image2: url('80th.gif');
 			background-color: #00aabb;
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
 			background-position: center;
+			font-size: 0.5cm;
 			font-family: 'Oswald', sans-serif;
 			color: #ffffff;
 			user-select: none;
+		}
+
+		.auxText {
+			color: #66eeff;
 		}
 
 		#playDiv {
 			padding: 0cm;
 			margin: 0cm;
 			background-image: url('80th2.gif');
-			background-image2: url('wavebg.gif');
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
@@ -69,7 +71,6 @@
 			padding: 0cm;
 			margin: 0cm;
 			background-image: url('80th2.jpg');
-			background-image2: url('wavebg.jpg');
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
@@ -101,6 +102,21 @@
 
 		#progListDiv {
 			padding: 0cm;
+		}
+
+		#otherSettingDiv {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+		}
+
+		.saveProgButton{
+			width: 1cm;
+			height: 1cm;
+			flex-grow: 0;
+			flex-shrink: 0;
+			margin-left: 0.25cm;
+			margin-right: 0.5cm;
 		}
 
 		#diceDiv {
@@ -267,16 +283,37 @@
 		}
 
 		#progEditField {
-			width: 5cm;
-			height: 1cm;
+			flex-grow: 4;
+			height: 1.1cm;
 			border-radius: 0.5cm;
-			background: #00aabb;
+			background: #002233;
 			border: 0px;
 			color: #fff;
+			font-family: 'Oswald', sans-serif;
+			margin-left: 0.5cm;
+			padding-left: 0.5cm;
+			padding-right: 0.5cm;
+			font-size: 0.5cm;
 		}
-		textarea:focus, input:focus{
-    outline: none;
-}
+
+		textarea:focus,
+		input:focus {
+			outline: none;
+		}
+
+		::-webkit-input-placeholder {
+			/* Edge */
+			color: #225566;
+		}
+
+		:-ms-input-placeholder {
+			/* Internet Explorer 10-11 */
+			color: #225566;
+		}
+
+		::placeholder {
+			color: #225566;
+		}
 	</style>
 </head>
 
@@ -339,12 +376,16 @@
 			<div class='menuStub'>&nbsp;</div>
 		</div>
 		<div id="settingDiv">
+			<div class="infoDiv">
+				<p class='auxText'>RockDice Chord Progression</p>
+				<p>Free version</p>
+			</div>
 			<div class="closeSettingDiv">
 				<input type="image" src='buttonClose.svg' class='menuButton' onclick='closeSetting();' />
 			</div>
 			<div id="otherSettingDiv">
-				<p><input type="text" id='progEditField'  placeholder="New progression"/></p>
-				<p>sel | canc </p>
+				<input type="text" id='progEditField' placeholder="New progression" />
+				<input type="image" src='buttonOK.svg' class='saveProgButton' onclick='saveSelProg();' />
 			</div>
 			<div id="progListDiv"></div>
 		</div>
@@ -357,6 +398,8 @@
 
 		var preProgNN = 0;
 		var progNN = 0;
+
+		var editProgText='';
 
 		function promptShare() {
 			test();
@@ -373,6 +416,13 @@
 		function closeSetting() {
 			document.getElementById('settingDiv').style.display = 'none';
 		}
+
+		function saveSelProg() {
+			var res=document.getElementById('progEditField').value;
+			console.log('saveSelProg','['+editProgText+']->['+res+']');
+			document.getElementById('settingDiv').style.display = 'none';
+		}
+
 
 		function chords2title(chords) {
 			var title = '';
