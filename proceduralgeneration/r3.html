@@ -650,9 +650,15 @@
 		function noZoom(touchEvent) {
 			if (touchEvent.changedTouches.length > 1) e.preventDefault();
 			}
+			
 		window.addEventListener("touchstart", noZoom, { passive: false });
 		window.addEventListener("touchmove", noZoom, { passive: false });
 		window.addEventListener("touchend", noZoom, { passive: false });
+		
+		document.getElementById('settingDiv').addEventListener("touchstart", noZoom, { passive: false });
+		document.getElementById('settingDiv').addEventListener("touchmove", noZoom, { passive: false });
+		document.getElementById('settingDiv').addEventListener("touchend", noZoom, { passive: false });
+
 	</script>
 </body>
 
