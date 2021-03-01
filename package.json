@@ -30,6 +30,6 @@
   "homepage": "https://github.com/surikov/riffplay#readme",
   "dependencies": {
     "browserify": "^16.5.0",
-    "three": "^0.120.1"
+    "three": "^0.125.0"
   }
 }
